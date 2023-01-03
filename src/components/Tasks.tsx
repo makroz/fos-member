@@ -8,7 +8,7 @@ const Tasks = () => {
   const { data, error, loaded, execute } = useAxios("/tasks", "GET", {
     sortBY: "date_to",
     per_page: 0,
-    busqueda: "member_id,=," + user.id,
+    buscar: "member_id,=," + user.id,
   });
   const status = ["0", "Pendiente", "En proceso", "Finalizado", "Vencido"];
   const date = new Date().toLocaleString();
