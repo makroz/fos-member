@@ -7,7 +7,7 @@ import Input from "../forms/Input";
 const Login = () => {
   const { user, error, login }: any = useAuth();
   const router = useRouter();
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState(error);
   const [formState, setFormState] = useState({
     icn: "",
     password: "",
@@ -20,7 +20,7 @@ const Login = () => {
   const validaciones = () => {
     let errors = {};
     if (!formState.icn) {
-      errors = { ...errors, email: "Personal ID is required" };
+      errors = { ...errors, icn: "Personal ID is required" };
     }
 
     if (!formState.password) {
@@ -32,22 +32,21 @@ const Login = () => {
   //
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const errors = validaciones();
-    setErrors(errors);
-    if (Object.keys(errors).length > 0) return;
+    const valid = validaciones();
+    setErrors(valid);
+    if (Object.keys(valid).length > 0) return;
 
     login(formState).then((data) => {
       console.log("====================================");
-      console.log("login", user);
+      console.log("login", user,'data',data,'error',error);
       console.log("====================================");
 
-      if (user || data) {
-        router.push("/");
+      if (user || data?.user) {
+        router.push(config.auth.success);
       } else {
-        const err = error;
-        setErrors({ ...errors, email: err });
+        setErrors({password:error,...data.errors});
         console.log("====================================");
-        console.log("Error", errors);
+        console.log("Error222", errors,data.errors);
         console.log("====================================");
       }
       return;

@@ -10,12 +10,12 @@ const config = {
     appDescription: "Force One System - Members",
     appLogoImage: logo,
     API_URL: "http://localhost:8000/api",
-    loginRedirect: "/",
   },
   auth: {
     login: "/member-login",
     register: "/member-register",
     logout: "/member-logout",
+    success: "/",
   },
   layout: {},
 };

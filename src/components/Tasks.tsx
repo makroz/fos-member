@@ -4,11 +4,11 @@ import useAxios from "../hooks/useAxios";
 
 const Tasks = () => {
   const { user }: any = useAuth();
-  const [tasks, setTasks] = useState([]);
-  const { data, error, loaded, execute } = useAxios("/tasks", "GET", {
+  // const [tasks, setTasks] = useState([]);
+  const { data:tasks, error, loaded, execute } = useAxios("/tasks", "GET", {
     sortBY: "date_to",
-    per_page: 0,
-    buscar: "member_id,=," + user.id,
+    perPage: 50,
+    searchBy: "member_id,=," + user.id,
   });
   const status = ["0", "Pendiente", "En proceso", "Finalizado", "Vencido"];
   const date = new Date().toLocaleString();
@@ -16,7 +16,7 @@ const Tasks = () => {
     <>
       <div>Tasks</div>
       <ul>
-        {data?.data.map((task) => {
+        {tasks?.data.map((task) => {
           if (task.to_date > date) task.status = 3;
           return (
             <li key={task.id}>
