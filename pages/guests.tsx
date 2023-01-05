@@ -1,5 +1,6 @@
 import { Card } from "flowbite-react";
 import { useEffect, useState } from "react";
+import DataModal from "../src/components/DataModal";
 import DataTable from "../src/components/DataTable";
 import Spinner from "../src/components/layouts/Spinner";
 import useAuth from "../src/hooks/useAuth";
@@ -69,6 +70,9 @@ const guestPage = () => {
           />
         )}
       </Card>
+      <DataModal open={true} title='prueba' >
+        <h1>Modal</h1>
+      </DataModal>
     </>
   );
 };
