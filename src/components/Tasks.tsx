@@ -10,20 +10,62 @@ const Tasks = () => {
     perPage: 50,
     searchBy: "member_id,=," + user.id,
   });
+  const [remains, setRemains] :any = useState([]);
+  const timeRemains = (date: any) => {
+    const dateTo = new Date(date);
+    const diff = dateTo.getTime() - new Date().getTime();
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+    return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  };
+
+  const getRemains = () => {
+    const remains = tasks?.data.map((task) => {
+      let duration = new Date(task.to_date).getTime() - new Date().getTime();
+      if (duration <= 0) task.status = 4;
+      return {
+        id: task.id,
+        name: task.challenge.name,
+        status: task.status,
+        to_date: task.to_date,
+        remains: timeRemains(task.to_date),
+      };
+    });
+    setRemains(remains);
+    console.log("remains", remains);
+    
+  };
+  let interval;
+  useEffect(() => {
+    interval = setInterval(getRemains, 1000);
+    return () => clearInterval(interval);
+  }, [tasks]);
+  
+  if (!loaded) {
+    return <div>Loading...</div>;
+  }
+
+
   const status = ["0", "Pendiente", "En proceso", "Finalizado", "Vencido"];
-  const date = new Date().toLocaleString();
+  
   return (
     <>
       <div>Tasks</div>
       <ul>
-        {tasks?.data.map((task) => {
-          if (task.to_date > date) task.status = 3;
-          return (
-            <li key={task.id}>
-              {task.to_date} - {task.challenge.name} - {status[task.status]}
+        {remains.length>0 && (remains.map((task) => (
+          <li key={task.id}>
+            <div>{task.name}</div>
+            <div>{status[task.status]}</div>
+            <div>{task.to_date}</div>
+            <div>{task.remains}</div>
+
             </li>
-          );
-        })}
+        )
+        ))
+      }
+        
       </ul>
     </>
   );
