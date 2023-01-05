@@ -7,7 +7,7 @@ import Input from "../forms/Input";
 const Login = () => {
   const { user, error, login }: any = useAuth();
   const router = useRouter();
-  const [errors, setErrors] = useState(error);
+  const [errors, setErrors] = useState({});
   const [formState, setFormState] = useState({
     icn: "",
     password: "",
@@ -20,11 +20,11 @@ const Login = () => {
   const validaciones = () => {
     let errors = {};
     if (!formState.icn) {
-      errors = { ...errors, icn: "Personal ID is required" };
+      errors = { ...errors, icn: "Personal Id is required" };
     }
 
     if (!formState.password) {
-      errors = { ...errors, password: "PIN is required" };
+      errors = { ...errors, password: "Password is required" };
     }
     return errors;
   };
@@ -37,7 +37,7 @@ const Login = () => {
     if (Object.keys(valid).length > 0) return;
 
     login(formState).then((data) => {
-      console.log("====================================");
+      console.log("====================================");  
       console.log("login", user,'data',data,'error',error);
       console.log("====================================");
 
