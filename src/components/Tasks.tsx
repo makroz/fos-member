@@ -1,14 +1,16 @@
+import { Card } from "flowbite-react";
 import { useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
 import useAxios from "../hooks/useAxios";
+import Spinner from "./layouts/Spinner";
 
 const Tasks = () => {
   const { user }: any = useAuth();
-  // const [tasks, setTasks] = useState([]);
+  if (!user) return <Spinner />;
   const { data:tasks, error, loaded, execute } = useAxios("/tasks", "GET", {
     sortBY: "date_to",
     perPage: 50,
-    searchBy: "member_id,=," + user.id,
+    searchBy: "member_id,=," + user?.id,
   });
   const [remains, setRemains] :any = useState([]);
   const timeRemains = (date: any) => {
@@ -43,18 +45,14 @@ const Tasks = () => {
     return () => clearInterval(interval);
   }, [tasks]);
   
-  if (!loaded) {
-    return <div>Loading...</div>;
-  }
-
-
   const status = ["0", "Pendiente", "En proceso", "Finalizado", "Vencido"];
   
   return (
-    <>
+    <Card className="relative">
       <div>Tasks</div>
       <ul>
-        {remains.length>0 && (remains.map((task) => (
+        {(!loaded || remains?.length==0  ) && <Spinner/>}
+        {remains?.length>0 && (remains.map((task) => (
           <li key={task.id}>
             <div>{task.name}</div>
             <div>{status[task.status]}</div>
@@ -67,7 +65,7 @@ const Tasks = () => {
       }
         
       </ul>
-    </>
+    </Card>
   );
 };
 

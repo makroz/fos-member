@@ -68,18 +68,18 @@ const AuthProvider = ({ children, auth }: any): any => {
     getUser();
   }, []);
 
-  if (auth && !user) {
-    return (
-      <AuthContext.Provider value={{ user, error, loaded, login, logout }}>
-        {loaded || <Spinner />}
-        <LoginBasic />
-      </AuthContext.Provider>
-    );
-  }
+  // if (auth && !user) {
+  //   return (
+  //     <AuthContext.Provider value={{ user, error, loaded, login, logout }}>
+  //       {loaded || <Spinner />}
+  //       <LoginBasic />
+  //     </AuthContext.Provider>
+  //   );
+  // }
   return (
     <AuthContext.Provider value={{ user, error, loaded, login, logout }}>
       {loaded || <Spinner />}
-      {children}
+      {(auth && !user)?<LoginBasic />:children}
     </AuthContext.Provider>
   );
 };

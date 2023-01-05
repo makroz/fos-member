@@ -15,7 +15,7 @@ const Home = () => {
       </Head>
 
       <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
-        <Tasks></Tasks>
+        Wellcome
       </main>
 
       <footer className="flex h-24 w-full items-center justify-center border-t">
