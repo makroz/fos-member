@@ -46,7 +46,14 @@ const Tasks = () => {
     return () => clearInterval(interval);
   }, [tasks]);
   
-  const status = ["0", "Pendiente", "En proceso", "Finalizado", "Vencido"];
+  const status = [
+    {label:"0",className:''},
+    {label:"Pendiente",className:'text-yellow-500'},
+    {label:"En Proceso",className:'text-green-500'},
+    {label:"Finalizado",className:'text-blue-500'},
+    {label:"Vencido",className:'text-red-500'},
+  ]
+
   
   return (
     <Card className="relative">
@@ -55,11 +62,12 @@ const Tasks = () => {
         {(!loaded || remains?.length==0  ) && <Spinner/>}
         {remains?.length>0 && (remains.map((task) => (
           <li key={task.id}>
+            <Card>
             <div>{task.name}</div>
-            <div>{status[task.status]}</div>
+            <div className={status[task.status].className }>{status[task.status].label}</div>
             <div>{task.to_date}</div>
             <div>{task.remains}</div>
-
+            </Card>
             </li>
         )
         ))
