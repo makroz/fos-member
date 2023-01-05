@@ -41,6 +41,7 @@ const Tasks = () => {
   };
   let interval;
   useEffect(() => {
+    getRemains();
     interval = setInterval(getRemains, 1000);
     return () => clearInterval(interval);
   }, [tasks]);

@@ -4,7 +4,6 @@ import Tasks from '../src/components/Tasks'
 const tasksPage = () => {
   return (
     <>
-
     <Tasks/>
     </>
   )
