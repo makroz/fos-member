@@ -59,7 +59,7 @@ const Login = () => {
       <h2>Please sign-in to your account and start the adventure</h2>
       <br />
       <Input
-        label="Email"
+        label="Username"
         type="text"
         name="email"
         error={errors}
