@@ -1,4 +1,4 @@
-import { Checkbox, Pagination, Table } from "flowbite-react";
+import { Badge, Checkbox, Pagination, Table } from "flowbite-react";
 import { useState } from "react";
 import { Edit, Eye, Trash } from "react-feather";
 import Select from "./forms/Select";
@@ -14,7 +14,7 @@ const DataTable = ({
   const [sel, setSel]: any = useState([]);
   const onSelAll = (e) => {
     if (e.target.checked) {
-      setSel(datas.map((row) => row.id));
+      setSel(datas.map((row) => row.id + ""));
     } else {
       setSel([]);
     }
@@ -28,6 +28,56 @@ const DataTable = ({
     }
   };
 
+  const columnsHeader: any = [];
+  Object.keys(columns).map((key) => {
+    if (columns[key].header) columnsHeader.push(key);
+  });
+
+  const renderCell = (row, key, index_row) => {
+    if (columns[key].render) {
+      return columns[key].render(row[key], row, key, index_row);
+    }
+    switch (columns[key].inputType) {
+      case "select":
+        if (columns[key].options) {
+          if (columns[key].badge) {
+            return (
+              <Badge
+                color={columns[key].options[row[key]]?.color}
+                className="rounded-full  justify-center"
+              >
+                {columns[key].options[row[key]]?.label}
+              </Badge>
+            );
+          }
+          if (columns[key].options.find) {
+            return columns[key].options.find(
+              (item) => item[columns[key].optionValue] == row[key]
+            )?.[columns[key].optionLabel];
+          }
+          return (
+            columns[key].options[row[key]][columns[key].optionLabel] ||
+            columns[key].options[row[key]]?.label
+          );
+        }
+        return "...";
+        break;
+      case "color":
+        return (
+          <div
+            style={{ backgroundColor: row[key], color: "black" }}
+            className="rounded-full  justify-center text-center py-0 px-3"
+          >
+            {row[key]}
+          </div>
+        );
+        break;
+      default:
+        return row[key];
+        break;
+    }
+  };
+
   return (
     <>
       <Table hoverable={true} striped={true}>
@@ -35,9 +85,11 @@ const DataTable = ({
           <Table.HeadCell className="!p-4 w-12">
             <Checkbox onChange={onSelAll} />
           </Table.HeadCell>
-          {Object.keys(columns).map((key) => (
-            <Table.HeadCell key={`${key}-head`}>
-              {columns[key].header}
+          {columnsHeader.map((key) => (
+            <Table.HeadCell key={key}>
+              {columns[key].header === true
+                ? columns[key].label
+                : columns[key].header}
             </Table.HeadCell>
           ))}
           <Table.HeadCell className="w-24">Actions</Table.HeadCell>
@@ -54,22 +106,20 @@ const DataTable = ({
                   <Checkbox
                     value={row.id}
                     onChange={onSel}
-                    checked={sel.includes(row.id)}
+                    checked={sel.includes(row.id + "")}
                   />
                 </Table.Cell>
-                {Object.keys(columns).map((key) => (
+                {columnsHeader.map((key) => (
                   <Table.Cell
                     key={`${key}-cell`}
                     className={columns[key].className}
                   >
-                    {columns[key].render
-                      ? columns[key].render(row[key], row, key, index_row)
-                      : row[key]}
+                    {renderCell(row, key, index_row)}
                   </Table.Cell>
                 ))}
                 <Table.Cell className="flex items-center gap-2">
                   <button
-                    onClick={() => onAction("show", row)}
+                    onClick={() => onAction("view", row)}
                     className="font-medium text-green-600 hover:-translate-y-1 "
                   >
                     <Eye size={18} />
@@ -81,7 +131,7 @@ const DataTable = ({
                     <Edit size={18} />
                   </button>
                   <button
-                    onClick={() => onAction("delete", row)}
+                    onClick={() => onAction("del", row)}
                     className="font-medium text-red-600 hover:-translate-y-1"
                   >
                     <Trash size={18} />
@@ -92,7 +142,7 @@ const DataTable = ({
           ) : (
             <Table.Row>
               <Table.Cell
-                colSpan={Object.keys(columns).length + 2}
+                colSpan={columnsHeader.length + 2}
                 className="text-center"
               >
                 Empty Data
@@ -107,6 +157,8 @@ const DataTable = ({
           onPageChange={onChangePage}
           showIcons={true}
           totalPages={Math.ceil(params.total / params.perPage)}
+          previousLabel=""
+          nextLabel=""
         />
         <Select
           name="perPage"

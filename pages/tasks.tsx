@@ -1,12 +1,12 @@
-import React from 'react'
-import Tasks from '../src/components/Tasks'
+import React from "react";
+import Tasks from "../components/Tasks";
 
 const tasksPage = () => {
   return (
     <>
-    <Tasks/>
+      <Tasks />
     </>
-  )
-}
+  );
+};
 
-export default tasksPage
+export default tasksPage;

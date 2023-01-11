@@ -1,6 +1,5 @@
 import Head from "next/head";
-import Tasks from "../src/components/Tasks";
-import config from "../src/config";
+import config from "../config/config";
 import useAuth from "../src/hooks/useAuth";
 
 const Home = () => {

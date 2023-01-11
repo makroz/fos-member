@@ -1,18 +1,18 @@
 import { Card } from "flowbite-react";
 import { useEffect, useState } from "react";
-import useAuth from "../hooks/useAuth";
-import useAxios from "../hooks/useAxios";
-import Spinner from "./layouts/Spinner";
+import useAuth from "../src/hooks/useAuth";
+import useAxios from "../src/hooks/useAxios";
+import Spinner from "../src/components/layouts/Spinner";
 
 const Tasks = () => {
   const { user }: any = useAuth();
   if (!user) return <Spinner />;
-  const { data:tasks, error, loaded, execute } = useAxios("/tasks", "GET", {
+  const { data: tasks, error, loaded, execute } = useAxios("/tasks", "GET", {
     sortBY: "date_to",
     perPage: 50,
     searchBy: "member_id,=," + user?.id,
   });
-  const [remains, setRemains] :any = useState([]);
+  const [remains, setRemains]: any = useState([]);
   const timeRemains = (date: any) => {
     const dateTo = new Date(date);
     const diff = dateTo.getTime() - new Date().getTime();
@@ -37,7 +37,6 @@ const Tasks = () => {
     });
     setRemains(remains);
     console.log("remains", remains);
-    
   };
   let interval;
   useEffect(() => {
@@ -45,34 +44,33 @@ const Tasks = () => {
     interval = setInterval(getRemains, 1000);
     return () => clearInterval(interval);
   }, [tasks]);
-  
-  const status = [
-    {label:"0",className:''},
-    {label:"Pendiente",className:'text-yellow-500'},
-    {label:"En Proceso",className:'text-green-500'},
-    {label:"Finalizado",className:'text-blue-500'},
-    {label:"Vencido",className:'text-red-500'},
-  ]
 
-  
+  const status = [
+    { label: "0", className: "" },
+    { label: "Pendiente", className: "text-yellow-500" },
+    { label: "En Proceso", className: "text-green-500" },
+    { label: "Finalizado", className: "text-blue-500" },
+    { label: "Vencido", className: "text-red-500" },
+  ];
+
   return (
     <Card className="relative">
       <div>Tasks</div>
       <ul>
-        {(!loaded || remains?.length==0  ) && <Spinner/>}
-        {remains?.length>0 && (remains.map((task) => (
-          <li key={task.id}>
-            <Card>
-            <div>{task.name}</div>
-            <div className={status[task.status].className }>{status[task.status].label}</div>
-            <div>{task.to_date}</div>
-            <div>{task.remains}</div>
-            </Card>
+        {(!loaded || remains?.length == 0) && <Spinner />}
+        {remains?.length > 0 &&
+          remains.map((task) => (
+            <li key={task.id}>
+              <Card>
+                <div>{task.name}</div>
+                <div className={status[task.status].className}>
+                  {status[task.status].label}
+                </div>
+                <div>{task.to_date}</div>
+                <div>{task.remains}</div>
+              </Card>
             </li>
-        )
-        ))
-      }
-        
+          ))}
       </ul>
     </Card>
   );

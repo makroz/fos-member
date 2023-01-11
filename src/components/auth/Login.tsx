@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
-import config from "../../config";
+import config from "../../../config/config";
 import useAuth from "../../hooks/useAuth";
 import Input from "../forms/Input";
 
@@ -9,7 +9,7 @@ const Login = () => {
   const router = useRouter();
   const [errors, setErrors] = useState({});
   const [formState, setFormState] = useState({
-    icn: "",
+    email: "",
     password: "",
   });
 
@@ -19,8 +19,8 @@ const Login = () => {
 
   const validaciones = () => {
     let errors = {};
-    if (!formState.icn) {
-      errors = { ...errors, icn: "Personal Id is required" };
+    if (!formState.email) {
+      errors = { ...errors, email: "Email is required" };
     }
 
     if (!formState.password) {
@@ -37,16 +37,16 @@ const Login = () => {
     if (Object.keys(valid).length > 0) return;
 
     login(formState).then((data) => {
-      console.log("====================================");  
-      console.log("login", user,'data',data,'error',error);
+      console.log("====================================");
+      console.log("login", user, "data", data, "error", error);
       console.log("====================================");
 
       if (user || data?.user) {
         router.push(config.auth.success);
       } else {
-        setErrors({password:error,...data.errors});
+        setErrors({ password: error, ...data.errors });
         console.log("====================================");
-        console.log("Error222", errors,data.errors);
+        console.log("Error222", errors, data.errors);
         console.log("====================================");
       }
       return;
@@ -59,15 +59,15 @@ const Login = () => {
       <h2>Please sign-in to your account and start the adventure</h2>
       <br />
       <Input
-        label="Personal Id"
+        label="Email"
         type="text"
-        name="icn"
+        name="email"
         error={errors}
-        value={formState.icn}
+        value={formState.email}
         onChange={(e) => handleChange(e)}
       ></Input>
       <Input
-        label="PIN"
+        label="Password"
         type="password"
         name="password"
         error={errors}
