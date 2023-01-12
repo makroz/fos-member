@@ -1,14 +1,13 @@
 import Head from "next/head";
-import config from "../config/config";
 import useAuth from "../src/hooks/useAuth";
 
 const Home = () => {
-  const { user, logout }: any = useAuth();
+  const { config }: any = useAuth();
   return (
     <div className="flex min-h-full flex-col items-center justify-center py-2">
       <Head>
-        <title>{config.app.appName}</title>
-        <meta name="description" content={config.app.appDescription} />
+        <title>{config?.app.appName}</title>
+        <meta name="description" content={config?.app.appDescription} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

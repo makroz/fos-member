@@ -9,8 +9,8 @@ const guestPage = () => {
   const [errorsForm, setErrorsForm] = useState({});
   const fields = getFields([
     "id",
-    "name*|Nombre Completo|_h_::User",
-    "icn*|Documento de Identidad (Usuario)|_h_",
+    "name*|Nombre Completo|_h_::Usuario",
+    "icn*|Carnet de Identidad",
     "points*|Puntos|_h_",
     "level_id*|Nivel|_h_",
     "status|_h_",
@@ -34,7 +34,7 @@ const guestPage = () => {
         <div className="space-y-1 font-medium dark:text-white">
           <div>{row.name}</div>
           <div className="text-sm text-gray-500 dark:text-gray-400">
-            {row.email}
+            {row.icn}
           </div>
         </div>
       </Avatar>

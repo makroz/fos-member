@@ -5,20 +5,17 @@ export const mainMenu = [
     title: "Dashboard",
     icon: <Home />,
     link: "/",
-    
   },
   {
     id: "tasks",
     title: "Tasks",
     icon: <Home />,
     link: "/tasks",
-    
   },
   {
     id: "guests",
     title: "Guests",
     icon: <Users />,
     link: "/guests",
-    
   },
 ];
