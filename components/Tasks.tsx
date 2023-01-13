@@ -3,13 +3,14 @@ import { useEffect, useState } from "react";
 import useAuth from "../src/hooks/useAuth";
 import useAxios from "../src/hooks/useAxios";
 import Spinner from "../src/components/layouts/Spinner";
+import CountDown from "./CountDown";
 
 const Tasks = () => {
   const { user }: any = useAuth();
   if (!user) return <Spinner />;
   const { data: tasks, error, loaded, execute } = useAxios("/tasks", "GET", {
     sortBY: "date_to",
-    perPage: 50,
+    perPage: 0,
     searchBy: "member_id,=," + user?.id,
   });
   const [remains, setRemains]: any = useState([]);
@@ -20,7 +21,13 @@ const Tasks = () => {
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-    return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    return [
+      { label: "Dias", valor: days },
+      { label: "Horas", valor: hours },
+      { label: "Minutos", valor: minutes },
+      { label: "Segundos", valor: seconds },
+    ];
+    //return ${days}d ${hours}h ${minutes}m ${seconds}s`;
   };
 
   const getRemains = () => {
@@ -36,7 +43,7 @@ const Tasks = () => {
       };
     });
     setRemains(remains);
-    console.log("remains", remains);
+    // console.log("remains", remains);
   };
   let interval;
   useEffect(() => {
@@ -62,12 +69,16 @@ const Tasks = () => {
           remains.map((task) => (
             <li key={task.id}>
               <Card>
-                <div>{task.name}</div>
-                <div className={status[task.status].className}>
-                  {status[task.status].label}
+                <div className="flex justify-between content">
+                  <div>
+                    <div className={status[task.status].className}>
+                      {status[task.status].label}
+                    </div>
+                    <h1 className="self-center">{task.name}</h1>
+                    <div>{task.to_date}</div>
+                  </div>
+                  <CountDown timer={task.remains} />
                 </div>
-                <div>{task.to_date}</div>
-                <div>{task.remains}</div>
               </Card>
             </li>
           ))}
