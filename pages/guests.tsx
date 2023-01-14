@@ -1,10 +1,24 @@
 import { Avatar } from "flowbite-react";
 import { useState } from "react";
 import DataCrud from "../src/components/DataCrud";
+import useAuth from "../src/hooks/useAuth";
+import useAxios from "../src/hooks/useAxios";
 import { getFields } from "../src/utils/dbTools";
 import { initialsName } from "../src/utils/string";
 
 const guestPage = () => {
+  const { user, config }: any = useAuth();
+  const [params, setParams] = useState({
+    page: 1,
+    perPage: 10,
+    sortBy: "id",
+    orderBy: "asc",
+    searchBy: "sponsor_id,=," + user.id,
+  });
+  const { data, error, loaded, execute, reLoad } = useAxios("/members", "GET", {
+    ...params,
+    origen: "useAxios",
+  });
   const [formState, setFormState] = useState({});
   const [errorsForm, setErrorsForm] = useState({});
   const fields = getFields([
@@ -45,6 +59,55 @@ const guestPage = () => {
 
   return (
     <>
+      <div className="diagram">
+        <h2
+          className="level1 rectangle rounded-full"
+          style={{ margin: "0 auto 20px" }}
+        >
+          {user.sponsor_id ? (
+            <Avatar rounded>
+              Patrocinador: {user.sponsor.name}
+              <div className="text-xs">
+                Dni: {user.sponsor.icn}
+                <br />
+                Nivel: {user.sponsor.level.title}
+              </div>
+            </Avatar>
+          ) : (
+            <div className="w-full text-center">Sistema</div>
+          )}
+        </h2>
+        <h1 className="level1 rectangle rounded-full">
+          <Avatar rounded size="lg">
+            {user.name}
+            <div className="text-sm">
+              Dni:{user.icn}
+              <br />
+              Nivel:{user.level.title}
+            </div>
+          </Avatar>
+        </h1>
+        <ol className="level2Wrapper">
+          {data?.data.map((member: any, index: number) => {
+            return (
+              <>
+                <li>
+                  <h2 className="level2 rectangle rounded-full">
+                    <Avatar rounded>
+                      {member.name}
+                      <div className="text-sm">
+                        Dni: {member.icn}
+                        <br />
+                        Nivel: {member.level.title}
+                      </div>
+                    </Avatar>
+                  </h2>
+                </li>
+              </>
+            );
+          })}
+        </ol>
+      </div>
       <DataCrud
         title="Invitado"
         modulo="members"
