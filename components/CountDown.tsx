@@ -10,32 +10,32 @@ const CountDown = ({ timer }) => {
       if (ctx.current) ctx.current.revert();
     };
   }, [ctx]);
-  let negativo = false;
+  let valor;
+  let negativo = timer[0].valor < 0 ? 1 : 0;
+
   return (
     <div ref={ctx} className="flex gap-4">
       {timer?.map((item, index) => {
-        negativo = false;
-        if (item.valor < 0) {
-          item.valor = item.valor * -1;
-          negativo = true;
+        valor = item.valor * 1;
+        if (valor < 0) {
+          valor = valor * -1;
         }
-        if (item.valor < 10) item.valor = "0" + item.valor;
+        if (valor < 10) valor = "0" + valor;
         return (
           <div key={index} className="text-center ">
             <div>{item.label}</div>
             <div key={index} className="flex px-0">
               <Ficha
-                value={(item.valor + "").charAt(0)}
+                value={(valor + "").charAt(0)}
                 ctx={ctx}
                 negativo={negativo}
               />
               <Ficha
-                value={(item.valor + "").charAt(1)}
+                value={(valor + "").charAt(1)}
                 ctx={ctx}
                 negativo={negativo}
               />
             </div>
-            negaotivo:{negativo}
           </div>
         );
       })}

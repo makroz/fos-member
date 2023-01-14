@@ -8,13 +8,13 @@ export const mainMenu = [
   },
   {
     id: "tasks",
-    title: "Tasks",
+    title: "Tareas Personales",
     icon: <Home />,
     link: "/tasks",
   },
   {
     id: "guests",
-    title: "Guests",
+    title: "Invitados",
     icon: <Users />,
     link: "/guests",
   },

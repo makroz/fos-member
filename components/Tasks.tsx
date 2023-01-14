@@ -8,7 +8,12 @@ import CountDown from "./CountDown";
 const Tasks = () => {
   const { user }: any = useAuth();
   if (!user) return <Spinner />;
-  const { data: tasks, error, loaded, execute } = useAxios("/tasks", "GET", {
+  const {
+    data: tasks,
+    error,
+    loaded,
+    execute,
+  } = useAxios("/tasks", "GET", {
     sortBY: "date_to",
     perPage: 0,
     searchBy: "member_id,=," + user?.id,
@@ -61,25 +66,37 @@ const Tasks = () => {
   ];
 
   return (
-    <Card className="relative">
-      <div>Tasks</div>
+    <Card className="relative ">
+      <h1>Tareas Personales2 </h1>
       <ul>
         {(!loaded || remains?.length == 0) && <Spinner />}
         {remains?.length > 0 &&
           remains.map((task) => (
             <li key={task.id}>
-              <Card>
-                <div className="flex justify-between content">
-                  <div>
-                    <div className={status[task.status].className}>
-                      {status[task.status].label}
+              <div className="border border-gray-300 rounded-lg my-4 py-0 px-0 shadow-md group">
+                <div className="flex justify-between ">
+                  <div className=" w-1/4  bg-slate-900 m-0 p-3 rounded-lg  group-hover:w-full transition-all duration-1000 flex ">
+                    <div className="whitespace-nowrap 3  bg-slate-900 rounded-lg">
+                      <div className={status[task.status].className}>
+                        {status[task.status].label}
+                      </div>
+                      <h1 className="self-center text-white">{task.name}</h1>
+                      <div className="text-gray-500 text-xs">
+                        {task.to_date}
+                      </div>
                     </div>
-                    <h1 className="self-center">{task.name}</h1>
-                    <div>{task.to_date}</div>
+                    <div className="w-0 bg-orange-500 group-hover:w-full  transition-all duration-1000 flex overflow-hidden h-[85px]  ">
+                      Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                      Optio voluptates quis temporibus non, ut earum! Esse nobis
+                      corrupti ducimus, alias ipsam, culpa totam eum, voluptates
+                      quasi vel aut commodi distinctio?
+                    </div>
                   </div>
-                  <CountDown timer={task.remains} />
+                  <div className=" w-3/4 m-0 p-3  group-hover:w-20 overflow-hidden  transition-all duration-1000 ">
+                    <CountDown timer={task.remains} />
+                  </div>
                 </div>
-              </Card>
+              </div>
             </li>
           ))}
       </ul>
