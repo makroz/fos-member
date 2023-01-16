@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Menu } from "react-feather";
 import useAuth from "../../../hooks/useAuth";
+import useLang from "../../../hooks/useLang";
 import { initialsName } from "../../../utils/string";
 import DropDown from "../../DropDown";
 
 const Navbar = ({ onVisible = null }: any) => {
+  const { t }: any = useLang();
   const { user, logout }: any = useAuth();
   const [dropUser, setDropUser] = useState(false);
 
@@ -19,7 +21,7 @@ const Navbar = ({ onVisible = null }: any) => {
       >
         <div>
           <div className="text-title">{user.name}</div>
-          <div className="text-subTitle text-xs">{user.rol}</div>
+          <div className="text-subTitle text-xs">{t(user.rol)}</div>
         </div>
         <div className="relative">
           {user.photoURL && (
@@ -47,7 +49,7 @@ const Navbar = ({ onVisible = null }: any) => {
                   href="#"
                   className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                 >
-                  Settings
+                  {t("Settings")}
                 </a>
               </li>
             </ul>
@@ -57,7 +59,7 @@ const Navbar = ({ onVisible = null }: any) => {
                 className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                 onClick={() => logout()}
               >
-                Sign out
+                {t("Sign out")}
               </a>
             </div>
           </DropDown>

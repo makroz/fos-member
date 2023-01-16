@@ -17,7 +17,7 @@ const Home = () => {
       </main>
 
       <footer className="flex h-24 w-full items-center justify-center border-t">
-        Powered by Makroz
+        Copyrigth {new Date().getFullYear()} - {config.app.appName}
       </footer>
     </div>
   );

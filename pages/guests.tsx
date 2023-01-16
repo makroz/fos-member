@@ -61,7 +61,96 @@ const guestPage = () => {
 
   return (
     <>
-      {/* <ol class="organizational-chart">
+      <div className="diagram">
+        <h2
+          className="level1 rectangle rounded-full"
+          style={{ margin: "0 auto 20px" }}
+        >
+          {user.sponsor_id ? (
+            <Avatar rounded>
+              Patrocinador: {user.sponsor.name}
+              <div className="text-xs">
+                Dni: {user.sponsor.icn}
+                <br />
+                Nivel: {user.sponsor.level.title}
+              </div>
+            </Avatar>
+          ) : (
+            <div className="w-full text-center">Sistema</div>
+          )}
+        </h2>
+        <h1 className="level1 rectangle rounded-full">
+          <Avatar rounded size="lg">
+            {user.name}
+            <div className="text-sm">
+              Dni:{user.icn}
+              <br />
+              Nivel:{user.level.title}
+            </div>
+          </Avatar>
+        </h1>
+        <ol className="level2Wrapper">
+          {data?.data.map((member: any, index: number) => {
+            return (
+              <>
+                <li>
+                  <h2 className="level2 rectangle rounded-full">
+                    <Avatar rounded>
+                      {member.name}
+                      <div className="text-sm">
+                        Dni: {member.icn}
+                        <br />
+                        Nivel: {member.level.title}
+                      </div>
+                    </Avatar>
+                  </h2>
+
+                  {member.referidos.length > 0 ? (
+                    <ol className="level3Wrapper">
+                      {member.referidos?.map((member2: any, index: number) => {
+                        return (
+                          <>
+                            <li>
+                              <h3 className="level3 rectangle rounded-full">
+                                <Avatar rounded>
+                                  {member2.name}
+                                  <div className="text-sm">
+                                    Dni: {member2.icn}
+                                    <br />
+                                    Nivel: {member2.level.title}
+                                  </div>
+                                </Avatar>
+                              </h3>
+                            </li>
+                          </>
+                        );
+                      })}
+                    </ol>
+                  ) : null}
+                </li>
+              </>
+            );
+          })}
+        </ol>
+      </div>
+      <DataCrud
+        title="Invitado"
+        modulo="members"
+        filter={"sponsor_id,=," + user.id}
+        columns={fields}
+        formState={formState}
+        setFormState={setFormState}
+        errorsForm={errorsForm}
+        setErrorsForm={setErrorsForm}
+      />
+    </>
+  );
+};
+
+export default guestPage;
+guestPage.auth = true;
+{
+  /* <ol className="organizational-chart">
         <li>
           <div>
             <h1>King County Code</h1>
@@ -272,92 +361,5 @@ const guestPage = () => {
             </li>
           </ol>
         </li>
-      </ol> */}
-      <div className="diagram">
-        <h2
-          className="level1 rectangle rounded-full"
-          style={{ margin: "0 auto 20px" }}
-        >
-          {user.sponsor_id ? (
-            <Avatar rounded>
-              Patrocinador: {user.sponsor.name}
-              <div className="text-xs">
-                Dni: {user.sponsor.icn}
-                <br />
-                Nivel: {user.sponsor.level.title}
-              </div>
-            </Avatar>
-          ) : (
-            <div className="w-full text-center">Sistema</div>
-          )}
-        </h2>
-        <h1 className="level1 rectangle rounded-full">
-          <Avatar rounded size="lg">
-            {user.name}
-            <div className="text-sm">
-              Dni:{user.icn}
-              <br />
-              Nivel:{user.level.title}
-            </div>
-          </Avatar>
-        </h1>
-        <ol className="level2Wrapper">
-          {data?.data.map((member: any, index: number) => {
-            return (
-              <>
-                <li>
-                  <h2 className="level2 rectangle rounded-full">
-                    <Avatar rounded>
-                      {member.name}
-                      <div className="text-sm">
-                        Dni: {member.icn}
-                        <br />
-                        Nivel: {member.level.title}
-                      </div>
-                    </Avatar>
-                  </h2>
-
-                  {member.referidos.length > 0 ? (
-                    <ol className="level3Wrapper">
-                      {member.referidos?.map((member2: any, index: number) => {
-                        return (
-                          <>
-                            <li>
-                              <h3 className="level3 rectangle rounded-full">
-                                <Avatar rounded>
-                                  {member2.name}
-                                  <div className="text-sm">
-                                    Dni: {member2.icn}
-                                    <br />
-                                    Nivel: {member2.level.title}
-                                  </div>
-                                </Avatar>
-                              </h3>
-                            </li>
-                          </>
-                        );
-                      })}
-                    </ol>
-                  ) : null}
-                </li>
-              </>
-            );
-          })}
-        </ol>
-      </div>
-      <DataCrud
-        title="Invitado"
-        modulo="members"
-        filter={"sponsor_id,=," + user.id}
-        columns={fields}
-        formState={formState}
-        setFormState={setFormState}
-        errorsForm={errorsForm}
-        setErrorsForm={setErrorsForm}
-      />
-    </>
-  );
-};
-
-export default guestPage;
-guestPage.auth = true;
+      </ol> */
+}

@@ -1,18 +1,5 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
-import {
-  ChevronRight,
-  ChevronDown,
-  Circle,
-  Menu,
-  XCircle,
-} from "react-feather";
-import { mainMenu } from "../../../config/mainMenu";
 import useAuth from "../../hooks/useAuth";
-import { initialsName } from "../../utils/string";
-import DropDown from "../DropDown";
-import { Avatar } from "flowbite-react";
 import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
 
