@@ -1,4 +1,6 @@
+import "../styles/guest.css";
 import "../styles/globals.css";
+
 import AxiosInstanceProvider from "../src/contexts/AxiosInstanceProvider";
 import axiosInterceptors from "../src/interceptors/axiosInterceptors";
 import AuthProvider from "../src/contexts/AuthProvider";
