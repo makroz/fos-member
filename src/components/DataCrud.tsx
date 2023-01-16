@@ -15,6 +15,7 @@ const DataCrud = ({
   setFormState,
   errorsForm,
   setErrorsForm,
+  filter = "",
 }) => {
   const [openModal, setOpenModal] = useState(false);
   const [openDel, setOpenDel] = useState(false);
@@ -29,7 +30,7 @@ const DataCrud = ({
     perPage: 10,
     sortBy: "id",
     orderBy: "asc",
-    searchBy: "",
+    searchBy: filter,
   });
   const { data, error, loaded, execute, reLoad } = useAxios(
     "/" + modulo,
@@ -53,6 +54,8 @@ const DataCrud = ({
     switch (rule) {
       case "required":
         return !value ? "is Required" : "";
+      case "same":
+        return value != formState[param[0]] ? "must be the same" : "";
       case "min":
         return value.length < param[0] ? "min " + param[0] + " characters" : "";
       case "max":

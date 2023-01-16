@@ -40,10 +40,9 @@ const Tasks = () => {
       let duration = new Date(task.to_date).getTime() - new Date().getTime();
       if (duration <= 0) task.status = 4;
       return {
-        id: task.id,
+        ...task,
         name: task.challenge.name,
         status: task.status,
-        to_date: task.to_date,
         remains: timeRemains(task.to_date),
       };
     });
@@ -85,11 +84,19 @@ const Tasks = () => {
                         {task.to_date}
                       </div>
                     </div>
-                    <div className="w-0 bg-orange-500 group-hover:w-full  transition-all duration-1000 flex overflow-hidden h-[85px]  ">
-                      Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                      Optio voluptates quis temporibus non, ut earum! Esse nobis
-                      corrupti ducimus, alias ipsam, culpa totam eum, voluptates
-                      quasi vel aut commodi distinctio?
+                    <div className="w-0 text-white  group-hover:w-full  transition-all duration-1000 flex overflow-hidden  justify-between whitespace-nowrap">
+                      <div className="self-center px-2">
+                        <div className="text-gray-500 text-xs">
+                          Descripcion del Challenge:
+                        </div>
+                        {task.challenge?.description}
+                        <br />
+                        <div className="text-gray-500 text-xs">Link:</div>
+                        {task.meet_link}
+                      </div>
+                      <button className="bg-green-500 hover:bg-green-700 text-white font-bold rounded mx-4 px-4 ">
+                        Ejecutar Tarea
+                      </button>
                     </div>
                   </div>
                   <div className=" w-3/4 m-0 p-3  group-hover:w-20 overflow-hidden  transition-all duration-1000 ">
