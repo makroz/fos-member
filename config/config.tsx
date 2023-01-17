@@ -4,6 +4,7 @@ const config = {
     appDescription: "Force One System - Members",
     appLogoImage: "/assets/images/logo/logo.png",
     API_URL: "http://localhost:8000/api",
+    loginLabel: "Documento Identidad",
   },
   auth: {
     login: "/member-login",
