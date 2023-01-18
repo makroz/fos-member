@@ -1,4 +1,3 @@
-import "../styles/guest.css";
 import "../styles/globals.css";
 
 import AxiosInstanceProvider from "../src/contexts/AxiosInstanceProvider";
