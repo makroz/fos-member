@@ -59,9 +59,289 @@ const guestPage = () => {
   fields["name"].className =
     "whitespace-nowrap text-gray-900 dark:text-white  flex items-start";
 
+  const referido = (members) => {
+    if (!members || members.length == 0) return null;
+    return (
+      <>
+        <ol>
+          {members.map((member: any, index: number) => {
+            return (
+              <>
+                <li key={member.id}>
+                  <div className="rounded-full">
+                    <h2>
+                      <Avatar rounded>
+                        {member.name}
+                        <div className="text-sm">
+                          Dni: {member.icn}
+                          <br />
+                          Nivel: {member.level.title}
+                        </div>
+                      </Avatar>
+                    </h2>
+                  </div>
+                  {referido(member.referidos)}
+                </li>
+              </>
+            );
+          })}
+        </ol>
+      </>
+    );
+  };
   return (
     <>
-      <div className="diagram">
+      <ol className="member-chart">
+        <li>
+          <ol>
+            <li>
+              <div>
+                <h1>server</h1>
+              </div>
+              <ol>
+                <li>
+                  <div>
+                    <h1>Yo</h1>
+                  </div>
+                </li>
+              </ol>
+            </li>
+          </ol>
+          <ol>
+            <li>
+              <div>
+                <h2>Secondary</h2>
+              </div>
+              <ol>
+                <li>
+                  <div>
+                    <h3>Tertiary</h3>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <h3>Tertiary</h3>
+                  </div>
+                  <ol>
+                    <li>
+                      <div>
+                        <h4>Quaternary</h4>
+                      </div>
+                    </li>
+                    <li>
+                      <div>
+                        <h4>Quaternary</h4>
+                      </div>
+                      <ol>
+                        <li>
+                          <div>
+                            <h5>Quinary</h5>
+                          </div>
+                        </li>
+                        <li>
+                          <div>
+                            <h5>Quinary</h5>
+                          </div>
+                          <ol>
+                            <li>
+                              <div>
+                                <h6>Senary</h6>
+                              </div>
+                            </li>
+                          </ol>
+                        </li>
+                      </ol>
+                    </li>
+                    <li>
+                      <div>
+                        <h4>Quaternary</h4>
+                      </div>
+                    </li>
+                  </ol>
+                </li>
+                <li>
+                  <div>
+                    <h3>Tertiary</h3>
+                  </div>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <div>
+                <h2>Secondary</h2>
+              </div>
+              <ol>
+                <li>
+                  <div>
+                    <h3>Tertiary</h3>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <h3>Tertiary</h3>
+                  </div>
+                  <ol>
+                    <li>
+                      <div>
+                        <h4>Quaternary</h4>
+                      </div>
+                    </li>
+                    <li>
+                      <div>
+                        <h4>Quaternary</h4>
+                      </div>
+                    </li>
+                    <li>
+                      <div>
+                        <h4>Quaternary</h4>
+                      </div>
+                    </li>
+                  </ol>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <div>
+                <h2>Secondary</h2>
+              </div>
+              <ol>
+                <li>
+                  <div>
+                    <h3>Tertiary</h3>
+                  </div>
+                  <ol>
+                    <li>
+                      <div>
+                        <h4>Quaternary</h4>
+                      </div>
+                      <ol>
+                        <li>
+                          <div>
+                            <h5>Quinary</h5>
+                          </div>
+                          <ol>
+                            <li>
+                              <div>
+                                <h6>Senary</h6>
+                              </div>
+                            </li>
+                            <li>
+                              <div>
+                                <h6>Senary</h6>
+                              </div>
+                            </li>
+                          </ol>
+                        </li>
+                        <li>
+                          <div>
+                            <h5>Quinary</h5>
+                          </div>
+                        </li>
+                      </ol>
+                    </li>
+                  </ol>
+                </li>
+                <li>
+                  <div>
+                    <h3>Tertiary</h3>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <h3>Tertiary</h3>
+                  </div>
+                </li>
+              </ol>
+            </li>
+            <li>
+              <div>
+                <h2>Secondary</h2>
+              </div>
+              <ol>
+                <li>
+                  <div>
+                    <h3>Tertiary</h3>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <h3>Tertiary</h3>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <h3>Tertiary</h3>
+                  </div>
+                  <ol>
+                    <li>
+                      <div>
+                        <h4>Quaternary</h4>
+                      </div>
+                    </li>
+                    <li>
+                      <div>
+                        <h4>Quaternary</h4>
+                      </div>
+                    </li>
+                  </ol>
+                </li>
+                <li>
+                  <div>
+                    <h3>Tertiary</h3>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <h3>Tertiary</h3>
+                  </div>
+                </li>
+              </ol>
+            </li>
+          </ol>
+        </li>
+      </ol>
+      <ol className="member-chart">
+        <li>
+          <ol>
+            <li>
+              <div className="rounded-full">
+                <h1>
+                  {user.sponsor_id ? (
+                    <Avatar rounded>
+                      Patrocinador: {user.sponsor.name}
+                      <div className="text-xs">
+                        Dni: {user.sponsor.icn}
+                        <br />
+                        Nivel: {user.sponsor.level.title}
+                      </div>
+                    </Avatar>
+                  ) : (
+                    <div className="w-full text-center ">Sistema</div>
+                  )}
+                </h1>
+              </div>
+              <ol>
+                <li>
+                  <div className="rounded-full">
+                    <h1>
+                      <Avatar rounded size="lg">
+                        {user.name}
+                        <div className="text-sm">
+                          Dni:{user.icn}
+                          <br />
+                          Nivel:{user.level.title}
+                        </div>
+                      </Avatar>
+                    </h1>
+                  </div>
+                </li>
+              </ol>
+            </li>
+          </ol>
+          {referido(data?.data)}
+        </li>
+      </ol>
+      {/* <div className="diagram">
         <h2
           className="level1 rectangle rounded-full"
           style={{ margin: "0 auto 20px" }}
@@ -132,7 +412,7 @@ const guestPage = () => {
             );
           })}
         </ol>
-      </div>
+      </div> */}
       <DataCrud
         title="Invitado"
         modulo="members"
