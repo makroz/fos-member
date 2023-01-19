@@ -5,7 +5,7 @@ import { ChevronDown, ChevronRight, Circle } from "react-feather";
 import { mainMenu } from "../../../../config/mainMenu";
 import ItemMenu from "./ItemMenu";
 
-const MainMenu = ({ config }: any) => {
+const MainMenu = ({ config, onVisible }: any) => {
   const [menu, setMenu]: any = useState(mainMenu);
   const router = useRouter();
   const slug = config?.app?.link || "";
@@ -34,10 +34,8 @@ const MainMenu = ({ config }: any) => {
                 }}
               >
                 {item.icon}
-                <span className="flex-1 ml-3 whitespace-nowrap">
-                  {item.title}
-                </span>
-                <span className="inline-flex items-center justify-center px-2 ml-3 text-sm font-medium ">
+                <span className="flex-1 whitespace-nowrap">{item.title}</span>
+                <span className="inline-flex items-center justify-center text-sm font-medium ">
                   {item.open !== true ? <ChevronRight /> : <ChevronDown />}
                 </span>
               </div>
@@ -56,6 +54,7 @@ const MainMenu = ({ config }: any) => {
                       slug={slug}
                       config={config}
                       active={active}
+                      onVisible={onVisible}
                     />
                   );
                 })}
@@ -69,33 +68,8 @@ const MainMenu = ({ config }: any) => {
             slug={slug}
             active={active}
             config={config}
+            onVisible={onVisible}
           />
-          //   <li key={item.id}>
-          //     <Link
-          //       href={slug + item.link}
-          //       className={
-          //         (active == item.link ? "menuItemActive" : "menuItemNormal") +
-          //         " menuItem"
-          //       }
-          //       style={
-          //         active == item.link
-          //           ? {
-          //               background: config?.app?.colorSecondary,
-          //             }
-          //           : undefined
-          //       }
-          //     >
-          //       {item.icon}
-          //       <span className="flex-1 ml-3 whitespace-nowrap">
-          //         {item.title}
-          //       </span>
-          //       {item.tag && (
-          //         <span className="inline-flex items-center justify-center px-2 ml-3 text-sm font-medium  text-blue-600 bg-blue-200 rounded-full">
-          //           {item.tag}
-          //         </span>
-          //       )}
-          //     </Link>
-          //   </li>
         );
       })}
     </ul>
