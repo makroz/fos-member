@@ -5,7 +5,7 @@ import { ChevronDown, ChevronRight, Circle } from "react-feather";
 import { mainMenu } from "../../../../config/mainMenu";
 import ItemMenu from "./ItemMenu";
 
-const MainMenu = ({ config, onVisible }: any) => {
+const MainMenu = ({ config, onVisible, visible }: any) => {
   const [menu, setMenu]: any = useState(mainMenu);
   const router = useRouter();
   const slug = config?.app?.link || "";
@@ -25,7 +25,7 @@ const MainMenu = ({ config, onVisible }: any) => {
             <li key={item.id}>
               <div
                 className={
-                  (item.open === true ? "menuItemActive" : "menuItemNormal") +
+                  (item.open === true ? "text-secondary" : "menuItemNormal") +
                   " menuItem"
                 }
                 onClick={(e) => {
@@ -33,17 +33,27 @@ const MainMenu = ({ config, onVisible }: any) => {
                   setMenu([...menu]);
                 }}
               >
-                {item.icon}
-                <span className="flex-1 whitespace-nowrap">{item.title}</span>
+                <span className="w-4">{item.icon}</span>
+                <span className="flex-1 ml-3 whitespace-nowrap">
+                  {item.title}
+                </span>
+                {/* <span className="flex-1 whitespace-nowrap">{item.title}</span> */}
                 <span className="inline-flex items-center justify-center text-sm font-medium ">
-                  {item.open !== true ? <ChevronRight /> : <ChevronDown />}
+                  <ChevronRight
+                    className={
+                      (item.open === true
+                        ? "transform rotate-90"
+                        : "transform rotate-0 ") + " transition-all "
+                    }
+                  />
                 </span>
               </div>
               <ul
                 id={`dropdown-${item.id}`}
                 className={
-                  (item.open !== true ? "hidden" : null) +
-                  " py-2 space-y-2 px-4 pr-0"
+                  (item.open !== true || !visible ? "hidden" : null) +
+                  " py-2 space-y-2 px-8 pr-0 md:" +
+                  (item.open === true ? "block" : null)
                 }
               >
                 {item.children.map((item2) => {

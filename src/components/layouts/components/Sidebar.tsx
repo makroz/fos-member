@@ -3,10 +3,10 @@ import { XCircle } from "react-feather";
 import { initialsName } from "../../../utils/string";
 import MainMenu from "./MainMenu";
 
-const Sidebar = ({ config, onVisible }) => {
+const Sidebar = ({ config, onVisible, visible }) => {
   return (
     <>
-      <div className="p-0 m-0 flex items-center ">
+      <div className="p-0 pt-2 m-0 flex items-center ">
         {config?.app.appLogoImage ? (
           <img
             src={config?.app.appLogoImage}
@@ -30,7 +30,7 @@ const Sidebar = ({ config, onVisible }) => {
         </div>
       </div>
       <div className="py-4 overflow-y-auto overflow-x-hidden">
-        <MainMenu config={config} onVisible={onVisible} />
+        <MainMenu config={config} onVisible={onVisible} visible={visible} />
       </div>
     </>
   );

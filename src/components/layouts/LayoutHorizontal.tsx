@@ -33,7 +33,7 @@ const LayoutHorizontal = ({ children }) => {
           visible ? "w-[280px] min-w-[280px]" : "w-[40px] min-w-[40px]"
         }  bg-primary px-2  md:w-[280px] md:min-w-[280px] transition-all  `}
       >
-        <Sidebar config={config} onVisible={onVisible} />
+        <Sidebar config={config} onVisible={onVisible} visible={visible} />
       </div>
       <div className="flex flex-col  bg-blue-200 flex-grow overflow-auto">
         <Navbar onVisible={onVisible} />
