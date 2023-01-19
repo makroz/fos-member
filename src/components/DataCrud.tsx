@@ -224,8 +224,8 @@ const DataCrud = ({
 
   return (
     <>
-      <h1>{t("List", title)}</h1>
-      <Card className="relative">
+      <Card className="relative overflow-hidden">
+        <h1>{t("List", title)}</h1>
         <Card>
           <div className="flex justify-between">
             <div className="">{!loaded && <Spinner />}</div>

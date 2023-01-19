@@ -10,7 +10,7 @@ const Navbar = ({ onVisible = null }: any) => {
   const [dropUser, setDropUser] = useState(false);
 
   return (
-    <div className="navbar">
+    <div className="navbar z-50">
       <div>
         {onVisible && <Menu className="block md:hidden" onClick={onVisible} />}
       </div>

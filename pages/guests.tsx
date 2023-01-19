@@ -1,4 +1,4 @@
-import { Avatar } from "flowbite-react";
+import { Avatar, Card } from "flowbite-react";
 import { useState } from "react";
 import DataCrud from "../src/components/DataCrud";
 import DataTable from "../src/components/DataTable";
@@ -106,43 +106,46 @@ const guestPage = () => {
   };
   return (
     <>
-      <ol className={styles.memberChart}>
-        <li>
-          <div>
-            <h1>
-              {user.sponsor_id ? (
-                <Avatar rounded>
-                  Patrocinador: {user.sponsor.name}
-                  <div className="text-xs">
-                    Dni: {user.sponsor.icn}
-                    <br />
-                    Nivel: {user.sponsor.level.title}
-                  </div>
-                </Avatar>
-              ) : (
-                <div className="text-center ">Sistema</div>
-              )}
-            </h1>
-          </div>
-          <ol>
-            <li className="">
-              <div className="  rounded-full bg-red-500 p-3">
-                <h1 className="  rounded-full bg-white pr-3 ">
-                  <Avatar rounded size="lg">
-                    {user.name}
-                    <div className="text-sm">
-                      Dni:{user.icn}
+      <Card className="overflow-hidden">
+        <ol className={styles.memberChart}>
+          <li>
+            <div>
+              <h1>
+                {user.sponsor_id ? (
+                  <Avatar rounded>
+                    Patrocinador: {user.sponsor.name}
+                    <div className="text-xs">
+                      Dni: {user.sponsor.icn}
                       <br />
-                      Nivel:{user.level.title}
+                      Nivel: {user.sponsor.level.title}
                     </div>
                   </Avatar>
-                </h1>
-              </div>
-            </li>
-          </ol>
-          {referido(data?.data)}
-        </li>
-      </ol>
+                ) : (
+                  <div className="text-center ">Sistema</div>
+                )}
+              </h1>
+            </div>
+            <ol>
+              <li className="">
+                <div className="  rounded-full bg-red-500 p-3">
+                  <h1 className="  rounded-full bg-white pr-3 ">
+                    <Avatar rounded size="lg">
+                      {user.name}
+                      <div className="text-sm">
+                        Dni:{user.icn}
+                        <br />
+                        Nivel:{user.level.title}
+                      </div>
+                    </Avatar>
+                  </h1>
+                </div>
+              </li>
+            </ol>
+            {referido(data?.data)}
+          </li>
+        </ol>
+      </Card>
+      <br />
       <DataCrud
         title="Invitado"
         modulo="members"
