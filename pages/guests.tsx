@@ -1,5 +1,5 @@
-import { Avatar, Card } from "flowbite-react";
-import { useState } from "react";
+import { Avatar, Badge, Card } from "flowbite-react";
+import { useEffect, useState } from "react";
 import DataCrud from "../src/components/DataCrud";
 import DataTable from "../src/components/DataTable";
 import useAuth from "../src/hooks/useAuth";
@@ -17,9 +17,24 @@ const guestPage = () => {
     searchBy: "sponsor_id,=," + user.id,
     relations: "referidos",
   });
+  const [refer, setRefer] = useState({});
+  const [members, setMembers] = useState([
+    { bg: "black", txt: "text-white", count: 0 },
+    { bg: "blue-800", txt: "text-white", count: 0 },
+    { bg: "green-800", txt: "text-white", count: 0 },
+    { bg: "red-800", txt: "text-white", count: 0 },
+    { bg: "purple-800", txt: "text-white", count: 0 },
+    { bg: "yellow-400", txt: "text-black", count: 0 },
+    { bg: "gray-400", txt: "text-white", count: 0 },
+    { bg: "blue-400", txt: "text-black", count: 0 },
+    { bg: "green-400", txt: "text-black", count: 0 },
+    { bg: "red-400", txt: "text-black", count: 0 },
+    { bg: "purple-400", txt: "text-black", count: 0 },
+  ]);
   const { data } = useAxios("/members", "GET", params);
   const [formState, setFormState] = useState({});
   const [errorsForm, setErrorsForm] = useState({});
+
   const fields = getFields([
     "id",
     "name*|Nombre Completo|_h_::Usuario",
@@ -36,6 +51,10 @@ const guestPage = () => {
   fields["level_id"].render = (value, row, key, index) => {
     return row[key];
   };
+  fields["_row"].className = (row, index) => {
+    const border = "border-l-" + members[refer[row.icn]]?.bg;
+    return border + " border-l border-l-4 ";
+  };
 
   fields["name"].render = (value, row, key, index) => {
     return (
@@ -47,15 +66,28 @@ const guestPage = () => {
       >
         <div className="space-y-1 font-medium dark:text-white">
           <div>{capitalizeWords(row.name)}</div>
-          <div className="text-sm text-gray-500 dark:text-gray-400">
+          <div className="text-sm text-gray-500 dark:text-gray-400 flex justify-between gap-2">
             {row.icn}
+            {row.referidos.length > 0 && (
+              <div
+                className={
+                  "bg-" +
+                  members[refer[row.icn] + 1]?.bg +
+                  " " +
+                  members[refer[row.icn] + 1]?.txt +
+                  " rounded-full text-sm p-0 px-2 w-fit"
+                }
+              >
+                {row.referidos.length}
+              </div>
+            )}
           </div>
         </div>
       </Avatar>
     );
   };
   fields["name"].className =
-    "whitespace-nowrap text-gray-900 dark:text-white  flex items-start";
+    "whitespace-nowrap text-gray-900 dark:text-white flex items-start";
 
   const referido = (members) => {
     if (!members || members.length == 0) return null;
@@ -86,6 +118,46 @@ const guestPage = () => {
     );
   };
 
+  const referCount = (referidos, level) => {
+    if (!referidos || referidos.length == 0) return 0;
+    let count = 0;
+    let count1 = 0;
+    referidos.map((referido: any, index: number) => {
+      count++;
+      count1++;
+      refer[referido.icn] = level;
+      count += referCount(referido.referidos, level + 1);
+    });
+    members[level].count += count1;
+    return count;
+  };
+
+  const LevelCount = ({ members }) => {
+    return (
+      <div className="flex flex-wrap gap-1 justify-start">
+        {members.map((member: any, index: number) => {
+          // console.log("member", member);
+
+          if (member.count > 0)
+            return (
+              <div
+                key={index}
+                className={
+                  "bg-" +
+                  member.bg +
+                  " " +
+                  member.txt +
+                  " rounded-full text-sm p-0 px-2"
+                }
+              >
+                {member.count}
+              </div>
+            );
+        })}
+      </div>
+    );
+  };
+
   const onClickRowChildren = (row) => {
     //console.log(row);
     if (!row.referidos || row.referidos.length == 0) return "";
@@ -104,6 +176,13 @@ const guestPage = () => {
       />
     );
   };
+
+  useEffect(() => {
+    if (data?.data) {
+      referCount(data.data, 0);
+    }
+  }, [data?.data]);
+
   return (
     <>
       <Card className="overflow-hidden">
@@ -131,7 +210,7 @@ const guestPage = () => {
                   <h1 className="  rounded-full bg-white pr-3 ">
                     <Avatar rounded size="lg">
                       {user.name}
-                      <div className="text-sm">
+                      <div className="text-sm ">
                         Dni:{user.icn}
                         <br />
                         Nivel:{user.level.title}
@@ -149,6 +228,7 @@ const guestPage = () => {
       <DataCrud
         title="Invitado"
         modulo="members"
+        msg={<LevelCount members={members} />}
         param={{
           searchBy: "sponsor_id,=," + user.id,
           relations: "referidos",

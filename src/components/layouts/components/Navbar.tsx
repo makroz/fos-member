@@ -20,7 +20,7 @@ const Navbar = ({ onVisible = null }: any) => {
       >
         <div className="whitespace-nowrap">
           <div className="text-title">{user.name}</div>
-          <div className="text-subTitle text-xs">{t(user.rol)}</div>
+          <div className="text-subTitle text-xs">{t(user.role?.name)}</div>
         </div>
         <div className="relative">
           {user.photoURL && (
