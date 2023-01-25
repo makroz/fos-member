@@ -95,7 +95,7 @@ const DataCrud = ({
     let errors = {};
     for (const key in columns) {
       const el = columns[key];
-      if (el.actions.includes(action)) {
+      if (el.actions?.includes(action)) {
         const el = columns[key];
 
         if (el.required && !formState[key]) {
@@ -142,7 +142,7 @@ const DataCrud = ({
     if (Object.keys(errors).length > 0) return;
     let payLoad = {};
     Object.keys(columns).map((key) => {
-      if (columns[key].actions.includes(action)) {
+      if (columns[key].actions?.includes(action)) {
         payLoad = { ...payLoad, [key]: formState[key] };
       }
     });
