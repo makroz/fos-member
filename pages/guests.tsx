@@ -1,22 +1,19 @@
-import { Avatar, Badge, Card } from "flowbite-react";
+import { Avatar } from "flowbite-react";
 import { useEffect, useState } from "react";
+import MemberDiagram from "../components/MemberDiagram";
 import DataCrud from "../src/components/DataCrud";
 import DataTable from "../src/components/DataTable";
 import useAuth from "../src/hooks/useAuth";
 import useAxios from "../src/hooks/useAxios";
 import { getFields } from "../src/utils/dbTools";
 import { capitalizeWords, initialsName } from "../src/utils/string";
-import styles from "../styles/guests.module.css";
+
 const guestPage = () => {
-  const { user, config }: any = useAuth();
-  const [params, setParams] = useState({
-    page: 1,
-    perPage: 10,
-    sortBy: "name",
-    orderBy: "asc",
+  const { user }: any = useAuth();
+  const params = {
     searchBy: "sponsor_id,=," + user.id,
     relations: "referidos",
-  });
+  };
   const [refer, setRefer] = useState({});
   const [members, setMembers] = useState([
     { bg: "black", txt: "text-white", count: 0 },
@@ -89,35 +86,6 @@ const guestPage = () => {
   fields["name"].className =
     "whitespace-nowrap text-gray-900 dark:text-white flex items-start";
 
-  const referido = (members) => {
-    if (!members || members.length == 0) return null;
-    return (
-      <>
-        <ol>
-          {members.map((member: any, index: number) => {
-            return (
-              <li key={member.id + index}>
-                <div className="rounded-full">
-                  <h2>
-                    <Avatar rounded>
-                      {capitalizeWords(member.name)}
-                      <div className="text-sm">
-                        Dni: {member.icn}
-                        <br />
-                        Nivel: {member.level.title}
-                      </div>
-                    </Avatar>
-                  </h2>
-                </div>
-                {referido(member.referidos)}
-              </li>
-            );
-          })}
-        </ol>
-      </>
-    );
-  };
-
   const referCount = (referidos, level) => {
     if (!referidos || referidos.length == 0) return 0;
     let count = 0;
@@ -185,46 +153,8 @@ const guestPage = () => {
 
   return (
     <>
-      <Card className="overflow-hidden">
-        <ol className={styles.memberChart}>
-          <li>
-            <div>
-              <h1>
-                {user.sponsor_id ? (
-                  <Avatar rounded>
-                    Patrocinador: {user.sponsor.name}
-                    <div className="text-xs">
-                      Dni: {user.sponsor.icn}
-                      <br />
-                      Nivel: {user.sponsor.level.title}
-                    </div>
-                  </Avatar>
-                ) : (
-                  <div className="text-center ">Sistema</div>
-                )}
-              </h1>
-            </div>
-            <ol>
-              <li className="">
-                <div className="  rounded-full bg-red-500 p-3">
-                  <h1 className="  rounded-full bg-white pr-3 ">
-                    <Avatar rounded size="lg">
-                      {user.name}
-                      <div className="text-sm ">
-                        Dni:{user.icn}
-                        <br />
-                        Nivel:{user.level.title}
-                      </div>
-                    </Avatar>
-                  </h1>
-                </div>
-              </li>
-            </ol>
-            {referido(data?.data)}
-          </li>
-        </ol>
-      </Card>
-      <br />
+      <div className="bg-black bg-blue-800 bg-green-800 bg-red-800 bg-purple-800 bg-yellow-400 bg-gray-400 bg-blue-400 bg-green-400 bg-red-400 bg-purple-400"></div>
+      <div className="border-l-black border-l-blue-800 border-l-green-800 border-l-red-800 border-l-purple-800 border-l-yellow-400 border-l-gray-400 border-l-blue-400 border-l-green-400 border-l-red-400 border-l-purple-400"></div>
       <DataCrud
         title="Invitado"
         modulo="members"
@@ -241,223 +171,11 @@ const guestPage = () => {
         setErrorsForm={setErrorsForm}
         onClickRowChildren={onClickRowChildren}
       />
+      <br />
+      <MemberDiagram user={user} members={data?.data} />
     </>
   );
 };
 
 export default guestPage;
 guestPage.auth = true;
-{
-  /* <ol className="organizational-chart">
-        <li>
-          <div>
-            <h1>King County Code</h1>
-          </div>
-          <ol>
-            <li>
-              <div>
-                <h1>Information security charter</h1>
-              </div>
-              <ol>
-                <li>
-                  <div>
-                    <h1>Information security program</h1>
-                  </div>
-                </li>
-              </ol>
-            </li>
-          </ol>
-          <ol>
-            <li>
-              <div>
-                <h2>Secondary</h2>
-              </div>
-              <ol>
-                <li>
-                  <div>
-                    <h3>Tertiary</h3>
-                  </div>
-                </li>
-                <li>
-                  <div>
-                    <h3>Tertiary</h3>
-                  </div>
-                  <ol>
-                    <li>
-                      <div>
-                        <h4>Quaternary</h4>
-                      </div>
-                    </li>
-                    <li>
-                      <div>
-                        <h4>Quaternary</h4>
-                      </div>
-                      <ol>
-                        <li>
-                          <div>
-                            <h5>Quinary</h5>
-                          </div>
-                        </li>
-                        <li>
-                          <div>
-                            <h5>Quinary</h5>
-                          </div>
-                          <ol>
-                            <li>
-                              <div>
-                                <h6>Senary</h6>
-                              </div>
-                            </li>
-                          </ol>
-                        </li>
-                      </ol>
-                    </li>
-                    <li>
-                      <div>
-                        <h4>Quaternary</h4>
-                      </div>
-                    </li>
-                  </ol>
-                </li>
-                <li>
-                  <div>
-                    <h3>Tertiary</h3>
-                  </div>
-                </li>
-              </ol>
-            </li>
-            <li>
-              <div>
-                <h2>Secondary</h2>
-              </div>
-              <ol>
-                <li>
-                  <div>
-                    <h3>Tertiary</h3>
-                  </div>
-                </li>
-                <li>
-                  <div>
-                    <h3>Tertiary</h3>
-                  </div>
-                  <ol>
-                    <li>
-                      <div>
-                        <h4>Quaternary</h4>
-                      </div>
-                    </li>
-                    <li>
-                      <div>
-                        <h4>Quaternary</h4>
-                      </div>
-                    </li>
-                    <li>
-                      <div>
-                        <h4>Quaternary</h4>
-                      </div>
-                    </li>
-                  </ol>
-                </li>
-              </ol>
-            </li>
-            <li>
-              <div>
-                <h2>Secondary</h2>
-              </div>
-              <ol>
-                <li>
-                  <div>
-                    <h3>Tertiary</h3>
-                  </div>
-                  <ol>
-                    <li>
-                      <div>
-                        <h4>Quaternary</h4>
-                      </div>
-                      <ol>
-                        <li>
-                          <div>
-                            <h5>Quinary</h5>
-                          </div>
-                          <ol>
-                            <li>
-                              <div>
-                                <h6>Senary</h6>
-                              </div>
-                            </li>
-                            <li>
-                              <div>
-                                <h6>Senary</h6>
-                              </div>
-                            </li>
-                          </ol>
-                        </li>
-                        <li>
-                          <div>
-                            <h5>Quinary</h5>
-                          </div>
-                        </li>
-                      </ol>
-                    </li>
-                  </ol>
-                </li>
-                <li>
-                  <div>
-                    <h3>Tertiary</h3>
-                  </div>
-                </li>
-                <li>
-                  <div>
-                    <h3>Tertiary</h3>
-                  </div>
-                </li>
-              </ol>
-            </li>
-            <li>
-              <div>
-                <h2>Secondary</h2>
-              </div>
-              <ol>
-                <li>
-                  <div>
-                    <h3>Tertiary</h3>
-                  </div>
-                </li>
-                <li>
-                  <div>
-                    <h3>Tertiary</h3>
-                  </div>
-                </li>
-                <li>
-                  <div>
-                    <h3>Tertiary</h3>
-                  </div>
-                  <ol>
-                    <li>
-                      <div>
-                        <h4>Quaternary</h4>
-                      </div>
-                    </li>
-                    <li>
-                      <div>
-                        <h4>Quaternary</h4>
-                      </div>
-                    </li>
-                  </ol>
-                </li>
-                <li>
-                  <div>
-                    <h3>Tertiary</h3>
-                  </div>
-                </li>
-                <li>
-                  <div>
-                    <h3>Tertiary</h3>
-                  </div>
-                </li>
-              </ol>
-            </li>
-          </ol>
-        </li>
-      </ol> */
-}
