@@ -1,4 +1,3 @@
-import React from "react";
 import Tasks from "../components/Tasks";
 
 const tasksPage = () => {
@@ -10,4 +9,3 @@ const tasksPage = () => {
 };
 
 export default tasksPage;
-tasksPage.auth = true;

@@ -178,4 +178,3 @@ const guestPage = () => {
 };
 
 export default guestPage;
-guestPage.auth = true;

@@ -8,7 +8,7 @@ import LayoutHorizontal from "../src/components/layouts/LayoutHorizontal";
 function MyApp({ Component, pageProps }: any) {
   return (
     <AxiosInstanceProvider interceptors={axiosInterceptors}>
-      <AuthProvider auth={Component.auth}>
+      <AuthProvider noAuth={Component.noAuth}>
         <LayoutHorizontal>
           <Component {...pageProps} />
         </LayoutHorizontal>
