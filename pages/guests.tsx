@@ -96,7 +96,7 @@ const guestPage = () => {
       refer[referido.icn] = level;
       count += referCount(referido.referidos, level + 1);
     });
-    members[level].count += count1;
+    members[level].count = count1;
     return count;
   };
 

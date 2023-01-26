@@ -8,12 +8,7 @@ import CountDown from "./CountDown";
 const Tasks = () => {
   const { user }: any = useAuth();
   if (!user) return <Spinner />;
-  const {
-    data: tasks,
-    error,
-    loaded,
-    execute,
-  } = useAxios("/tasks", "GET", {
+  const { data: tasks, error, loaded, execute } = useAxios("/tasks", "GET", {
     sortBY: "date_to",
     perPage: 0,
     searchBy: "member_id,=," + user?.id,
@@ -28,9 +23,9 @@ const Tasks = () => {
     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
     return [
       { label: "Dias", valor: days },
-      { label: "Horas", valor: hours },
-      { label: "Minutos", valor: minutes },
-      { label: "Segundos", valor: seconds },
+      { label: "Hrs", valor: hours },
+      { label: "Min", valor: minutes },
+      { label: "Seg", valor: seconds },
     ];
     //return ${days}d ${hours}h ${minutes}m ${seconds}s`;
   };
@@ -72,36 +67,37 @@ const Tasks = () => {
         {remains?.length > 0 &&
           remains.map((task) => (
             <li key={task.id}>
-              <div className="border border-gray-300 rounded-lg my-4 py-0 px-0 shadow-md group">
-                <div className="flex justify-between ">
-                  <div className=" w-1/4  bg-slate-900 m-0 p-3 rounded-lg  group-hover:w-full transition-all duration-1000 flex ">
-                    <div className="whitespace-nowrap 3  bg-slate-900 rounded-lg">
-                      <div className={status[task.status].className}>
-                        {status[task.status].label}
-                      </div>
-                      <h1 className="self-center text-white">{task.name}</h1>
-                      <div className="text-gray-500 text-xs">
+              <div className="border border-gray-300 rounded-lg my-4 py-1 px-0 shadow-md group flex flex-col ">
+                <div className=" m-0 pb-2 text-xs self-center">
+                  <CountDown timer={task.remains} />
+                </div>
+                <div className="flex flex-col gap-1 w-full">
+                  <div className="bg-slate-900 p-2">
+                    {/* <div className={status[task.status].className}> */}
+                    <div>
+                      {task.status}:{" "}
+                      <span className="text-gray-500 text-xs">
                         {task.to_date}
-                      </div>
+                      </span>
                     </div>
-                    <div className="w-0 text-white  group-hover:w-full  transition-all duration-1000 flex overflow-hidden  justify-between whitespace-nowrap">
-                      <div className="self-center px-2">
-                        <div className="text-gray-500 text-xs">
-                          Descripcion del Challenge:
-                        </div>
-                        {task.challenge?.description}
-                        <br />
-                        <div className="text-gray-500 text-xs">Link:</div>
-                        {task.meet_link}
-                      </div>
-                      <button className="bg-green-500 hover:bg-green-700 text-white font-bold rounded mx-4 px-4 ">
-                        Ejecutar Tarea
-                      </button>
+                    <h2 className="self-center text-white">{task.name}</h2>
+                  </div>
+                  <div className="px-2 text-xs">
+                    <div className="text-gray-500 ">
+                      {task.challenge?.description}
+                      <hr />
+                    </div>
+                    <div className="text-gray-500 text-xs">
+                      Tipo: {task.type == "L" ? "Live" : "Video"}
                     </div>
                   </div>
-                  <div className=" w-3/4 m-0 p-3  group-hover:w-20 overflow-hidden  transition-all duration-1000 ">
-                    <CountDown timer={task.remains} />
-                  </div>
+                  {task.type == "L" && task.status == "O" && (
+                    <div className="btn bg-green-500 hover:bg-green-900 text-white font-bold rounded mx-4 px-4 text-center">
+                      <a target="_blank" href={task.live?.meet_link || null}>
+                        Entrar a la Sala
+                      </a>
+                    </div>
+                  )}
                 </div>
               </div>
             </li>

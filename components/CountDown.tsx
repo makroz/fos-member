@@ -14,7 +14,7 @@ const CountDown = ({ timer }) => {
   let negativo = timer[0].valor < 0 ? 1 : 0;
 
   return (
-    <div ref={ctx} className="flex gap-4">
+    <div ref={ctx} className="flex gap-1">
       {timer?.map((item, index) => {
         valor = item.valor * 1;
         if (valor < 0) {

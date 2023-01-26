@@ -1,5 +1,5 @@
 import gsap from "gsap";
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Quart } from "gsap";
 import styles from "../styles/ficha.module.css";
 
