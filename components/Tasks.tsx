@@ -8,11 +8,15 @@ import CountDown from "./CountDown";
 const Tasks = () => {
   const { user }: any = useAuth();
   if (!user) return <Spinner />;
-  const { data: tasks, error, loaded, execute } = useAxios("/tasks", "GET", {
-    sortBY: "date_to",
-    perPage: 0,
-    searchBy: "member_id,=," + user?.id,
-  });
+  const { data: tasks, error, loaded, execute, reLoad } = useAxios(
+    "/tasks",
+    "GET",
+    {
+      sortBY: "date_to",
+      perPage: 0,
+      searchBy: "member_id,=," + user?.id,
+    }
+  );
   const [remains, setRemains]: any = useState([]);
   const timeRemains = (date: any) => {
     const dateTo = new Date(date);
@@ -33,7 +37,7 @@ const Tasks = () => {
   const getRemains = () => {
     const remains = tasks?.data.map((task) => {
       let duration = new Date(task.to_date).getTime() - new Date().getTime();
-      if (duration <= 0) task.status = 4;
+      if (duration <= 0 && task.status == "P") task.status = "V";
       return {
         ...task,
         name: task.challenge.name,
@@ -51,31 +55,55 @@ const Tasks = () => {
     return () => clearInterval(interval);
   }, [tasks]);
 
-  const status = [
-    { label: "0", className: "" },
-    { label: "Pendiente", className: "text-yellow-500" },
-    { label: "En Proceso", className: "text-green-500" },
-    { label: "Finalizado", className: "text-blue-500" },
-    { label: "Vencido", className: "text-red-500" },
-  ];
+  const status = {
+    A: { label: "Pendiente", className: "text-yellow-500" },
+    O: { label: "Open", className: "text-green-500" },
+    S: { label: "En Proceso", className: "text-green-500" },
+    E: { label: "Finalizado", className: "text-blue-500" },
+    V: { label: "Vencido", className: "text-red-500" },
+    C: { label: "Cerrado", className: "text-blue-700" },
+    X: { label: "Deshabitado", className: "text-gray-500" },
+  };
 
+  const beginTask = (task) => {
+    execute("/tasks-begin/" + task, "POST");
+    reLoad();
+  };
+  const endTask = (task) => {
+    execute("/tasks-end/" + task, "POST");
+    reLoad();
+  };
   return (
     <Card className="relative ">
-      <h1>Tareas Personales2 </h1>
+      <h1>Tareas Personales </h1>
       <ul>
         {(!loaded || remains?.length == 0) && <Spinner />}
         {remains?.length > 0 &&
           remains.map((task) => (
             <li key={task.id}>
               <div className="border border-gray-300 rounded-lg my-4 py-1 px-0 shadow-md group flex flex-col ">
-                <div className=" m-0 pb-2 text-xs self-center">
-                  <CountDown timer={task.remains} />
-                </div>
+                {task.status == "A" ||
+                task.status == "O" ||
+                task.status == "V" ? (
+                  <div className=" m-0 pb-2 text-xs self-center">
+                    <CountDown timer={task.remains} />
+                  </div>
+                ) : (
+                  <div className=" m-0 pb-2 text-xs self-center flex flex-col">
+                    <div className="flex justify-between gap-2">
+                      <div>Iniciada</div> {task.start_date?.split(" ")[1]}
+                    </div>
+                    {task.end_date && (
+                      <div className="flex justify-between gap-2">
+                        <div>Finalizada:</div> {task.end_date?.split(" ")[1]}
+                      </div>
+                    )}
+                  </div>
+                )}
                 <div className="flex flex-col gap-1 w-full">
                   <div className="bg-slate-900 p-2">
-                    {/* <div className={status[task.status].className}> */}
-                    <div>
-                      {task.status}:{" "}
+                    <div className={status[task.status].className}>
+                      {status[task.status].label}:{" "}
                       <span className="text-gray-500 text-xs">
                         {task.to_date}
                       </span>
@@ -92,10 +120,25 @@ const Tasks = () => {
                     </div>
                   </div>
                   {task.type == "L" && task.status == "O" && (
-                    <div className="btn bg-green-500 hover:bg-green-900 text-white font-bold rounded mx-4 px-4 text-center">
+                    <div
+                      className="btn bg-green-500 hover:bg-green-900 text-white font-bold rounded mx-4 px-4 text-center"
+                      onClick={() => {
+                        beginTask(task.id);
+                      }}
+                    >
                       <a target="_blank" href={task.live?.meet_link || null}>
                         Entrar a la Sala
                       </a>
+                    </div>
+                  )}
+                  {task.type == "L" && task.status == "C" && (
+                    <div
+                      className="btn bg-blue-700 hover:bg-blue-900 text-white font-bold rounded mx-4 px-4 text-center"
+                      onClick={() => {
+                        endTask(task.id);
+                      }}
+                    >
+                      Finalizar Tarea
                     </div>
                   )}
                 </div>
