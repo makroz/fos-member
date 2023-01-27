@@ -170,6 +170,7 @@ const guestPage = () => {
         errorsForm={errorsForm}
         setErrorsForm={setErrorsForm}
         onClickRowChildren={onClickRowChildren}
+        _sel={false}
       />
       <br />
       <MemberDiagram user={user} members={data?.data} />
