@@ -17,7 +17,7 @@ const referido = (members) => {
                     <div className="text-sm">
                       Dni: {member.icn}
                       <br />
-                      Nivel: {member.level.title}
+                      Nivel: {member.level.name}
                     </div>
                   </Avatar>
                 </h2>
@@ -44,7 +44,7 @@ const MemberDiagram = ({ user, members }) => {
                   <div className="text-xs">
                     Dni: {user.sponsor.icn}
                     <br />
-                    Nivel: {user.sponsor.level.title}
+                    Nivel: {user.sponsor.level.name}
                   </div>
                 </Avatar>
               ) : (
@@ -61,7 +61,7 @@ const MemberDiagram = ({ user, members }) => {
                     <div className="text-sm ">
                       Dni:{user.icn}
                       <br />
-                      Nivel:{user.level.title}
+                      Nivel:{user.level.name}
                     </div>
                   </Avatar>
                 </h1>

@@ -12,7 +12,10 @@ const DataCrud = ({
   modulo,
   columns,
   title = "",
+  msgTop = "",
   msg = "",
+  msgMid = "",
+  msgBot = "",
   formState,
   setFormState,
   errorsForm,
@@ -21,6 +24,7 @@ const DataCrud = ({
   onClickRowChildren = null,
   _sel = true,
   _actions = true,
+  textBtnAdd = "",
 }: any) => {
   const [openModal, setOpenModal] = useState(false);
   const [openDel, setOpenDel] = useState(false);
@@ -229,7 +233,8 @@ const DataCrud = ({
     <>
       <Card className="relative overflow-hidden">
         <h1>{t("List", title)}</h1>
-        <Card>
+        {msgTop}
+        <div className="flex rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800 flex-col p-2">
           <div className="flex justify-between items-center">
             <div className="w-[30px] flex-shrink">{!loaded && <Spinner />}</div>
             <div className="flex-grow">{msg}</div>
@@ -238,12 +243,12 @@ const DataCrud = ({
                 className="btn btn-primary flex-shrink w-fit"
                 onClick={onAdd}
               >
-                {t("Add ")}
-                {title}
+                {textBtnAdd || t("Add ") + title}
               </button>
             )}
           </div>
-        </Card>
+        </div>
+        {msgMid}
         {data && (
           <div id={"DataTable_" + modulo}>
             <DataTable
@@ -259,6 +264,7 @@ const DataCrud = ({
             />
           </div>
         )}
+        {msgBot}
       </Card>
       <DataModal
         open={openModal}
