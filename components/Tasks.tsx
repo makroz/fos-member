@@ -57,12 +57,12 @@ const Tasks = () => {
 
   const status = {
     A: { label: "Pendiente", className: "text-yellow-500" },
-    O: { label: "Open", className: "text-green-500" },
+    O: { label: "Abierta", className: "text-green-500" },
     S: { label: "En Proceso", className: "text-green-500" },
-    E: { label: "Finalizado", className: "text-blue-500" },
-    V: { label: "Vencido", className: "text-red-500" },
-    C: { label: "Cerrado", className: "text-blue-700" },
-    X: { label: "Deshabitado", className: "text-gray-500" },
+    E: { label: "Finalizada", className: "text-blue-500" },
+    V: { label: "Vencida", className: "text-red-500" },
+    C: { label: "Cerrada", className: "text-blue-700" },
+    X: { label: "Deshabitada", className: "text-gray-500" },
   };
 
   const beginTask = (task) => {
@@ -81,43 +81,51 @@ const Tasks = () => {
         {remains?.length > 0 &&
           remains.map((task) => (
             <li key={task.id}>
-              <div className="border border-gray-300 rounded-lg my-4 py-1 px-0 shadow-md group flex flex-col ">
+              <div className="border border-gray-300 rounded-lg my-4 py-1 px-0 shadow-md group flex flex-col text-xs">
                 {task.status == "A" ||
                 task.status == "O" ||
                 task.status == "V" ? (
-                  <div className=" m-0 pb-2 text-xs self-center">
+                  <div className=" m-0 pb-2 self-center">
                     <CountDown timer={task.remains} />
                   </div>
                 ) : (
-                  <div className=" m-0 pb-2 text-xs self-center flex flex-col">
+                  <div className=" m-0 pb-2 self-center flex flex-col">
                     <div className="flex justify-between gap-2">
                       <div>Iniciada</div> {task.start_date?.split(" ")[1]}
                     </div>
-                    {task.end_date && (
+                    {task.status == "C" && (
                       <div className="flex justify-between gap-2">
-                        <div>Finalizada:</div> {task.end_date?.split(" ")[1]}
+                        <div>Sala Cerrada:</div>{" "}
+                        {task.live.close_date?.split(" ")[1]}
+                      </div>
+                    )}
+                    {task.status == "E" && (
+                      <div className="flex justify-between gap-2">
+                        <div>Finalizada:</div> {task.ended_date?.split(" ")[1]}
                       </div>
                     )}
                   </div>
                 )}
                 <div className="flex flex-col gap-1 w-full">
-                  <div className="bg-slate-900 p-2">
-                    <div className={status[task.status].className}>
-                      {status[task.status].label}:{" "}
-                      <span className="text-gray-500 text-xs">
-                        {task.to_date}
+                  <div className="bg-slate-900 p-2 pt-0">
+                    <div className="text-gray-500 text-[8px] flex justify-between gap-2">
+                      {task.to_date}
+                      <span className="text-gray-500">
+                        Tipo:{" "}
+                        <span className="text-white">
+                          {task.type == "L" ? "Live" : "Video"}
+                        </span>
                       </span>
                     </div>
-                    <h2 className="self-center text-white">{task.name}</h2>
+                    <div className={status[task.status].className + " text-xs"}>
+                      <span className="">{status[task.status].label}: </span>
+                      <span className="self-center text-white">
+                        {task.name}
+                      </span>
+                    </div>
                   </div>
-                  <div className="px-2 text-xs">
-                    <div className="text-gray-500 ">
-                      {task.challenge?.description}
-                      <hr />
-                    </div>
-                    <div className="text-gray-500 text-xs">
-                      Tipo: {task.type == "L" ? "Live" : "Video"}
-                    </div>
+                  <div className="px-2  text-gray-500">
+                    {task.challenge?.description}
                   </div>
                   {task.type == "L" && task.status == "O" && (
                     <div
