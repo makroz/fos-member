@@ -66,11 +66,11 @@ const Tasks = () => {
   };
 
   const beginTask = (task) => {
-    execute("/tasks-begin/" + task, "POST");
+    execute("/tasks-begin/" + task.id, "POST", { live_id: task.live_id });
     reLoad();
   };
   const endTask = (task) => {
-    execute("/tasks-end/" + task, "POST");
+    execute("/tasks-end/" + task.id, "POST", { live_id: task.live_id });
     reLoad();
   };
   return (
@@ -131,7 +131,7 @@ const Tasks = () => {
                     <div
                       className="btn bg-green-500 hover:bg-green-900 text-white font-bold rounded mx-4 px-4 text-center"
                       onClick={() => {
-                        beginTask(task.id);
+                        beginTask(task);
                       }}
                     >
                       <a target="_blank" href={task.live?.meet_link || null}>
@@ -143,7 +143,7 @@ const Tasks = () => {
                     <div
                       className="btn bg-blue-700 hover:bg-blue-900 text-white font-bold rounded mx-4 px-4 text-center"
                       onClick={() => {
-                        endTask(task.id);
+                        endTask(task);
                       }}
                     >
                       Finalizar Tarea

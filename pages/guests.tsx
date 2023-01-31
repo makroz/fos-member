@@ -57,6 +57,10 @@ const guestPage = () => {
     const border = "border-l-" + members[refer[row.icn]]?.bg;
     return border + " border-l border-l-4 ";
   };
+  fields["_actions"].render = (value) => {
+    if (value == "add") return true;
+    return false;
+  };
 
   fields["name"].render = (value, row, key, index) => {
     return (
@@ -147,7 +151,6 @@ const guestPage = () => {
         onChangePage={null}
         onChangePerPage={null}
         onChangeSort={null}
-        _sel={false}
       />
     );
   };
@@ -178,8 +181,7 @@ const guestPage = () => {
         errorsForm={errorsForm}
         setErrorsForm={setErrorsForm}
         onClickRowChildren={onClickRowChildren}
-        _sel={false}
-        _actions={null}
+        _actions={false}
       />
       <br />
       <MemberDiagram user={user} members={data?.data} />
