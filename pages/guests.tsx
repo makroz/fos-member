@@ -140,13 +140,12 @@ const guestPage = () => {
 
   const onClickRowChildren = (row) => {
     if (!row.referidos || row.referidos.length == 0) return "";
-
     return (
       <DataTable
         datas={row.referidos}
         columns={fields}
         onClickRowChildren={onClickRowChildren}
-        params={{ ...params, total: data.total }}
+        params={{ ...params }}
         onAction={null}
         onChangePage={null}
         onChangePerPage={null}

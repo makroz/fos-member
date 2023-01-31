@@ -22,7 +22,6 @@ const DataCrud = ({
   setErrorsForm,
   param = {},
   onClickRowChildren = null,
-
   _actions = true,
   textBtnAdd = "",
 }: any) => {
