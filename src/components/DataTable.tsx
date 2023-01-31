@@ -13,7 +13,7 @@ const DataTable = ({
   onAction,
   onClickRowChildren,
   onChangeSort,
-  _sel = true,
+  //_sel = true,
 }): any => {
   const [sel, setSel]: any = useState([]);
   const [rowChildren, setRowChildren]: any = useState({});
@@ -61,10 +61,10 @@ const DataTable = ({
               (item) => item[columns[key].optionValue] == row[key]
             )?.[columns[key].optionLabel];
           }
-          return (
-            columns[key].options[row[key]][columns[key].optionLabel] ||
-            columns[key].options[row[key]]?.label
-          );
+          return columns[key].options[row[key]]
+            ? columns[key].options[row[key]][columns[key].optionLabel] ||
+                columns[key].options[row[key]]?.label
+            : "....";
         }
         return "...";
         break;
@@ -133,7 +133,7 @@ const DataTable = ({
     <>
       <Table hoverable={true} striped={true}>
         <Table.Head>
-          {_sel && (
+          {columns._sel && (
             <Table.HeadCell className="!p-4 w-12">
               <Checkbox onChange={onSelAll} />
             </Table.HeadCell>
@@ -196,7 +196,7 @@ const DataTable = ({
                       : columns._row?.className || ""
                   }
                 >
-                  {_sel && (
+                  {columns._sel && (
                     <Table.Cell className="!p-4">
                       <Checkbox
                         value={row.id}
