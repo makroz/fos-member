@@ -2,7 +2,7 @@ import { Avatar, Card } from "flowbite-react";
 import { capitalizeWords } from "../src/utils/string";
 import styles from "../styles/MemberDiagram.module.css";
 
-const referido = (members) => {
+const referido = (members, levels: any = []) => {
   if (!members || members.length == 0) return null;
   return (
     <>
@@ -17,12 +17,15 @@ const referido = (members) => {
                     <div className="text-sm">
                       Dni: {member.icn}
                       <br />
-                      Nivel: {member.level.name}
+                      Nivel:{" "}
+                      {levels?.find &&
+                        levels?.find((level) => level.id == member.level_id)
+                          ?.name}
                     </div>
                   </Avatar>
                 </h2>
               </div>
-              {referido(member.referidos)}
+              {referido(member.referidos, levels)}
             </li>
           );
         })}
@@ -31,7 +34,7 @@ const referido = (members) => {
   );
 };
 
-const MemberDiagram = ({ user, members }) => {
+const MemberDiagram = ({ user, members, levels = [] }: any) => {
   return (
     <Card className="overflow-hidden">
       <ol className={styles.memberChart}>
@@ -44,7 +47,10 @@ const MemberDiagram = ({ user, members }) => {
                   <div className="text-xs">
                     Dni: {user.sponsor.icn}
                     <br />
-                    Nivel: {user.sponsor.level.name}
+                    Nivel:{" "}
+                    {levels?.find &&
+                      levels?.find((level) => level.id == user.sponsor.level_id)
+                        ?.name}
                   </div>
                 </Avatar>
               ) : (
@@ -61,14 +67,18 @@ const MemberDiagram = ({ user, members }) => {
                     <div className="text-sm ">
                       Dni:{user.icn}
                       <br />
-                      Nivel:{user.level.name}
+                      Nivel:
+                      {levels?.find &&
+                        levels?.find((level) => level.id == user.level_id)
+                          ?.name}
+                      {/* {user.level.name} */}
                     </div>
                   </Avatar>
                 </h1>
               </div>
             </li>
           </ol>
-          {referido(members)}
+          {referido(members, levels)}
         </li>
       </ol>
     </Card>

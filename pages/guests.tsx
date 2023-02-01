@@ -11,8 +11,10 @@ import { capitalizeWords, initialsName } from "../src/utils/string";
 const guestPage = () => {
   const { user }: any = useAuth();
   const params = {
-    searchBy: "sponsor_id,=," + user.id,
+    //    searchBy: "sponsor_id,=," + user.id,
     relations: "referidos",
+    sortBy: "name",
+    orderBy: "asc",
   };
   const [refer, setRefer] = useState({});
   const [members, setMembers] = useState([
@@ -34,10 +36,11 @@ const guestPage = () => {
     sortBy: "name",
     orderBy: "asc",
   });
-  const { data, execute } = useAxios("/members", "GET", params);
+  const { data, reLoad } = useAxios("/members", "GET", params);
 
   const [formState, setFormState] = useState({});
   const [errorsForm, setErrorsForm] = useState({});
+  const [datas, setDatas]: any = useState(null);
 
   const fields = getFields([
     "id",
@@ -113,8 +116,6 @@ const guestPage = () => {
     return (
       <div className="flex flex-wrap gap-1 justify-start">
         {members.map((member: any, index: number) => {
-          // console.log("member", member);
-
           if (member.count > 0)
             return (
               <div key={index + "level"} className="flex flex-col">
@@ -147,18 +148,49 @@ const guestPage = () => {
         onClickRowChildren={onClickRowChildren}
         params={{ ...params }}
         onAction={null}
-        onChangePage={null}
-        onChangePerPage={null}
-        onChangeSort={null}
+        setParams={null}
       />
     );
   };
 
   useEffect(() => {
     if (data?.data) {
+      setDatas(data);
       referCount(data.data, 0);
     }
   }, [data?.data]);
+
+  const search = (s, members, result: any = []) => {
+    members.map((row: any, index: number) => {
+      if (row.icn.includes(s) || row.name.includes(s)) {
+        result.push(row);
+      }
+      if (row.referidos.length > 0) {
+        result = search(s, row.referidos, result);
+      }
+    });
+    return result;
+  };
+
+  const setSearch = (searchBy) => {
+    let s = searchBy.trim();
+    if (s == "") {
+      setDatas(data);
+      console.log("vacio");
+      return false;
+    }
+    const result: any = search(s, data.data);
+    console.log(result);
+
+    setDatas({ data: result, total: result.length });
+
+    // if (s != "")
+    //   s = "name,like," + searchBy + "%|icn,like,%" + searchBy + "%,o|";
+    // return {
+    //   searchBy: s,
+    // };
+    return false;
+  };
 
   return (
     <>
@@ -168,9 +200,9 @@ const guestPage = () => {
         title="Invitado"
         modulo="members"
         textBtnAdd="Invitar"
-        msg={<LevelCount members={members} />}
+        msgMid={<LevelCount members={members} />}
         param={{
-          searchBy: "sponsor_id,=," + user.id,
+          // searchBy: "sponsor_id,=," + user.id,
           relations: "referidos",
           sortBy: "name",
         }}
@@ -181,9 +213,12 @@ const guestPage = () => {
         setErrorsForm={setErrorsForm}
         onClickRowChildren={onClickRowChildren}
         _actions={false}
+        datas={datas}
+        reload={reLoad}
+        setSearch={setSearch}
       />
       <br />
-      <MemberDiagram user={user} members={data?.data} />
+      <MemberDiagram user={user} members={data?.data} levels={levels?.data} />
     </>
   );
 };
