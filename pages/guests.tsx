@@ -126,7 +126,7 @@ const guestPage = () => {
                     member.bg +
                     " " +
                     member.txt +
-                    " rounded-full text-sm p-0 px-2 "
+                    " rounded-full text-sm p-0 px-2 self-center "
                   }
                 >
                   {member.count}
@@ -161,7 +161,10 @@ const guestPage = () => {
 
   const search = (s, members, result: any = []) => {
     members.map((row: any, index: number) => {
-      if (row.icn.toLower().includes(s) || row.name.toLower().includes(s)) {
+      if (
+        row.icn.toLowerCase().includes(s) ||
+        row.name.toLowerCase().includes(s)
+      ) {
         result.push(row);
       }
       if (row.referidos.length > 0) {
@@ -171,12 +174,13 @@ const guestPage = () => {
     return result;
   };
 
-  const setSearch = (searchBy) => {
-    if (searchBy == "") {
+  const setSearch = (searchBy: string) => {
+    const s = searchBy.trim().toLowerCase();
+    if (s == "") {
       setDatas(data);
       return false;
     }
-    const result: any = search(searchBy.toLower(), data.data);
+    const result: any = search(s, data.data);
     setDatas({ data: result, total: result.length });
     return false;
   };
