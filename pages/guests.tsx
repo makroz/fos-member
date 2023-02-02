@@ -76,7 +76,7 @@ const guestPage = () => {
           <div>{capitalizeWords(row.name)}</div>
           <div className="text-sm text-gray-500 dark:text-gray-400 flex justify-between gap-2">
             {row.icn}
-            {row.referidos.length > 0 && (
+            {row.referidos?.length > 0 && (
               <div
                 className={
                   "bg-" +

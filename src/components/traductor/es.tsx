@@ -42,5 +42,6 @@ const idioma: any = {
   "please sign-in to your account and start the adventure":
     "por favor ingrese a su cuenta y comience la aventura",
   "sign in": "ingresar",
+  "advanced search": "búsqueda avanzada",
 };
 export default idioma;

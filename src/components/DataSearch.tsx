@@ -50,7 +50,6 @@ const DataSearch = ({ setSearch }) => {
           required
         />
         <button
-          type="submit"
           className={
             (active ? "text-white bg-primary" : "bg-white border-white") +
             " absolute top-0  right-0 p-2 text-sm font-medium  rounded-lg border hover:bg-secondary hover:text-primary   focus:ring-4 focus:outline-none focus:ring-blue-300 transition-all ease-in-out"
