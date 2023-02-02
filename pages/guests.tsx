@@ -1,6 +1,6 @@
 import { Avatar } from "flowbite-react";
 import { useEffect, useState } from "react";
-import MemberDiagram from "../components/MemberDiagram";
+// import MemberDiagram from "../components/MemberDiagram";
 import DataCrud from "../src/components/DataCrud";
 import DataTable from "../src/components/DataTable";
 import useAuth from "../src/hooks/useAuth";
@@ -11,7 +11,6 @@ import { capitalizeWords, initialsName } from "../src/utils/string";
 const guestPage = () => {
   const { user }: any = useAuth();
   const params = {
-    //    searchBy: "sponsor_id,=," + user.id,
     relations: "referidos",
     sortBy: "name",
     orderBy: "asc",
@@ -162,7 +161,7 @@ const guestPage = () => {
 
   const search = (s, members, result: any = []) => {
     members.map((row: any, index: number) => {
-      if (row.icn.includes(s) || row.name.includes(s)) {
+      if (row.icn.toLower().includes(s) || row.name.toLower().includes(s)) {
         result.push(row);
       }
       if (row.referidos.length > 0) {
@@ -173,22 +172,12 @@ const guestPage = () => {
   };
 
   const setSearch = (searchBy) => {
-    let s = searchBy.trim();
-    if (s == "") {
+    if (searchBy == "") {
       setDatas(data);
-      console.log("vacio");
       return false;
     }
-    const result: any = search(s, data.data);
-    console.log(result);
-
+    const result: any = search(searchBy.toLower(), data.data);
     setDatas({ data: result, total: result.length });
-
-    // if (s != "")
-    //   s = "name,like," + searchBy + "%|icn,like,%" + searchBy + "%,o|";
-    // return {
-    //   searchBy: s,
-    // };
     return false;
   };
 
@@ -201,11 +190,6 @@ const guestPage = () => {
         modulo="members"
         textBtnAdd="Invitar"
         msgMid={<LevelCount members={members} />}
-        param={{
-          // searchBy: "sponsor_id,=," + user.id,
-          relations: "referidos",
-          sortBy: "name",
-        }}
         columns={fields}
         formState={formState}
         setFormState={setFormState}
@@ -217,8 +201,8 @@ const guestPage = () => {
         reload={reLoad}
         setSearch={setSearch}
       />
-      <br />
-      <MemberDiagram user={user} members={data?.data} levels={levels?.data} />
+      {/* <br />
+      <MemberDiagram user={user} members={data?.data} levels={levels?.data} /> */}
     </>
   );
 };

@@ -285,7 +285,7 @@ const DataTable = ({
             name="perPage"
             value={params.perPage}
             onChange={onChangePerPage}
-            className="w-24"
+            classInput="mt-2 p-1.5 border-gray-300"
             placeholder={t("All")}
             options={[
               { value: "10", label: "10" },

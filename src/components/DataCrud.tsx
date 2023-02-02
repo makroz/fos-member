@@ -33,6 +33,7 @@ const DataCrud = ({
   const [openDel, setOpenDel] = useState(false);
   const [titleModal, setTitleModal] = useState("");
   const [action, setAction] = useState("view");
+  // const [oldSearch, setOldSearch] = useState("");
 
   title = capitalize(title || modulo);
   const [params, setParams] = useState({
@@ -44,7 +45,7 @@ const DataCrud = ({
     relations: "",
     ...param,
   });
-  const [oldSearch, setOldSearch] = useState(JSON.stringify(params.searchBy));
+
   let url = "/" + modulo;
   if (reload) {
     url = "";
@@ -155,9 +156,9 @@ const DataCrud = ({
   };
 
   const _setSearch = (searchBy) => {
-    if (JSON.stringify(searchBy) == oldSearch) return;
+    //if (JSON.stringify(searchBy) == oldSearch) return;
     const param = setSearch(searchBy);
-    setOldSearch(JSON.stringify(searchBy));
+    //setOldSearch(JSON.stringify(searchBy));
     if (param === false) return;
 
     setParams({
