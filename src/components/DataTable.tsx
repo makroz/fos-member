@@ -59,25 +59,37 @@ const DataTable = ({
     switch (columns[key].inputType) {
       case "select":
         if (columns[key].options) {
+          let s = "....";
+          if (columns[key].options.find) {
+            s = columns[key].options.find(
+              (item) => item[columns[key].optionValue] == row[key]
+            )?.[columns[key].optionLabel];
+          } else {
+            s = columns[key].options[row[key]]
+              ? columns[key].options[row[key]][columns[key].optionLabel] ||
+                columns[key].options[row[key]]?.name
+              : "....";
+          }
           if (columns[key].badge) {
             return (
               <Badge
                 color={columns[key].options[row[key]]?.color}
                 className="rounded-full  justify-center"
               >
-                {columns[key].options[row[key]]?.label}
+                {s}
               </Badge>
             );
           }
-          if (columns[key].options.find) {
-            return columns[key].options.find(
-              (item) => item[columns[key].optionValue] == row[key]
-            )?.[columns[key].optionLabel];
-          }
-          return columns[key].options[row[key]]
-            ? columns[key].options[row[key]][columns[key].optionLabel] ||
-                columns[key].options[row[key]]?.label
-            : "....";
+          return s;
+          // if (columns[key].options.find) {
+          //   return columns[key].options.find(
+          //     (item) => item[columns[key].optionValue] == row[key]
+          //   )?.[columns[key].optionLabel];
+          // }
+          // return columns[key].options[row[key]]
+          //   ? columns[key].options[row[key]][columns[key].optionLabel] ||
+          //       columns[key].options[row[key]]?.label
+          //   : "....";
         } else {
           const k = key.indexOf("_id") > -1 ? key.replace("_id", "") : "";
           if (k != "" && row[k] && row[k][columns[key].optionLabel || "name"])

@@ -11,6 +11,7 @@ const DataHeader = ({
   loaded,
   setSearch = null,
   setAdvSearch = null,
+  search = [],
 }: any) => {
   return (
     <div className="flex rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800 flex-col p-2">

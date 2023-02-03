@@ -28,12 +28,13 @@ const DataCrud = ({
   datas = null,
   reload = null,
   setSearch = null,
+  setAdvSearch = null,
 }: any) => {
   const [openModal, setOpenModal] = useState(false);
   const [openDel, setOpenDel] = useState(false);
   const [titleModal, setTitleModal] = useState("");
   const [action, setAction] = useState("view");
-  // const [oldSearch, setOldSearch] = useState("");
+  const [actSearch, setActSearch] = useState([]);
 
   title = capitalize(title || modulo);
   const [params, setParams] = useState({
@@ -167,6 +168,19 @@ const DataCrud = ({
     });
   };
 
+  const _setAdvSearch = (search, setSearch) => {
+    //if (JSON.stringify(searchBy) == oldSearch) return;
+    setActSearch(search);
+    const param = setAdvSearch(search, setSearch);
+    //setOldSearch(JSON.stringify(searchBy));
+    if (param === false) return;
+
+    setParams({
+      ...params,
+      ...param,
+    });
+  };
+
   return (
     <>
       <Card className="relative overflow-hidden">
@@ -180,6 +194,8 @@ const DataCrud = ({
           title={title}
           loaded={loaded}
           setSearch={setSearch ? _setSearch : null}
+          setAdvSearch={setAdvSearch ? _setAdvSearch : null}
+          search={actSearch}
         />
         {msgMid}
         {data?.data && (

@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Plus, PlusCircle, Trash, Trash2 } from "react-feather";
+import { useState } from "react";
+import { Plus, Trash2 } from "react-feather";
 import t from "../utils/traductor";
 import DataModal from "./DataModal";
 
@@ -7,7 +7,7 @@ const initialValues = {
   field: "",
   criteria: "",
   search: "",
-  join: "",
+  join: "a",
   gb: "",
   ge: "",
 };
@@ -20,6 +20,48 @@ const DataAdvSearch = ({ campos, setAdvSearch }) => {
     const { name, value } = e.target;
     let sSearch = [...search];
     sSearch[i] = { ...search[i], [name]: value };
+    if (name == "field") {
+      sSearch[i].criteria = "=";
+      sSearch[i].search = "";
+    }
+
+    if (name == "ge" || name == "gb") {
+      if (name == "ge" && value == "1") sSearch[i].gb = "";
+      if (name == "gb" && value == "1") sSearch[i].ge = "";
+      let a = 0;
+      let c = 0;
+      let a1 = 0;
+      let c1 = 0;
+      sSearch.map((item, index) => {
+        if (item.gb != "") a++;
+        if (item.ge != "") c++;
+        if (c == a) {
+          c = 0;
+          a = 0;
+          if (sSearch[index].ge != "") sSearch[index].ge = "1";
+        }
+        if (c > a) {
+          c = 0;
+          a = 0;
+          if (sSearch[index].ge != "") sSearch[index].ge = "2";
+        }
+
+        if (sSearch[sSearch.length - (index + 1)].gb != "") a1++;
+        if (sSearch[sSearch.length - (index + 1)].ge != "") c1++;
+        if (c1 == a1) {
+          c1 = 0;
+          a1 = 0;
+          if (sSearch[sSearch.length - (index + 1)].gb != "")
+            sSearch[sSearch.length - (index + 1)].gb = "1";
+        }
+        if (a1 > c1) {
+          c1 = 0;
+          a1 = 0;
+          if (sSearch[sSearch.length - (index + 1)].gb != "")
+            sSearch[sSearch.length - (index + 1)].gb = "2";
+        }
+      });
+    }
     setSearch(sSearch);
   };
 
@@ -43,50 +85,118 @@ const DataAdvSearch = ({ campos, setAdvSearch }) => {
     setOpenSearch(false);
   };
 
-  const onSave = () => {
+  const onClear = () => {
+    setSearch([initialValues]);
+    if (setAdvSearch) setAdvSearch("", setSearch);
     setOpenSearch(false);
   };
 
-  useEffect(() => {
+  const onSave = () => {
+    const sSearch: any = [];
+    search.map((item, index) => {
+      if (
+        item.field.trim() != "" &&
+        item.criteria.trim() != "" &&
+        (item.search + "").trim() != ""
+      ) {
+        sSearch.push(item);
+      }
+    });
+    if (sSearch.length > 0) {
+      setSearch(sSearch);
+      if (setAdvSearch) setAdvSearch(search, setSearch);
+      setOpenSearch(false);
+      return;
+    }
+    //setSearch([initialValues]);
     console.log("search", search);
-  }, [search]);
+    return;
+  };
 
-  //campos={'-1':{search:true,label:t('Field')}}
+  // useEffect(() => {
+  //   //console.log("search", search);
+  // }, [search]);
+
   const camposList: any = [];
   Object.keys(campos).map((key) => {
     if (campos[key].search) camposList.push(key);
   });
 
+  const lCriteriosDef = [{ value: "-1", label: t("Empty Data") }];
+
   const lCriterios = [
-    { value: "eq", label: t("Equal") },
-    { value: "neq", label: t("Not Equal") },
-    { value: "gt", label: t("Greater Than") },
-    { value: "gte", label: t("Greater Than or Equal") },
-    { value: "lt", label: t("Less Than") },
-    { value: "lte", label: t("Less Than or Equal") },
+    { value: "=", label: t("Equal") },
+    { value: "!=", label: t("Not Equal") },
+    { value: ">", label: t("Greater Than") },
+    { value: ">=", label: t("Greater or Equal") },
+    { value: "<", label: t("Less Than") },
+    { value: "<=", label: t("Less or Equal") },
   ];
   const lCriteriosSelect = [
-    { value: "eq", label: t("Equal") },
-    { value: "neq", label: t("Not Equal") },
+    { value: "=", label: t("Equal") },
+    { value: "!=", label: t("Not Equal") },
   ];
   const lCriteriosAlfa = [
-    { value: "eq", label: t("Equal") },
-    { value: "neq", label: t("Not Equal") },
-    { value: "gt", label: t("Greater Than") },
-    { value: "gte", label: t("Greater Than or Equal") },
-    { value: "lt", label: t("Less Than") },
-    { value: "lte", label: t("Less Than or Equal") },
-    { value: "startswith", label: t("Starts With") },
-    { value: "endswith", label: t("Ends With") },
-    { value: "contains", label: t("Contains") },
-    { value: "doesnotcontain", label: t("Does Not Contain") },
+    { value: "=", label: t("Equal") },
+    { value: "!=", label: t("Not Equal") },
+    { value: ">", label: t("Greater Than") },
+    { value: ">=", label: t("Greater or Equal") },
+    { value: "<", label: t("Less Than") },
+    { value: "<=", label: t("Less or Equal") },
+    { value: "le", label: t("Starts With") },
+    { value: "lf", label: t("Ends With") },
+    { value: "l", label: t("Contains") },
+    { value: "!l", label: t("Not Contain") },
   ];
 
+  const criterios = (i, field) => {
+    if (field == "") return lCriteriosDef;
+    if (["select", "subselect"].includes(campos[field].inputType))
+      return lCriteriosSelect;
+    if (["number", "date", "datetime"].includes(campos[field].inputType))
+      return lCriterios;
+    return lCriteriosAlfa;
+  };
+
+  const searchInput = (i, s) => {
+    if (s.field != "") {
+      if (["select", "subselect"].includes(campos[s.field].inputType)) {
+        return (
+          <select
+            name="search"
+            value={s.search}
+            onChange={(e) => onChange(e, i)}
+            className="w-full my-1 p-1 text-xs rounded-lg  border border-gray-300  focus:border-blue-500"
+          >
+            <option value="">--</option>
+            {campos[s.field].options.map((o, ind) => (
+              <option
+                key={ind + "-s"}
+                value={o[campos[s.field].optionValue || "id"]}
+              >
+                {o[campos[s.field].optionLabel || "name"]}
+              </option>
+            ))}
+          </select>
+        );
+      }
+    }
+    return (
+      <input
+        name="search"
+        value={s.search}
+        onChange={(e) => onChange(e, i)}
+        type={campos[s.field]?.inputType || "text"}
+        className="w-full my-1 p-1 text-xs rounded-lg  border border-gray-300  focus:border-blue-500"
+      />
+    );
+  };
   return (
-    <div>
+    <div className="flex">
       <button
         className={
-          "bg-white border-white p-1 text-sm font-medium  rounded-lg border hover:bg-primary hover:text-secondary   focus:ring-4 focus:outline-none focus:ring-blue-300 transition-all ease-in-out"
+          (search.length > 1 || search[0].field != "" ? "text-red-500" : "") +
+          " bg-white border-white p-1 text-sm font-medium  rounded-lg border hover:bg-primary hover:text-secondary   focus:ring-4 focus:outline-none focus:ring-blue-300 transition-all ease-in-out"
         }
         onClick={() => open()}
       >
@@ -102,6 +212,17 @@ const DataAdvSearch = ({ campos, setAdvSearch }) => {
           ></path>
         </svg>
       </button>
+      {(search.length > 1 || search[0].field != "") && (
+        <svg
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          className="w-3 h-3 -m-1.5 self-center text-red-500 cursor-pointer"
+          onClick={() => onClear()}
+        >
+          <path d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      )}
       <DataModal
         open={openSearch}
         title={t("Advanced Search")}
@@ -110,12 +231,29 @@ const DataAdvSearch = ({ campos, setAdvSearch }) => {
         buttonText={t("Search")}
       >
         <div className="flex flex-col w-full">
-          {search.map((s, i) => (
+          {search?.map((s, i) => (
             <div
               key={"fileds-" + i}
-              className="flex flex-wrap gap-0 border-b mt-2"
+              className="flex flex-wrap gap-0 border-b mt-2 relative"
             >
-              <div className="w-1/2 px-0.5">
+              <button
+                className={
+                  (s.gb != ""
+                    ? s.gb == "1"
+                      ? "text-black"
+                      : "text-red-700"
+                    : "text-gray-200") + " absolute top-0.5 -left-1.5 "
+                }
+                onClick={() =>
+                  onChange(
+                    { target: { name: "gb", value: s.gb == "" ? "1" : "" } },
+                    i
+                  )
+                }
+              >
+                {"("}
+              </button>
+              <div className="w-1/2 px-0.5 sm:w-1/4">
                 <select
                   name="field"
                   value={s.field}
@@ -132,7 +270,7 @@ const DataAdvSearch = ({ campos, setAdvSearch }) => {
                   ))}
                 </select>
               </div>
-              <div className="w-1/2 px-0.5">
+              <div className="w-1/2 px-0.5 sm:w-1/4">
                 <select
                   name="criteria"
                   value={s.criteria}
@@ -142,23 +280,34 @@ const DataAdvSearch = ({ campos, setAdvSearch }) => {
                   <option value="" disabled hidden>
                     {t("Criteria")}
                   </option>
-                  {lCriterios.map((crit, index) => (
+                  {criterios(i, s.field).map((crit, index) => (
                     <option key={index} value={crit.value}>
                       {crit.label}
                     </option>
                   ))}
                 </select>
               </div>
-              <div className="flex-grow px-0.5">
-                <input
-                  name="search"
-                  value={s.search}
-                  onChange={(e) => onChange(e, i)}
-                  type="text"
-                  className="w-full my-1 p-1 text-xs rounded-lg  border border-gray-300  focus:border-blue-500"
-                />
+              <div className="flex-grow px-0.5 relative">
+                {searchInput(i, s)}
+                <button
+                  className={
+                    (s.ge != ""
+                      ? s.ge == "1"
+                        ? "text-black"
+                        : "text-red-700"
+                      : "text-gray-200") + " absolute top-0.5 -right-1.5 "
+                  }
+                  onClick={() =>
+                    onChange(
+                      { target: { name: "ge", value: s.ge == "" ? "1" : "" } },
+                      i
+                    )
+                  }
+                >
+                  {")"}
+                </button>
               </div>
-              <div className="flex self-center gap-1 w-[90px] px-0.5 justify-between">
+              <div className="flex self-center gap-1 w-[90px] px-0.5 justify-between ml-1">
                 <div className="">
                   {search.length - 1 !== i && (
                     <select
