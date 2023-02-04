@@ -12,11 +12,6 @@ import { checkRules } from "./validate/Rules";
 const DataCrud = ({
   modulo,
   columns,
-  title = "",
-  msgTop = "",
-  msg = "",
-  msgMid = "",
-  msgBot = "",
   formState,
   setFormState,
   errorsForm,
@@ -29,6 +24,8 @@ const DataCrud = ({
   reload = null,
   setSearch = null,
   setAdvSearch = null,
+  title = "",
+  msgs = "",
 }: any) => {
   const [openModal, setOpenModal] = useState(false);
   const [openDel, setOpenDel] = useState(false);
@@ -36,7 +33,7 @@ const DataCrud = ({
   const [action, setAction] = useState("view");
   const [actSearch, setActSearch] = useState([]);
 
-  title = capitalize(title || modulo);
+  title = capitalize(t(title || modulo));
   const [params, setParams] = useState({
     page: 1,
     perPage: 10,
@@ -68,6 +65,10 @@ const DataCrud = ({
     reLoad({ ...params, origen: "reLoad" }, true);
   }, [params]);
 
+  const msg = (type: string) => {
+    if (msgs[type] == "head") return msgs[type] || msgs;
+    return msgs[type] || "";
+  };
   const onCloseModal = () => {
     setOpenModal(false);
     setOpenDel(false);
@@ -157,47 +158,35 @@ const DataCrud = ({
   };
 
   const _setSearch = (searchBy) => {
-    //if (JSON.stringify(searchBy) == oldSearch) return;
     const param = setSearch(searchBy);
-    //setOldSearch(JSON.stringify(searchBy));
     if (param === false) return;
-
-    setParams({
-      ...params,
-      ...param,
-    });
+    setParams({ ...params, ...param });
   };
 
   const _setAdvSearch = (search, setSearch) => {
-    //if (JSON.stringify(searchBy) == oldSearch) return;
     setActSearch(search);
     const param = setAdvSearch(search, setSearch);
-    //setOldSearch(JSON.stringify(searchBy));
     if (param === false) return;
-
-    setParams({
-      ...params,
-      ...param,
-    });
+    setParams({ ...params, ...param });
   };
 
   return (
     <>
       <Card className="relative overflow-hidden">
         <h1>{t("List", title)}</h1>
-        {msgTop}
+        {msg("top")}
         <DataHeader
           columns={columns}
-          msg={msg}
+          msg={msg("head")}
           onAdd={onAdd}
           textBtnAdd={textBtnAdd}
           title={title}
           loaded={loaded}
           setSearch={setSearch ? _setSearch : null}
           setAdvSearch={setAdvSearch ? _setAdvSearch : null}
-          search={actSearch}
+          search={params.searchBy}
         />
-        {msgMid}
+        {msg("middle")}
         {data?.data && (
           <div id={"DataTable_" + modulo}>
             <DataTable
@@ -210,7 +199,7 @@ const DataCrud = ({
             />
           </div>
         )}
-        {msgBot}
+        {msg("bottom")}
       </Card>
       <DataForm
         formState={formState}

@@ -1,5 +1,6 @@
 import { Avatar } from "flowbite-react";
 import { useEffect, useState } from "react";
+import MemberDiagram from "../components/MemberDiagram";
 // import MemberDiagram from "../components/MemberDiagram";
 import DataCrud from "../src/components/DataCrud";
 import DataTable from "../src/components/DataTable";
@@ -193,7 +194,7 @@ const guestPage = () => {
         title="Invitado"
         modulo="members"
         textBtnAdd="Invitar"
-        msgMid={<LevelCount members={members} />}
+        msgs={{ middle: <LevelCount members={members} /> }}
         columns={fields}
         formState={formState}
         setFormState={setFormState}
@@ -205,8 +206,8 @@ const guestPage = () => {
         reload={reLoad}
         setSearch={setSearch}
       />
-      {/* <br />
-      <MemberDiagram user={user} members={data?.data} levels={levels?.data} /> */}
+      <br />
+      <MemberDiagram user={user} members={data?.data} levels={levels?.data} />
     </>
   );
 };
