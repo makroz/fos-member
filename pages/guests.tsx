@@ -44,22 +44,22 @@ const guestPage = () => {
 
   const fields = getFields([
     "id",
-    "name*|Nombre Completo|_h_::Usuario",
-    "icn*|Carnet de Identidad|inputType::number",
+    "name*|Nombre Completo|_h_::Usuario|sortable::false",
+    "icn*|Carnet de Identidad|inputType::number|sortable::false",
     "icn2*|Repita no. de CI|rules::same:icn|search::false",
-    "points*|Puntos|_h_|inputType::number",
-    "level_id*|Nivel|_h_",
-    "status|_h_",
+    "points*|Puntos|_h_|inputType::number|sortable::false",
+    "level_id*|Nivel|_h_|sortable::false",
+    "status|_h_|sortable::false",
   ]);
   fields["points"].actions = ["view"];
   fields["level_id"].actions = ["view"];
   fields["status"].actions = ["view"];
   fields["icn"].actions = ["add", "view"];
   fields["level_id"].options = levels?.data;
-  fields["_row"].className = (row, index) => {
-    const border = "border-l-" + members[refer[row.icn]]?.bg;
-    return border + " border-l border-l-4 ";
-  };
+  // fields["_row"].className = (row, index) => {
+  //   const border = "border-b-" + members[refer[row.icn]]?.bg;
+  //   return border + " border-b border-b-4 ";
+  // };
   fields["_actions"].render = (value) => {
     if (value == "add") return true;
     return false;
@@ -67,32 +67,44 @@ const guestPage = () => {
 
   fields["name"].render = (value, row, key, index) => {
     return (
-      <Avatar
-        img=""
-        placeholderInitials={initialsName(row.name)}
-        rounded={true}
-        className="flex-shrink-0"
-      >
-        <div className="space-y-1 font-medium dark:text-white">
-          <div>{capitalizeWords(row.name)}</div>
-          <div className="text-sm text-gray-500 dark:text-gray-400 flex justify-between gap-2">
-            {row.icn}
-            {row.referidos?.length > 0 && (
-              <div
-                className={
-                  "bg-" +
-                  members[refer[row.icn] + 1]?.bg +
-                  " " +
-                  members[refer[row.icn] + 1]?.txt +
-                  " rounded-full text-sm p-0 px-2 w-fit"
-                }
-              >
-                {row.referidos.length}
-              </div>
-            )}
-          </div>
+      <div className="relative">
+        <div
+          className={
+            "absolute -top-4 -left-6 w-5 -bottom-4 text-center pt-7 bg-" +
+            members[refer[row.icn]]?.bg +
+            " " +
+            members[refer[row.icn]]?.txt
+          }
+        >
+          {refer[row.icn] + 1}
         </div>
-      </Avatar>
+        <Avatar
+          img=""
+          placeholderInitials={initialsName(row.name)}
+          rounded={true}
+          className="flex-shrink-0"
+        >
+          <div className="space-y-1 font-medium dark:text-white">
+            <div>{capitalizeWords(row.name)}</div>
+            <div className="text-sm text-gray-500 dark:text-gray-400 flex justify-between gap-2">
+              {row.icn}
+              {row.referidos?.length > 0 && (
+                <div
+                  className={
+                    "bg-" +
+                    members[refer[row.icn] + 1]?.bg +
+                    " " +
+                    members[refer[row.icn] + 1]?.txt +
+                    " rounded-full text-sm p-0 px-2 w-fit"
+                  }
+                >
+                  {row.referidos.length}
+                </div>
+              )}
+            </div>
+          </div>
+        </Avatar>
+      </div>
     );
   };
   fields["name"].className =
@@ -140,15 +152,18 @@ const guestPage = () => {
   };
 
   const onClickRowChildren = (row) => {
-    if (!row.referidos || row.referidos.length == 0) return "";
+    // if (!row.referidos || row.referidos.length == 0) return "";
+    // const border = "border-b-" + members[refer[row.icn] + 1]?.bg;
     return (
       <DataTable
         datas={row.referidos}
+        // className={border + " border-b-4 "}
         columns={fields}
         onClickRowChildren={onClickRowChildren}
         params={{ ...params }}
         onAction={null}
         setParams={null}
+        showHeader={false}
       />
     );
   };
@@ -189,7 +204,7 @@ const guestPage = () => {
   return (
     <>
       <div className="bg-black bg-blue-800 bg-green-800 bg-red-800 bg-purple-800 bg-yellow-400 bg-gray-400 bg-blue-400 bg-green-400 bg-red-400 bg-purple-400"></div>
-      <div className="border-l-black border-l-blue-800 border-l-green-800 border-l-red-800 border-l-purple-800 border-l-yellow-400 border-l-gray-400 border-l-blue-400 border-l-green-400 border-l-red-400 border-l-purple-400"></div>
+      <div className="border-b-black border-b-blue-800 border-b-green-800 border-b-red-800 border-b-purple-800 border-b-yellow-400 border-b-gray-400 border-b-blue-400 border-b-green-400 border-b-red-400 border-b-purple-400"></div>
       <DataCrud
         title="Invitado"
         modulo="members"
@@ -205,6 +220,7 @@ const guestPage = () => {
         datas={datas}
         reload={reLoad}
         setSearch={setSearch}
+        // classTable={"border-b-" + members[0].bg + " border-b-4 "}
       />
       <br />
       <MemberDiagram user={user} members={data?.data} levels={levels?.data} />

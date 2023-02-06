@@ -26,6 +26,7 @@ const DataCrud = ({
   setAdvSearch = null,
   title = "",
   msgs = "",
+  classTable = "",
 }: any) => {
   const [openModal, setOpenModal] = useState(false);
   const [openDel, setOpenDel] = useState(false);
@@ -196,6 +197,7 @@ const DataCrud = ({
               params={{ ...params, total: data.total }}
               onAction={_actions ? onAction : false}
               setParams={setParams}
+              className={classTable}
             />
           </div>
         )}

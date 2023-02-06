@@ -1,6 +1,6 @@
 const config = {
   app: {
-    appName: "Force One System - Members",
+    appName: "FOS - Afiliado",
     appDescription: "Force One System - Members",
     appLogoImage: "/assets/images/logo/logo.png",
     API_URL: "http://localhost:8000/api",

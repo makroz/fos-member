@@ -1,7 +1,7 @@
 import { Avatar } from "flowbite-react";
-import useConfig from "../../hooks/useConfig";
-import { initialsName } from "../../utils/string";
-import Login from "./Login";
+import useConfig from "../src/hooks/useConfig";
+import { initialsName } from "../src/utils/string";
+import LoginCode from "./LoginCode";
 
 const LoginBasic = () => {
   const config = useConfig();
@@ -35,7 +35,7 @@ const LoginBasic = () => {
           />
         </div>
         <div className="col-span-10 p-5 pt-24 md:col-span-3 bg-white  flex items-center">
-          <Login></Login>
+          <LoginCode></LoginCode>
         </div>
       </div>
     </>

@@ -11,6 +11,8 @@ const DataTable = ({
   onAction,
   onClickRowChildren,
   setParams,
+  className = "",
+  showHeader = true,
 }): any => {
   const [sel, setSel]: any = useState([]);
   const [rowChildren, setRowChildren]: any = useState({});
@@ -160,45 +162,47 @@ const DataTable = ({
 
   return (
     <>
-      <Table hoverable={true} striped={true}>
-        <Table.Head>
-          {columns._sel && (
-            <Table.HeadCell className="!p-4 w-12">
-              <Checkbox onChange={onSelAll} />
-            </Table.HeadCell>
-          )}
-          {columnsHeader.map((key) => (
-            <Table.HeadCell key={key}>
-              <div
-                className="flex justify-between group"
-                onClick={() => {
-                  if (columns[key].sortable) onSort(key);
-                }}
-              >
+      <Table hoverable={true} striped={true} className={className}>
+        {showHeader && (
+          <Table.Head>
+            {columns._sel && (
+              <Table.HeadCell className="!p-4 w-12">
+                <Checkbox onChange={onSelAll} />
+              </Table.HeadCell>
+            )}
+            {columnsHeader.map((key) => (
+              <Table.HeadCell key={key}>
                 <div
-                  className={`${
-                    columns[key].sortable ? "group-hover:text-blue-500" : null
-                  }`}
+                  className="flex justify-between group"
+                  onClick={() => {
+                    if (columns[key].sortable) onSort(key);
+                  }}
                 >
-                  {columns[key].header === true
-                    ? columns[key].label
-                    : columns[key].header}
+                  <div
+                    className={`${
+                      columns[key].sortable ? "group-hover:text-blue-500" : null
+                    }`}
+                  >
+                    {columns[key].header === true
+                      ? columns[key].label
+                      : columns[key].header}
+                  </div>
+                  {params.sortBy == key && (
+                    <ChevronDown
+                      size={18}
+                      className={`font-medium text-blue-600 group-hover:-translate-y-1 transform ${
+                        params.orderBy == "asc" ? "rotate-180" : null
+                      } transition-all ease-in-out duration-200`}
+                    />
+                  )}
                 </div>
-                {params.sortBy == key && (
-                  <ChevronDown
-                    size={18}
-                    className={`font-medium text-blue-600 group-hover:-translate-y-1 transform ${
-                      params.orderBy == "asc" ? "rotate-180" : null
-                    } transition-all ease-in-out duration-200`}
-                  />
-                )}
-              </div>
-            </Table.HeadCell>
-          ))}
-          {onAction && (
-            <Table.HeadCell className="w-24">{t("Actions")}</Table.HeadCell>
-          )}
-        </Table.Head>
+              </Table.HeadCell>
+            ))}
+            {onAction && (
+              <Table.HeadCell className="w-24">{t("Actions")}</Table.HeadCell>
+            )}
+          </Table.Head>
+        )}
 
         <Table.Body className="divide-y">
           {datas.length > 0 ? (
@@ -260,7 +264,7 @@ const DataTable = ({
                     >
                       <td
                         colSpan={columnsHeader.length + 2}
-                        className="py-4 px-2"
+                        className="py-0 px-0"
                       >
                         {rowChildren[row.id]}
                       </td>
