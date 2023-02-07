@@ -1,4 +1,5 @@
 import { Avatar } from "flowbite-react";
+import Head from "next/head";
 import { useEffect, useState } from "react";
 import MemberDiagram from "../components/MemberDiagram";
 // import MemberDiagram from "../components/MemberDiagram";
@@ -47,15 +48,15 @@ const guestPage = () => {
     "name*|Nombre Completo|_h_::Usuario|sortable::false",
     "icn*|Carnet de Identidad|inputType::number|sortable::false",
     "icn2*|Repita no. de CI|rules::same:icn|search::false",
-    "points*|Puntos|_h_|inputType::number|sortable::false",
+    // "points*|Puntos|_h_|inputType::number|sortable::false",
     "level_id*|Nivel|_h_|sortable::false",
-    "status|_h_|sortable::false",
+    // "status|_h_|sortable::false",
   ]);
-  fields["points"].actions = ["view"];
+  // fields["points"].actions = ["view"];
   fields["level_id"].actions = ["view"];
-  fields["status"].actions = ["view"];
+  // fields["status"].actions = ["view"];
   fields["icn"].actions = ["add", "view"];
-  fields["level_id"].options = levels?.data;
+  // fields["level_id"].options = levels?.data;
   // fields["_row"].className = (row, index) => {
   //   const border = "border-b-" + members[refer[row.icn]]?.bg;
   //   return border + " border-b border-b-4 ";
@@ -64,7 +65,16 @@ const guestPage = () => {
     if (value == "add") return true;
     return false;
   };
-
+  fields["level_id"].render = (value, row, key, index) => {
+    return (
+      <div>
+        <div>
+          {levels?.data?.filter((level) => level.id == row.level_id)[0]?.name}
+        </div>
+        <div className="text-[8px]">{row.points} puntos</div>
+      </div>
+    );
+  };
   fields["name"].render = (value, row, key, index) => {
     return (
       <div className="relative">
@@ -84,9 +94,9 @@ const guestPage = () => {
           rounded={true}
           className="flex-shrink-0"
         >
-          <div className="space-y-1 font-medium dark:text-white">
+          <div className=" font-medium p-0 m-0 dark:text-white">
             <div>{capitalizeWords(row.name)}</div>
-            <div className="text-sm text-gray-500 dark:text-gray-400 flex justify-between gap-2">
+            <div className="text-sm text-gray-500 dark:text-gray-400 flex justify-between gap-1">
               {row.icn}
               {row.referidos?.length > 0 && (
                 <div
@@ -152,7 +162,7 @@ const guestPage = () => {
   };
 
   const onClickRowChildren = (row) => {
-    // if (!row.referidos || row.referidos.length == 0) return "";
+    if (!row.referidos || row.referidos.length == 0) return "";
     // const border = "border-b-" + members[refer[row.icn] + 1]?.bg;
     return (
       <DataTable
@@ -163,6 +173,7 @@ const guestPage = () => {
         params={{ ...params }}
         onAction={null}
         setParams={null}
+        showFooter={false}
         showHeader={false}
       />
     );
@@ -203,6 +214,9 @@ const guestPage = () => {
 
   return (
     <>
+      <Head>
+        <title>FOS - Invitados</title>
+      </Head>
       <div className="bg-black bg-blue-800 bg-green-800 bg-red-800 bg-purple-800 bg-yellow-400 bg-gray-400 bg-blue-400 bg-green-400 bg-red-400 bg-purple-400"></div>
       <div className="border-b-black border-b-blue-800 border-b-green-800 border-b-red-800 border-b-purple-800 border-b-yellow-400 border-b-gray-400 border-b-blue-400 border-b-green-400 border-b-red-400 border-b-purple-400"></div>
       <DataCrud
@@ -220,10 +234,11 @@ const guestPage = () => {
         datas={datas}
         reload={reLoad}
         setSearch={setSearch}
+        showFooter={false}
         // classTable={"border-b-" + members[0].bg + " border-b-4 "}
       />
-      <br />
-      <MemberDiagram user={user} members={data?.data} levels={levels?.data} />
+      {/* <br />
+      <MemberDiagram user={user} members={data?.data} levels={levels?.data} /> */}
     </>
   );
 };

@@ -13,6 +13,7 @@ const DataTable = ({
   setParams,
   className = "",
   showHeader = true,
+  showFooter = true,
 }): any => {
   const [sel, setSel]: any = useState([]);
   const [rowChildren, setRowChildren]: any = useState({});
@@ -285,8 +286,8 @@ const DataTable = ({
           )}
         </Table.Body>
       </Table>
-      <div className="flex justify-between flex-wrap">
-        {setParams && (
+      {showFooter && (
+        <div className="flex justify-between flex-wrap">
           <Pagination
             currentPage={params.page}
             onPageChange={onChangePage}
@@ -295,8 +296,6 @@ const DataTable = ({
             previousLabel=""
             nextLabel=""
           />
-        )}
-        {setParams && (
           <Select
             name="perPage"
             value={params.perPage}
@@ -311,8 +310,8 @@ const DataTable = ({
               { value: "50", label: "50" },
             ]}
           ></Select>
-        )}
-      </div>
+        </div>
+      )}
     </>
   );
 };

@@ -40,28 +40,12 @@ const LayoutHorizontal = ({ children }) => {
         <div
           className={`${
             visible ? "whitespace-nowrap" : ""
-          }  m-8 mt-2 min-w-screen`}
+          }  m-2 mt-0 md:m-8 md:mt-2  min-w-screen`}
         >
           {children}
         </div>
       </div>
     </div>
-    // <div className="grid grid-cols-[300px__1fr] min-h-full h-full">
-    //   <div
-    //     className={`${visible ? " block" : "md:block hidden"}  bg-primary px-2`}
-    //     style={{ background: config?.app?.colorPrimary }}
-    //   >
-    //     <Sidebar config={config} />
-    //   </div>
-    //   <div
-    //     className={`${
-    //       visible ? " col-span-1" : "col-span-2 md:col-span-1"
-    //     }  bg-white flex flex-col h-full`}
-    //   >
-    //     <Navbar onVisible={onVisible} />
-    //     <div className="h-full m-8">{children}</div>
-    //   </div>
-    // </div>
   );
 };
 
