@@ -233,7 +233,7 @@ const guestPage = () => {
         _actions={false}
         datas={datas}
         reload={reLoad}
-        setSearch={setSearch}
+        searchFunc={setSearch}
         showFooter={false}
         // classTable={"border-b-" + members[0].bg + " border-b-4 "}
       />

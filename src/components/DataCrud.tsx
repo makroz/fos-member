@@ -1,3 +1,4 @@
+import { log } from "console";
 import { useEffect, useState } from "react";
 import useAxios from "../hooks/useAxios";
 import { getDefaultFormState } from "../utils/dbTools";
@@ -21,8 +22,9 @@ const DataCrud = ({
   textBtnAdd = "",
   datas = null,
   reload = null,
-  setSearch = null,
-  setAdvSearch = null,
+  searchType = "",
+  searchFunc = null,
+  // setAdvSearch = null,
   title = "",
   msgs = "",
   classTable = "",
@@ -158,17 +160,51 @@ const DataCrud = ({
     }
   };
 
-  const _setSearch = (searchBy) => {
-    const param = setSearch(searchBy);
-    if (param === false) return;
-    setParams({ ...params, ...param });
-  };
+  // const _setSearch = (searchBy, setSearch) => {
+  //   const param = setSearch(searchBy, setSearch);
+  //   if (param === false) return;
+  //   setParams({ ...params, ...param });
+  // };
 
-  const _setAdvSearch = (search, setSearch) => {
+  const _setSearch = (search, setSearch) => {
     setActSearch(search);
-    const param = setAdvSearch(search, setSearch);
-    if (param === false) return;
-    setParams({ ...params, ...param });
+    let searchBy = search;
+    if (searchType == "a") {
+      const _search: string[] = [];
+      search.map((s) => {
+        if (s.field != "" && s.criteria != "" && s.search != "") {
+          _search.push(
+            s.field +
+              "," +
+              s.criteria +
+              "," +
+              s.search +
+              "," +
+              s.join +
+              "," +
+              s.gb +
+              "," +
+              s.ge
+          );
+        }
+      });
+      searchBy = "";
+      if (_search.length > 0) {
+        searchBy = _search.join("|");
+      }
+    }
+    console.log("searchBy", searchBy, searchType);
+
+    let param = {};
+    if (searchFunc) {
+      param = searchFunc(searchBy, setSearch);
+      if (param === false) return;
+    }
+    if (searchType == "b") {
+      searchBy = "name,like,%" + search + "%";
+    }
+    console.log("searchBy", searchBy);
+    setParams({ ...params, searchBy, ...param });
   };
 
   return (
@@ -183,8 +219,8 @@ const DataCrud = ({
           textBtnAdd={textBtnAdd}
           title={title}
           loaded={loaded}
-          setSearch={setSearch ? _setSearch : null}
-          setAdvSearch={setAdvSearch ? _setAdvSearch : null}
+          setSearch={_setSearch}
+          searchType={searchType}
           search={params.searchBy}
         />
         {msg("middle")}

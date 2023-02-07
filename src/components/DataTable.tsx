@@ -1,5 +1,5 @@
 import { Badge, Checkbox, Pagination, Table } from "flowbite-react";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 import { ChevronDown, Edit, Eye, Trash } from "react-feather";
 import t from "../utils/traductor";
 import Select from "./forms/Select";
@@ -84,15 +84,6 @@ const DataTable = ({
             );
           }
           return s;
-          // if (columns[key].options.find) {
-          //   return columns[key].options.find(
-          //     (item) => item[columns[key].optionValue] == row[key]
-          //   )?.[columns[key].optionLabel];
-          // }
-          // return columns[key].options[row[key]]
-          //   ? columns[key].options[row[key]][columns[key].optionLabel] ||
-          //       columns[key].options[row[key]]?.label
-          //   : "....";
         } else {
           const k = key.indexOf("_id") > -1 ? key.replace("_id", "") : "";
           if (k != "" && row[k] && row[k][columns[key].optionLabel || "name"])

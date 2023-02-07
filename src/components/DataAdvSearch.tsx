@@ -143,8 +143,8 @@ const DataAdvSearch = ({ campos, setAdvSearch }) => {
     { value: ">=", label: t("Greater or Equal") },
     { value: "<", label: t("Less Than") },
     { value: "<=", label: t("Less or Equal") },
-    { value: "le", label: t("Starts With") },
-    { value: "lf", label: t("Ends With") },
+    { value: "lb", label: t("Starts With") },
+    { value: "le", label: t("Ends With") },
     { value: "l", label: t("Contains") },
     { value: "!l", label: t("Not Contain") },
   ];

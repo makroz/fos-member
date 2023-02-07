@@ -10,7 +10,7 @@ const DataHeader = ({
   title,
   loaded,
   setSearch = null,
-  setAdvSearch = null,
+  searchType = "b",
   search = [],
 }: any) => {
   return (
@@ -18,10 +18,13 @@ const DataHeader = ({
       <div className="flex justify-between items-center">
         <div className="">
           {!loaded && <Spinner />}
-          {setSearch && (
+          {searchType != "" && (
             <div className={!loaded ? "hidden" : "block"}>
-              {/* <DataSearch setSearch={setSearch} /> */}
-              <DataAdvSearch campos={columns} setAdvSearch={setAdvSearch} />
+              {searchType == "b" ? (
+                <DataSearch setSearch={setSearch} />
+              ) : (
+                <DataAdvSearch campos={columns} setAdvSearch={setSearch} />
+              )}
             </div>
           )}
         </div>
