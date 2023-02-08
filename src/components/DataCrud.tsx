@@ -194,7 +194,7 @@ const DataCrud = ({
         searchBy = _search.join("|");
       }
     }
-    console.log("searchBy", searchBy);
+    //console.log("searchBy", searchBy);
 
     let param = {};
     if (searchFunc) {

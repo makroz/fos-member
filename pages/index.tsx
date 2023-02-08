@@ -13,10 +13,11 @@ const Home = () => {
       </Head>
 
       <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
-        Wellcome
+        Bienvenido a <br />
+        <h1> {config?.app.appName}</h1>
       </main>
 
-      <footer className="flex h-24 w-full items-center justify-center border-t">
+      <footer className=" flex  text-[8px] w-screen justify-center border-t mt-5">
         Copyrigth {new Date().getFullYear()} - {config.app.appName}
       </footer>
     </div>

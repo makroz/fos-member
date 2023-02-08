@@ -234,8 +234,8 @@ const guestPage = () => {
         _actions={false}
         datas={datas}
         reload={reLoad}
-        searchType="a"
-        // searchFunc={setSearch}
+        searchType="b"
+        searchFunc={setSearch}
         showFooter={false}
       />
       {/* <br />
