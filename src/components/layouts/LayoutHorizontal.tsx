@@ -36,7 +36,7 @@ const LayoutHorizontal = ({ children }) => {
         <Sidebar config={config} onVisible={onVisible} visible={visible} />
       </div>
       <div className="flex flex-col  bg-blue-200 flex-grow overflow-auto">
-        <Navbar onVisible={onVisible} />
+        <Navbar onVisible={onVisible} visible={visible} />
         <div
           className={`${
             visible ? "whitespace-nowrap" : ""

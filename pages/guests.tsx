@@ -65,6 +65,7 @@ const guestPage = () => {
     if (value == "add") return true;
     return false;
   };
+  fields["level_id"].options = levels?.data;
   fields["level_id"].render = (value, row, key, index) => {
     return (
       <div>
@@ -194,7 +195,7 @@ const guestPage = () => {
       ) {
         result.push(row);
       }
-      if (row.referidos.length > 0) {
+      if (row.referidos?.length > 0) {
         result = search(s, row.referidos, result);
       }
     });
@@ -233,9 +234,9 @@ const guestPage = () => {
         _actions={false}
         datas={datas}
         reload={reLoad}
-        searchFunc={setSearch}
+        searchType="a"
+        // searchFunc={setSearch}
         showFooter={false}
-        // classTable={"border-b-" + members[0].bg + " border-b-4 "}
       />
       {/* <br />
       <MemberDiagram user={user} members={data?.data} levels={levels?.data} /> */}

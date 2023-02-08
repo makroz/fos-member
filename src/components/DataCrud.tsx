@@ -171,29 +171,30 @@ const DataCrud = ({
     let searchBy = search;
     if (searchType == "a") {
       const _search: string[] = [];
-      search.map((s) => {
-        if (s.field != "" && s.criteria != "" && s.search != "") {
-          _search.push(
-            s.field +
-              "," +
-              s.criteria +
-              "," +
-              s.search +
-              "," +
-              s.join +
-              "," +
-              s.gb +
-              "," +
-              s.ge
-          );
-        }
-      });
+      if (search?.length > 0)
+        search?.map((s) => {
+          if (s.field != "" && s.criteria != "" && s.search != "") {
+            _search.push(
+              s.field +
+                "," +
+                s.criteria +
+                "," +
+                s.search +
+                "," +
+                s.join +
+                "," +
+                s.gb +
+                "," +
+                s.ge
+            );
+          }
+        });
       searchBy = "";
       if (_search.length > 0) {
         searchBy = _search.join("|");
       }
     }
-    console.log("searchBy", searchBy, searchType);
+    console.log("searchBy", searchBy);
 
     let param = {};
     if (searchFunc) {

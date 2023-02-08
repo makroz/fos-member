@@ -169,7 +169,7 @@ const DataAdvSearch = ({ campos, setAdvSearch }) => {
             className="w-full my-1 p-1 text-xs rounded-lg  border border-gray-300  focus:border-blue-500"
           >
             <option value="">--</option>
-            {campos[s.field].options.map((o, ind) => (
+            {campos[s.field].options?.map((o, ind) => (
               <option
                 key={ind + "-s"}
                 value={o[campos[s.field].optionValue || "id"]}
