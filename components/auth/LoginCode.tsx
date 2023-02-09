@@ -1,10 +1,10 @@
 import { Card } from "flowbite-react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import Input from "../src/components/forms/Input";
-import useAuth from "../src/hooks/useAuth";
-import t from "../src/utils/traductor";
-import InputCode from "./InputCode";
+import Input from "../../src/components/forms/Input";
+import useAuth from "../../src/hooks/useAuth";
+import t from "../../src/utils/traductor";
+import InputCode from "../../src/components/forms/InputCode";
 
 const LoginCode = () => {
   const { user, error, login, config }: any = useAuth();
