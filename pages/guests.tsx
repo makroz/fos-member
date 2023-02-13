@@ -48,19 +48,14 @@ const guestPage = () => {
     "name*|Nombre Completo|_h_::Usuario|sortable::false",
     "icn*|Carnet de Identidad|inputType::number|sortable::false",
     "icn2*|Repita no. de CI|rules::same:icn|search::false",
-    // "points*|Puntos|_h_|inputType::number|sortable::false",
     "level_id*|Nivel|_h_|sortable::false",
-    // "status|_h_|sortable::false",
   ]);
-  // fields["points"].actions = ["view"];
   fields["level_id"].actions = ["view"];
-  // fields["status"].actions = ["view"];
   fields["icn"].actions = ["add", "view"];
-  // fields["level_id"].options = levels?.data;
-  // fields["_row"].className = (row, index) => {
-  //   const border = "border-b-" + members[refer[row.icn]]?.bg;
-  //   return border + " border-b border-b-4 ";
-  // };
+  fields["_row"].className = (row, index) => {
+    const border = "bg-" + members[refer[row.icn]]?.bg + "/50";
+    return border;
+  };
   fields["_actions"].render = (value) => {
     if (value == "add") return true;
     return false;
@@ -187,18 +182,31 @@ const guestPage = () => {
     }
   }, [data?.data]);
 
-  const search = (s, members, result: any = []) => {
+  const search = (_s, members, result: any = []) => {
+    let b = "i";
+    if (_s[0] == "*") b = "s";
+    if (_s[_s.length - 1] == "*") b = "e";
+    const s = _s.replace("*", "");
+
     members.map((row: any, index: number) => {
-      if (
-        row.icn.toLowerCase().includes(s) ||
-        row.name.toLowerCase().includes(s)
-      ) {
+      const icn = row.icn.toLowerCase();
+      const name = row.name.toLowerCase();
+
+      if (b == "i" && (icn.includes(s) || name.includes(s))) {
+        console.log("include", b, s, name);
+        result.push(row);
+      }
+      if (b == "s" && (icn.startsWith(s) || name.startsWith(s))) {
+        result.push(row);
+      }
+      if (b == "e" && (icn.endsWith(s) || name.endsWith(s))) {
         result.push(row);
       }
       if (row.referidos?.length > 0) {
-        result = search(s, row.referidos, result);
+        result = search(_s, row.referidos, result);
       }
     });
+
     return result;
   };
 
@@ -219,6 +227,7 @@ const guestPage = () => {
         <title>FOS - Invitados</title>
       </Head>
       <div className="bg-black bg-blue-800 bg-green-800 bg-red-800 bg-purple-800 bg-yellow-400 bg-gray-400 bg-blue-400 bg-green-400 bg-red-400 bg-purple-400"></div>
+      <div className="bg-black/50 bg-blue-800/50 bg-green-800/50 bg-red-800/50 bg-purple-800/50 bg-yellow-400/50 bg-gray-400/50 bg-blue-400/50 bg-green-400/50 bg-red-400/50 bg-purple-400/50"></div>
       <div className="border-b-black border-b-blue-800 border-b-green-800 border-b-red-800 border-b-purple-800 border-b-yellow-400 border-b-gray-400 border-b-blue-400 border-b-green-400 border-b-red-400 border-b-purple-400"></div>
       <DataCrud
         title="Invitado"
