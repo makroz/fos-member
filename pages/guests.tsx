@@ -56,12 +56,12 @@ const guestPage = () => {
     const border = "bg-" + members[refer[row.icn]]?.bg + "/50";
     return border;
   };
-  fields["_actions"].render = (value) => {
+  fields["_actions"].render = ({ value }) => {
     if (value == "add") return true;
     return false;
   };
   fields["level_id"].options = levels?.data;
-  fields["level_id"].render = (value, row, key, index) => {
+  fields["level_id"].render = ({ row }) => {
     return (
       <div>
         <div>
@@ -71,7 +71,7 @@ const guestPage = () => {
       </div>
     );
   };
-  fields["name"].render = (value, row, key, index) => {
+  fields["name"].render = ({ row }) => {
     return (
       <div className="relative">
         <div

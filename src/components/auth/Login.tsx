@@ -3,7 +3,6 @@ import { useState } from "react";
 import LoginView from "../../../components/auth/LoginView";
 import useAuth from "../../hooks/useAuth";
 import t from "../../utils/traductor";
-import Input from "../forms/Input";
 
 const Login = () => {
   const { user, error, login, config }: any = useAuth();
