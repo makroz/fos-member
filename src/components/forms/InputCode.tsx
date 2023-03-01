@@ -60,7 +60,7 @@ const InputCode = ({
         <label htmlFor={name} className={`input-label`}>
           {label}
         </label>
-        <div className="flex items-center content-between gap-3 lg:w-96 mb-4">
+        <form className="flex items-center content-between gap-3 lg:w-96 mb-4">
           <input
             name="code"
             id="code1"
@@ -71,6 +71,7 @@ const InputCode = ({
             value={value[0] || ""}
             type={type}
             onChange={onChange}
+            aria-label="Pin 1"
           />
           <input
             name="code"
@@ -82,6 +83,7 @@ const InputCode = ({
             value={value[1] || ""}
             type={type}
             onChange={onChange}
+            aria-label="Pin 2"
           />
           <input
             name="code"
@@ -93,6 +95,7 @@ const InputCode = ({
             value={value[2] || ""}
             type={type}
             onChange={onChange}
+            aria-label="Pin 3"
           />
           <input
             name="code"
@@ -104,8 +107,9 @@ const InputCode = ({
             value={value[3] || ""}
             type={type}
             onChange={onChange}
+            aria-label="Pin 4"
           />
-        </div>
+        </form>
       </div>
     </>
   );

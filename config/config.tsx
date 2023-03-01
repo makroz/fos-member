@@ -2,7 +2,7 @@ const config = {
   app: {
     appName: "FOS - Afiliado",
     appDescription: "Force One System - Members",
-    appLogoImage: "/assets/images/logo/logo.png",
+    appLogoImage: "/assets/images/logo/logo.svg",
     API_URL: "http://localhost:8000/api",
     loginLabel: "Documento Identidad",
   },
