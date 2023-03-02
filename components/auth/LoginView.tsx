@@ -1,12 +1,13 @@
-import { Card } from "flowbite-react";
+//import { Card } from "flowbite-react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Input from "../../src/components/forms/Input";
 import useAuth from "../../src/hooks/useAuth";
 import t from "../../src/utils/traductor";
 import InputCode from "../../src/components/forms/InputCode";
+import Card from "../../src/components/ui/Card";
 
-const LoginCode = () => {
+const LoginView = (props) => {
   const { user, error, login, config }: any = useAuth();
   const router = useRouter();
   const [errors, setErrors] = useState({});
@@ -65,30 +66,33 @@ const LoginCode = () => {
   }, [formState.password]);
 
   return (
-    <Card className="p-2">
-      <h1>{t("Wellcome")}!</h1>
-      <h2>{t("Please sign-in to your account and start the adventure")}</h2>
-      <br />
-      <Input
-        label={config?.app.loginLabel || "Email"}
-        type="text"
-        name="email"
-        error={errors}
-        value={formState.email}
-        onChange={(e) => handleChange(e)}
-      ></Input>
-      <InputCode
-        label="PIN"
-        type="password"
-        name="password"
-        error={errors}
-        setCode={setCode}
-        placeholder=""
-        digits={4}
-        value={formState.password}
-      ></InputCode>
-    </Card>
+    <div>
+      <Card className="">
+        <h1 className="mb-4 text-center">{t("Iniciar sesión")}</h1>
+        <Input
+          label={config?.app.loginUser || "Email"}
+          type="text"
+          name="email"
+          error={errors}
+          value={formState.email}
+          onChange={(e) => handleChange(e)}
+          placeholder="Ingrese su CI"
+        ></Input>
+        <InputCode
+          label={config?.app.loginPass || "Password"}
+          type="password"
+          name="password"
+          error={errors}
+          setCode={setCode}
+          placeholder=""
+          digits={4}
+          value={formState.password}
+        ></InputCode>
+      </Card>
+      <div className="text-center mt-12 mb-6 link">Olvide mmi PIN</div>
+      <div className="text-center link">Crear una cuenta</div>
+    </div>
   );
 };
 
-export default LoginCode;
+export default LoginView;

@@ -6,9 +6,7 @@ const ControlLabel = (props) => {
       {props.type === "hidden" ? null : (
         <label
           htmlFor={props.name}
-          className={`input-label ${
-            props.required ? "text-black font-bold" : null
-          }`}
+          className={`input-label ${props.required ? "required" : null}`}
         >
           {props.label} {props.required ? "*" : null}
         </label>

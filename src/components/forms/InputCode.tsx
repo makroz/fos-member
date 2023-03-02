@@ -67,7 +67,7 @@ const InputCode = ({
             className="   text-center code-input grow w-6 focus:ring-2 rounded-lg  focus:ring-green-500 focus:outline-none"
             required
             placeholder={placeholder}
-            autoComplete="new-password"
+            autoComplete="cc-number"
             value={value[0] || ""}
             type={type}
             onChange={onChange}
@@ -79,7 +79,7 @@ const InputCode = ({
             className="  text-center code-input grow w-6 focus:ring-2 rounded-lg  focus:ring-green-500 focus:outline-none "
             required
             placeholder={placeholder}
-            autoComplete="new-password"
+            autoComplete="cc-number"
             value={value[1] || ""}
             type={type}
             onChange={onChange}
@@ -91,7 +91,7 @@ const InputCode = ({
             className="  text-center code-input grow w-6 focus:ring-2 rounded-lg  focus:ring-green-500 focus:outline-none "
             required
             placeholder={placeholder}
-            autoComplete="new-password"
+            autoComplete="cc-number"
             value={value[2] || ""}
             type={type}
             onChange={onChange}
@@ -103,7 +103,7 @@ const InputCode = ({
             className="   text-center code-input grow w-6 focus:ring-2 rounded-lg  focus:ring-green-500 focus:outline-none "
             required
             placeholder={placeholder}
-            autoComplete="new-password"
+            autoComplete="cc-numberd"
             value={value[3] || ""}
             type={type}
             onChange={onChange}

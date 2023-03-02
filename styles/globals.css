@@ -8,12 +8,26 @@
   h2 {
     @apply text-sm text-subTitle;
   }
+
+
   
 }
 
 @layer components {
+  .link {
+    @apply underline;
+  }
+  .input-label .required {
+    @apply font-bold text-black;
+  }
+  .input-label {
+    @apply text-black;
+  }
+  .Card {
+    @apply rounded-lg shadowPanels bg-white p-5 text-black;
+  }
   .input input,.input textarea, .input select {
-    @apply rounded-lg px-2 py-1;
+    @apply rounded-md px-2 py-1;
     display: block;
     width: 100%;
     border: 1px solid #d8d6de;
@@ -29,11 +43,15 @@
     border-color: 1px solid #0d2643;
     box-shadow: 0 3px 10px 0 rgba(34, 41, 47, 0.1);
   }
+
+  .input input::placeholder,.input textarea::placeholder {
+    @apply text-gray-300;
+  }
   .shadowBtn {
     box-shadow: 0 8px 25px -8px #0d2643;
   }
   .shadowPanels {
-    box-shadow: 0 4px 24px #22292f1a;
+    box-shadow: 0 8px 25px -8px #000;
   }
   .logoTitle {
     @apply text-2xl font-bold text-primary;

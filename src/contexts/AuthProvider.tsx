@@ -2,9 +2,8 @@ import { createContext, useEffect, useState } from "react";
 
 import Spinner from "../components/layouts/Spinner";
 import useAxios from "../hooks/useAxios";
-import conf from "../../config/config";
+import conf from "../components/auth/config";
 import LoginBasic from "../../components/auth/LoginBasic";
-import Splash from "../../components/req/Splash";
 
 export const AuthContext = createContext({});
 const AuthProvider = ({ children, noAuth = false, guard = null }: any): any => {
@@ -118,7 +117,6 @@ const AuthProvider = ({ children, noAuth = false, guard = null }: any): any => {
         setToast,
       }}
     >
-      <Splash />
       {loaded || <Spinner />}
       {!noAuth && !user ? <LoginBasic /> : children}
     </AuthContext.Provider>
