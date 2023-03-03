@@ -60,56 +60,64 @@ const InputCode = ({
         <label htmlFor={name} className={`input-label`}>
           {label}
         </label>
-        <form className="flex items-center content-between gap-3 lg:w-96 mb-4">
-          <input
-            name="code"
-            id="code1"
-            className="   text-center code-input grow w-6 focus:ring-2 rounded-lg  focus:ring-green-500 focus:outline-none"
-            required
-            placeholder={placeholder}
-            autoComplete="cc-number"
-            value={value[0] || ""}
-            type={type}
-            onChange={onChange}
-            aria-label="Pin 1"
-          />
-          <input
-            name="code"
-            id="code2"
-            className="  text-center code-input grow w-6 focus:ring-2 rounded-lg  focus:ring-green-500 focus:outline-none "
-            required
-            placeholder={placeholder}
-            autoComplete="cc-number"
-            value={value[1] || ""}
-            type={type}
-            onChange={onChange}
-            aria-label="Pin 2"
-          />
-          <input
-            name="code"
-            id="code3"
-            className="  text-center code-input grow w-6 focus:ring-2 rounded-lg  focus:ring-green-500 focus:outline-none "
-            required
-            placeholder={placeholder}
-            autoComplete="cc-number"
-            value={value[2] || ""}
-            type={type}
-            onChange={onChange}
-            aria-label="Pin 3"
-          />
-          <input
-            name="code"
-            id="code4"
-            className="   text-center code-input grow w-6 focus:ring-2 rounded-lg  focus:ring-green-500 focus:outline-none "
-            required
-            placeholder={placeholder}
-            autoComplete="cc-numberd"
-            value={value[3] || ""}
-            type={type}
-            onChange={onChange}
-            aria-label="Pin 4"
-          />
-        </form>
+        <div className="flex items-center content-between gap-3 lg:w-96 mb-4">
+          <form>
+            <input
+              name="code"
+              id="code1"
+              className="   text-center code-input grow w-6 focus:ring-2 rounded-lg  focus:ring-green-500 focus:outline-none"
+              required
+              placeholder={placeholder}
+              autoComplete="cc-number"
+              value={value[0] || ""}
+              type={type}
+              onChange={onChange}
+              aria-label="Pin 1"
+            />
+          </form>
+          <form>
+            <input
+              name="code"
+              id="code2"
+              className="  text-center code-input grow w-6 focus:ring-2 rounded-lg  focus:ring-green-500 focus:outline-none "
+              required
+              placeholder={placeholder}
+              autoComplete="cc-number"
+              value={value[1] || ""}
+              type={type}
+              onChange={onChange}
+              aria-label="Pin 2"
+            />
+          </form>
+          <form>
+            <input
+              name="code"
+              id="code3"
+              className="  text-center code-input grow w-6 focus:ring-2 rounded-lg  focus:ring-green-500 focus:outline-none "
+              required
+              placeholder={placeholder}
+              autoComplete="cc-number"
+              value={value[2] || ""}
+              type={type}
+              onChange={onChange}
+              aria-label="Pin 3"
+            />
+          </form>
+          <form>
+            <input
+              name="code"
+              id="code4"
+              className="   text-center code-input grow w-6 focus:ring-2 rounded-lg  focus:ring-green-500 focus:outline-none "
+              required
+              placeholder={placeholder}
+              autoComplete="cc-numberd"
+              value={value[3] || ""}
+              type={type}
+              onChange={onChange}
+              aria-label="Pin 4"
+            />
+          </form>
+        </div>
       </div>
     </>
   );

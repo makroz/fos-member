@@ -7,14 +7,15 @@ import LoginBasic from "../../components/auth/LoginBasic";
 
 export const AuthContext = createContext({});
 const AuthProvider = ({ children, noAuth = false, guard = null }: any): any => {
-  const { error, loaded, execute } = useAxios();
+  const { error, loaded, execute, waiting, setWaiting } = useAxios();
   const [user, setUser] = useState<any>(null);
   const [guardia, setGuardia] = useState(guard);
   const [config, setConfig]: any = useState(conf);
-  const [load, setLoad]: any = useState(false);
+  // const [load, setLoad]: any = useState(0);
   const [toast, setToast] = useState({ msg: "", type: "success", time: 3000 });
 
   const getConfig = () => {
+    setWaiting(waiting + 1);
     let currentConfig: any = conf;
     try {
       currentConfig = config || JSON.parse(localStorage.getItem("config") + "");
@@ -32,17 +33,43 @@ const AuthProvider = ({ children, noAuth = false, guard = null }: any): any => {
       currentConfig.app.colorSecondary = guardia.color_secondary;
     }
     setConfig(currentConfig);
-    setLoad(true);
+    setWaiting(waiting - 1);
   };
 
-  const getUser = () => {
+  const getUser = async () => {
+    setWaiting(waiting + 1);
     let currentUser = null;
     try {
-      currentUser = user || JSON.parse(localStorage.getItem("token") + "").user;
+      const token = JSON.parse(localStorage.getItem("token") + "");
+      currentUser = user || token.user;
+      const credentials: any = {};
+      if (guard) {
+        credentials.guard = guard.id;
+      }
+      if (currentUser) {
+        const { data, error }: any = await execute("iam", "POST", credentials);
+
+        if (data?.success && !error) {
+          currentUser = data?.data?.user;
+          localStorage.setItem(
+            "token",
+            JSON.stringify({ token: token.token, user: data?.data?.user })
+          );
+          // setWaiting(waiting - 1);
+          // return { user: data?.data?.user };
+        } else {
+          console.log("====================================");
+          console.log("Error3", data, error);
+          console.log("====================================");
+          // setWaiting(waiting - 1);
+          // return { user, errors: data?.errors || data?.message || error };
+        }
+      }
     } catch (e) {
       currentUser = null;
     }
     setUser(currentUser);
+    setWaiting(waiting - 1);
   };
 
   const userCan = (ability: string, action: string) => {
@@ -54,6 +81,7 @@ const AuthProvider = ({ children, noAuth = false, guard = null }: any): any => {
     return true;
   };
   const login = async (credentials: any) => {
+    setWaiting(waiting + 1);
     setUser(null);
     if (guard) {
       credentials.guard = guard.id;
@@ -65,31 +93,36 @@ const AuthProvider = ({ children, noAuth = false, guard = null }: any): any => {
     );
 
     if (data?.success && !error) {
-      // console.log("Loguedo", data);
+      console.log("Loguedo", data);
       setUser(data?.data?.user);
       localStorage.setItem(
         "token",
         JSON.stringify({ token: data?.data?.token, user: data?.data?.user })
       );
+      setWaiting(waiting - 1);
       return { user: data?.data?.user };
     } else {
       console.log("====================================");
       console.log("Error1", data, error);
       console.log("====================================");
+      setWaiting(waiting - 1);
       return { user, errors: data?.errors || data?.message || error };
     }
   };
   const logout = async () => {
+    setWaiting(waiting + 1);
     const { data, error }: any = await execute(config.auth.logout, "POST");
     localStorage.removeItem("token");
     setUser(null);
     if (data?.success) {
       // console.log("Logout", data);
+      setWaiting(waiting - 1);
       return;
     } else {
       console.log("====================================");
       console.log("Error1", data);
       console.log("====================================");
+      setWaiting(waiting - 1);
       return { user, errors: data?.errors || data?.message || error };
     }
   };
@@ -115,6 +148,8 @@ const AuthProvider = ({ children, noAuth = false, guard = null }: any): any => {
         userCan,
         toast,
         setToast,
+        waiting,
+        setWaiting,
       }}
     >
       {loaded || <Spinner />}

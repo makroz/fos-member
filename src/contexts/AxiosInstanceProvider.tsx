@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext, useEffect, useRef } from "react";
+import { createContext, useEffect, useRef, useState } from "react";
 
 export const AxiosContext = createContext({});
 const AxiosInstanceProvider = ({
@@ -7,6 +7,7 @@ const AxiosInstanceProvider = ({
   interceptors = null,
   children,
 }: any) => {
+  const [waiting, setWaiting] = useState(0);
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
   if (!config.baseURL) {
     config = { ...config, baseURL: API_URL };
@@ -20,7 +21,9 @@ const AxiosInstanceProvider = ({
   }, []);
 
   return (
-    <AxiosContext.Provider value={instanceRef.current}>
+    <AxiosContext.Provider
+      value={{ contextInstance: instanceRef.current, waiting, setWaiting }}
+    >
       {children}
     </AxiosContext.Provider>
   );

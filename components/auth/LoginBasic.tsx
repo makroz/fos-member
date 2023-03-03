@@ -1,13 +1,9 @@
-import Image from "next/image";
 import { useState } from "react";
-import useConfig from "../../src/hooks/useConfig";
 import LoginView from "./LoginView";
-import fondo from "../../public/assets/images/bgLogin.webp";
 
 const LoginBasic = () => {
   const [start, setStart] = useState(false);
   const [show, setShow] = useState(false);
-  const config = useConfig();
   setTimeout(() => {
     setShow(true);
   }, 500);
@@ -16,13 +12,18 @@ const LoginBasic = () => {
   }, 600);
   return (
     <>
-      <div className=" z-0 absolute top-0 bottom-0 left-0 right-0  bg-[url('/assets/images/bgLogin.webp')] bg-cover bg-center"></div>
+      <div
+        className={
+          (show ? "opacity-100 " : "opacity-0 ") +
+          "absolute top-0 bottom-0 left-0 right-0 bg-[url('/assets/images/bgLogin.webp')] bg-cover bg-center transition-all duration-700 ease-in-out"
+        }
+      ></div>
       <div className="bg-primary p-5">
         <div
           className={
-            (show ? "" : "hidden") +
-            (start ? " top-0 mt-20" : " -mt-11") +
-            " transition-all duration-500 ease-in-out   absolute top-1/2 left-0  w-full h-full z-10"
+            (show ? "" : "hidden ") +
+            (start ? "top-0 mt-20 " : "-mt-11 ") +
+            "absolute top-1/2 left-0  w-full transition-all duration-500 ease-in-out"
           }
         >
           <img
@@ -35,9 +36,9 @@ const LoginBasic = () => {
         </div>
         <div
           className={
-            (show ? "hidden" : "") +
-            (!start ? "scale-0 " : "scale-100 flex") +
-            " mt-60 transition-all duration-700 ease-in-out z-10 "
+            (!show ? "hidden " : "") +
+            (!start ? "scale-0 " : "scale-100 ") +
+            "mt-60  w-full flex flex-col items-center justify-center transition-all duration-700 ease-in-out"
           }
         >
           <LoginView />

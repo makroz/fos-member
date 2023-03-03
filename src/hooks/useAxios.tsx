@@ -7,7 +7,9 @@ const useAxios = (url: any = null, method = "GET", payload = {}) => {
   const [error, setError] = useState("");
   const [loaded, setLoaded] = useState(false);
   const [countAxios, setCountAxios] = useState(0);
-  const contextInstance = useContext(AxiosContext);
+  const { contextInstance, waiting, setWaiting }: any = useContext(
+    AxiosContext
+  );
   const instance: any = useMemo(() => {
     return contextInstance || axios;
   }, [contextInstance]);
@@ -25,6 +27,7 @@ const useAxios = (url: any = null, method = "GET", payload = {}) => {
     payload: any = {},
     Act: Boolean = false
   ) => {
+    setWaiting(waiting + 1);
     setError("");
     setLoaded(false);
     if (_method == "GET" && payload) {
@@ -50,6 +53,7 @@ const useAxios = (url: any = null, method = "GET", payload = {}) => {
       error = (err as any).message;
       setError(error);
     } finally {
+      setWaiting(waiting - 1);
       setLoaded(true);
       //if (payload.origen) console.log("payload.origen", payload.origen);
     }
@@ -68,7 +72,17 @@ const useAxios = (url: any = null, method = "GET", payload = {}) => {
     }
   }, []);
 
-  return { countAxios, cancel, data, error, loaded, execute, reLoad };
+  return {
+    countAxios,
+    cancel,
+    data,
+    error,
+    loaded,
+    execute,
+    reLoad,
+    waiting,
+    setWaiting,
+  };
 };
 
 export default useAxios;

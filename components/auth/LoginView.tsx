@@ -6,6 +6,7 @@ import useAuth from "../../src/hooks/useAuth";
 import t from "../../src/utils/traductor";
 import InputCode from "../../src/components/forms/InputCode";
 import Card from "../../src/components/ui/Card";
+import Link from "next/link";
 
 const LoginView = (props) => {
   const { user, error, login, config }: any = useAuth();
@@ -89,7 +90,9 @@ const LoginView = (props) => {
           value={formState.password}
         ></InputCode>
       </Card>
-      <div className="text-center mt-12 mb-6 link">Olvide mmi PIN</div>
+      <div className="text-center mt-12 mb-6 link">
+        <Link href="recoverpin">Olvide mi PIN</Link>
+      </div>
       <div className="text-center link">Crear una cuenta</div>
     </div>
   );
