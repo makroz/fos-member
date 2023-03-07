@@ -37,10 +37,6 @@ const Login = () => {
     if (Object.keys(valid).length > 0) return;
 
     login(formState).then((data) => {
-      // console.log("====================================");
-      // console.log("login", user, "data", data, "error", error);
-      // console.log("====================================");
-
       if (user || data?.user) {
         router.push((config?.app.link || "") + config?.auth.success);
       } else {
