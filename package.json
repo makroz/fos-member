@@ -4,7 +4,8 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint"
+        "lint": "next lint",
+        "build:digitalocean":"npm install --production=false --force && npm run build && npm ci"
     },
     "dependencies": {
         "@next/font": "13.1.1",
