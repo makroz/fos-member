@@ -11,6 +11,7 @@ const config = {
     register: process.env.NEXT_PUBLIC_AUTH_REGISTER,
     logout: process.env.NEXT_PUBLIC_AUTH_LOGOUT,
     success: process.env.NEXT_PUBLIC_AUTH_SUCCESS,
+    iam: process.env.NEXT_PUBLIC_AUTH_IAM,
     fail: process.env.NEXT_PUBLIC_AUTH_FAIL,
   },
 };

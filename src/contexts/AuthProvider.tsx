@@ -4,6 +4,7 @@ import Spinner from "../components/layouts/Spinner";
 import useAxios from "../hooks/useAxios";
 import conf from "../components/auth/config";
 import LoginBasic from "../../components/auth/LoginBasic";
+import { useRouter } from "next/router";
 
 export const AuthContext = createContext({});
 const AuthProvider = ({ children, noAuth = false, guard = null }: any): any => {
@@ -13,6 +14,7 @@ const AuthProvider = ({ children, noAuth = false, guard = null }: any): any => {
   const [config, setConfig]: any = useState(conf);
   // const [load, setLoad]: any = useState(0);
   const [toast, setToast] = useState({ msg: "", type: "success", time: 3000 });
+  const router = useRouter();
 
   const getConfig = () => {
     setWaiting(waiting + 1);
@@ -40,14 +42,19 @@ const AuthProvider = ({ children, noAuth = false, guard = null }: any): any => {
     setWaiting(waiting + 1);
     let currentUser = null;
     try {
-      const token = JSON.parse(localStorage.getItem("token") + "");
+      const token = await JSON.parse(localStorage.getItem("token") + "");
       currentUser = user || token.user;
       const credentials: any = {};
       if (guard) {
         credentials.guard = guard.id;
       }
       if (currentUser) {
-        const { data, error }: any = await execute("iam", "POST", credentials);
+        //setUser(currentUser);
+        const { data, error }: any = await execute(
+          config.auth.iam,
+          "POST",
+          credentials
+        );
 
         if (data?.success && !error) {
           currentUser = data?.data?.user;
@@ -61,6 +68,12 @@ const AuthProvider = ({ children, noAuth = false, guard = null }: any): any => {
           console.log("====================================");
           console.log("Error3", data, error);
           console.log("====================================");
+          if (error.status == 401) {
+            await localStorage.removeItem("token");
+            await setUser(null);
+            await setWaiting(waiting - 1);
+            router.reload();
+          }
           // setWaiting(waiting - 1);
           // return { user, errors: data?.errors || data?.message || error };
         }

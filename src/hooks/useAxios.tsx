@@ -4,7 +4,7 @@ import { AxiosContext } from "../contexts/AxiosInstanceProvider";
 
 const useAxios = (url: any = null, method = "GET", payload = {}) => {
   const [data, setData] = useState<any>(null);
-  const [error, setError] = useState("");
+  const [error, setError]: any = useState("");
   const [loaded, setLoaded] = useState(false);
   const [countAxios, setCountAxios] = useState(0);
   const { contextInstance, waiting, setWaiting }: any = useContext(
@@ -35,7 +35,7 @@ const useAxios = (url: any = null, method = "GET", payload = {}) => {
     }
 
     let data = null;
-    let error = "";
+    let error: null | { message: string; status: number } = null;
     try {
       const response = await instance.request({
         signal: controllerRef.current.signal,
@@ -49,13 +49,15 @@ const useAxios = (url: any = null, method = "GET", payload = {}) => {
 
       data = response.data;
     } catch (err) {
-      //console.log("error", err);
-      error = (err as any).message;
+      //console.log("error****", err);
+      error = {
+        message: (err as any).message,
+        status: (err as any).response.status,
+      };
       setError(error);
     } finally {
       setWaiting(waiting - 1);
       setLoaded(true);
-      //if (payload.origen) console.log("payload.origen", payload.origen);
     }
 
     return { data, error, loaded };

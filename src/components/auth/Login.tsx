@@ -55,11 +55,11 @@ const Login = () => {
 
   return (
     <LoginView
-      config={config}
       errors={errors}
       formState={formState}
       handleChange={handleChange}
       handleSubmit={handleSubmit}
+      setCode={null}
     />
   );
 };

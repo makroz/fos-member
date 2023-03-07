@@ -45,7 +45,7 @@ const guestPage = () => {
 
   const fields = getFields([
     "id",
-    "name*|Nombre Completo|_h_::Usuario|sortable::false",
+    "name*|Nombre de usuario|_h_::Usuario|sortable::false",
     "icn*|Carnet de Identidad|inputType::number|sortable::false",
     "icn2*|Repita no. de CI|rules::same:icn|search::false",
     "level_id*|Nivel|_h_|sortable::false",
