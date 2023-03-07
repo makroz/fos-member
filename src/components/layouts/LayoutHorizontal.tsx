@@ -2,12 +2,17 @@ import React, { useEffect, useRef, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
+import Toast from "../ui/Toast";
 
 const LayoutHorizontal = ({ children }) => {
   const { user, config }: any = useAuth();
   const [visible, setVisible]: any = useState(false);
 
   const onVisible = (e) => {
+    if (e === false) {
+      setVisible(false);
+      return;
+    }
     setVisible(!visible);
   };
 
@@ -23,20 +28,24 @@ const LayoutHorizontal = ({ children }) => {
 
   if (!user) return children;
   return (
-    <div className="grid grid-cols-[300px__1fr] min-h-full h-full">
-      <div
-        className={`${visible ? " block" : "md:block hidden"}  bg-primary px-2`}
-        style={{ background: config?.app?.colorPrimary }}
-      >
-        <Sidebar config={config} />
-      </div>
+    <div className="relative flex flex-row min-h-screen h-full gap-0 w-full">
+      <Toast />
       <div
         className={`${
-          visible ? " col-span-1" : "col-span-2 md:col-span-1"
-        }  bg-white flex flex-col h-full`}
+          visible ? "w-[280px] min-w-[280px]" : "w-[40px] min-w-[40px]"
+        }  bg-primary px-2  md:w-[280px] md:min-w-[280px] transition-all  `}
       >
-        <Navbar onVisible={onVisible} />
-        <div className="h-full m-8">{children}</div>
+        <Sidebar config={config} onVisible={onVisible} visible={visible} />
+      </div>
+      <div className="flex flex-col  bg-blue-200 flex-grow overflow-auto">
+        <Navbar onVisible={onVisible} visible={visible} />
+        <div
+          className={`${
+            visible ? "whitespace-nowrap" : ""
+          }  m-2 mt-0 md:m-8 md:mt-2  min-w-screen`}
+        >
+          {children}
+        </div>
       </div>
     </div>
   );

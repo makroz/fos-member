@@ -1,7 +1,8 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
+import LoginView from "../../../components/auth/LoginView";
 import useAuth from "../../hooks/useAuth";
-import Input from "../forms/Input";
+import t from "../../utils/traductor";
 
 const Login = () => {
   const { user, error, login, config }: any = useAuth();
@@ -19,11 +20,11 @@ const Login = () => {
   const validaciones = () => {
     let errors = {};
     if (!formState.email) {
-      errors = { ...errors, email: "Email is required" };
+      errors = { ...errors, email: t("Email is required") };
     }
 
     if (!formState.password) {
-      errors = { ...errors, password: "Password is required" };
+      errors = { ...errors, password: t("Password is required") };
     }
     return errors;
   };
@@ -41,7 +42,7 @@ const Login = () => {
       // console.log("====================================");
 
       if (user || data?.user) {
-        router.push(config?.auth.success);
+        router.push((config?.app.link || "") + config?.auth.success);
       } else {
         setErrors({ password: error, ...data.errors });
         console.log("====================================");
@@ -53,35 +54,13 @@ const Login = () => {
   };
 
   return (
-    <form className="p-2">
-      <h1>Welcome to {config?.app.appName}!</h1>
-      <h2>Please sign-in to your account and start the adventure</h2>
-      <br />
-      <Input
-        label={config?.app.loginLabel || "Email"}
-        type="text"
-        name="email"
-        error={errors}
-        value={formState.email}
-        onChange={(e) => handleChange(e)}
-      ></Input>
-      <Input
-        label="Password"
-        type="password"
-        name="password"
-        error={errors}
-        value={formState.password}
-        onChange={(e) => handleChange(e)}
-      ></Input>
-      <div>
-        <button
-          className="btn btn-primary w-full"
-          onClick={(e) => handleSubmit(e)}
-        >
-          Sign in
-        </button>
-      </div>
-    </form>
+    <LoginView
+      errors={errors}
+      formState={formState}
+      handleChange={handleChange}
+      handleSubmit={handleSubmit}
+      setCode={null}
+    />
   );
 };
 

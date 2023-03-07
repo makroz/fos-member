@@ -27,7 +27,10 @@ const axiosInterceptors = (instance) => {
 
   instance.interceptors.response.use(
     (response) => {
-      // console.log("Response was received");
+      if (response.status === 401) {
+        localStorage.removeItem("token");
+        window.location.href = "/login";
+      }
       return response;
     },
     (error) => {
@@ -35,7 +38,7 @@ const axiosInterceptors = (instance) => {
         localStorage.removeItem("token");
         window.location.href = "/login";
       }
-      console.error("error error:", error);
+      console.error("Network error:", error);
       return Promise.reject(error);
     }
   );

@@ -1,163 +1,119 @@
-import { Card, Spinner } from "flowbite-react";
 import { useEffect, useState } from "react";
 import useAxios from "../hooks/useAxios";
-import useLang from "../hooks/useLang";
+import useToast from "../hooks/useToast";
 import { getDefaultFormState } from "../utils/dbTools";
 import { capitalize } from "../utils/string";
-import DataModal from "./DataModal";
+import t from "../utils/traductor";
+import DataForm from "./DataForm";
+import DataHeader from "./DataHeader";
 import DataTable from "./DataTable";
-import DbForm from "./forms/DbForm";
+
+import { checkRules } from "./validate/Rules";
 
 const DataCrud = ({
   modulo,
   columns,
-  title = "",
   formState,
   setFormState,
   errorsForm,
   setErrorsForm,
-  filter = "",
-}) => {
-  const { t }: any = useLang();
+  param = {},
+  onClickRowChildren = null,
+  _actions = true,
+  textBtnAdd = "",
+  datas = null,
+  reload = null,
+  searchType = "",
+  filter = false,
+  searchFunc = null,
+  // setAdvSearch = null,
+  title = "",
+  msgs = "",
+  classTable = "",
+  showFooter = true,
+}: any) => {
   const [openModal, setOpenModal] = useState(false);
   const [openDel, setOpenDel] = useState(false);
   const [titleModal, setTitleModal] = useState("");
-  // const [formState, setFormState]: any = useState(getDefaultFormState(columns));
-
-  const [errorForm, setErrorForm] = useState({});
   const [action, setAction] = useState("view");
-  title = capitalize(title || modulo);
+  const [actSearch, setActSearch] = useState([]);
+  const { showToast } = useToast();
+
+  title = capitalize(t(title || modulo));
   const [params, setParams] = useState({
     page: 1,
     perPage: 10,
     sortBy: "id",
     orderBy: "asc",
-    searchBy: filter,
+    searchBy: "",
+    relations: "",
+    ...param,
   });
-  const { data, error, loaded, execute, reLoad } = useAxios(
-    "/" + modulo,
+
+  let url = "/" + modulo;
+  if (reload) {
+    url = "";
+  }
+  const { data: dataM, error, loaded, execute, reLoad: _reload } = useAxios(
+    url,
     "GET",
-    { ...params, origen: "useAxios" }
+    {
+      ...params,
+    }
   );
+
+  const reLoad = reload || _reload;
+
+  const data: any = datas || dataM;
 
   useEffect(() => {
     setFormState(getDefaultFormState(columns));
     reLoad({ ...params, origen: "reLoad" }, true);
   }, [params]);
 
-  const validRule = (value, rules) => {
-    if (!rules) return "";
-    const [rule, params] = (rules + ":").split(":");
-    let param: any = [];
-    if (params && params.length > 0) {
-      param = (params + "" + ",").split(",");
-    }
-
-    switch (rule) {
-      case "required":
-        return !value ? t("is Required") : "";
-      case "same":
-        return value != formState[param[0]] ? t("must be the same") : "";
-      case "min":
-        return value.length < param[0]
-          ? t("min ") + param[0] + t(" characters")
-          : "";
-      case "max":
-        return value.length > param[0]
-          ? t("max ") + param[0] + t(" characters")
-          : "";
-      case "email":
-        return !/\S+@\S+\.\S+/.test(value) ? t("is not a valid email") : "";
-      case "number":
-        return !/^[0-9.,-]+$/.test(value) ? t("is not a valid number") : "";
-      case "alpha":
-        return !/^[a-zA-Z]+$/.test(value) ? t("is not a valid text") : "";
-      case "noSpaces":
-        return !/^\S+$/.test(value) ? t("is not a valid text") : "";
-      case "greater":
-        return value < param[0] ? t("must be greater than ") + param[0] : "";
-      case "less":
-        return value > param[0] ? t("must be less than ") + param[0] : "";
-      case "between":
-        return value < param[0] || value > param[1]
-          ? t("must be between ") + param[0] + t(" and ") + param[1]
-          : "";
-      case "regex":
-        return !new RegExp(param[0]).test(value)
-          ? t("is not a valid value")
-          : "";
-      default:
-        return "";
-    }
+  const msg = (type: string) => {
+    if (msgs[type] == "head") return msgs[type] || msgs;
+    return msgs[type] || "";
   };
-  const checkRules = () => {
-    let errors = {};
-    for (const key in columns) {
-      const el = columns[key];
-      if (el.actions.includes(action)) {
-        const el = columns[key];
-
-        if (el.required && !formState[key]) {
-          errors = { ...errors, [key]: el.label + t(" is Required") };
-        }
-        if (el.rules) {
-          const rules = (el.rules + "|").split("|");
-          for (const rule of rules) {
-            const error = validRule(formState[key], rule);
-            if (error) {
-              errors = { ...errors, [key]: el.label + " " + error };
-            }
-          }
-        }
-      }
-    }
-    return errors;
+  const onCloseModal = () => {
+    setOpenModal(false);
+    setOpenDel(false);
   };
 
-  const handleChangeInput = (e) => {
-    setFormState({ ...formState, [e.target.name]: e.target.value });
-    if (columns[e.target.name].onChange) {
-      columns[e.target.name].onChange(e.target.value, formState, setFormState);
-    }
-  };
-  const onChangePage = (page) => {
-    if (params.page == page) return;
-    setParams({ ...params, page });
-  };
-  const onChangePerPage = (perPage) => {
-    if (params.perPage == perPage) return;
-    if (!perPage) perPage = -1;
-    setParams({ ...params, perPage });
-  };
-
-  const onSave = (data) => {
-    console.log(data);
-    const errors = { ...checkRules(), ...errorsForm };
-    setErrorForm(errors);
-    console.log("error", errors);
+  const onSave = async () => {
+    const errors = { ...checkRules(columns, action, formState) };
+    setErrorsForm(errors);
     if (Object.keys(errors).length > 0) return;
-    console.log("no error");
     let payLoad = {};
+    let value: any = "";
     Object.keys(columns).map((key) => {
-      if (columns[key].actions.includes(action)) {
-        payLoad = { ...payLoad, [key]: formState[key] };
+      if (columns[key].actions?.includes(action)) {
+        value = formState[key];
+        if (columns[key].inputType == "checkbox") {
+          value =
+            !value || value == "" ? columns[key].optionValue[1] || "N" : value;
+        }
+        payLoad = { ...payLoad, [key]: value };
       }
     });
     const url = "/" + modulo + (action != "add" ? "/" + formState["id"] : "");
-    let method = action == "edit" ? "PUT" : "POST";
-    if (action == "del") {
-      method = "DELETE";
+    let method = action == "edit" ? "PUT" : action == "add" ? "POST" : "DELETE";
+
+    const { data, error } = await execute(url, method, payLoad, false);
+    if (data?.success == true) {
+      onCloseModal();
+      reLoad({ ...params });
     }
-    execute(url, method, payLoad, false);
-    reLoad({ ...params, origen: "reLoad" });
-    onCloseModal();
+    //console.log("data", error);
+
+    showToast(data?.message || error, data?.success ? "success" : "error");
   };
+
   const onAdd = () => {
     setFormState(getDefaultFormState(columns));
     setTitleModal(t("Add ") + title);
     setAction("add");
     setErrorsForm({});
-    setErrorForm({});
     setOpenModal(true);
   };
 
@@ -171,7 +127,6 @@ const DataCrud = ({
     setTitleModal(t("Edit ") + title);
     setAction("edit");
     setErrorsForm({});
-    setErrorForm({});
     setOpenModal(true);
   };
 
@@ -185,7 +140,6 @@ const DataCrud = ({
     setTitleModal(t("View ") + title);
     setAction("view");
     setErrorsForm({});
-    setErrorForm({});
     setOpenModal(true);
   };
 
@@ -210,71 +164,109 @@ const DataCrud = ({
       case "del":
         onDel(data);
         break;
+      case "save":
+        onSave();
+        break;
       default:
         break;
     }
   };
 
-  const onCloseModal = () => {
-    setOpenModal(false);
-    setOpenDel(false);
+  // const _setSearch = (searchBy, setSearch) => {
+  //   const param = setSearch(searchBy, setSearch);
+  //   if (param === false) return;
+  //   setParams({ ...params, ...param });
+  // };
+
+  const _setSearch = (search, setSearch) => {
+    setActSearch(search);
+    let searchBy = search;
+    if (searchType == "a") {
+      const _search: string[] = [];
+      if (search?.length > 0)
+        search?.map((s) => {
+          if (s.field != "" && s.criteria != "" && s.search != "") {
+            _search.push(
+              s.field +
+                "," +
+                s.criteria +
+                "," +
+                s.search +
+                "," +
+                s.join +
+                "," +
+                s.gb +
+                "," +
+                s.ge
+            );
+          }
+        });
+      searchBy = "";
+      if (_search.length > 0) {
+        searchBy = _search.join("|");
+      }
+    }
+    //console.log("searchBy", searchBy);
+
+    let param = {};
+    if (searchFunc) {
+      param = searchFunc(searchBy, setSearch);
+      if (param === false) return;
+    }
+    if (searchType == "b") {
+      searchBy = "name,like,%" + search + "%";
+    }
+    console.log("searchBy", searchBy);
+    setParams({ ...params, searchBy, ...param });
   };
 
   return (
     <>
-      <h1>{t("List", title)}</h1>
-      <Card className="relative">
-        <Card>
-          <div className="flex justify-between">
-            <div className="">{!loaded && <Spinner />}</div>
-            <button
-              className="btn btn-primary flex-shrink w-fit"
-              onClick={onAdd}
-            >
-              {t("Add ")}
-              {title}
-            </button>
-          </div>
-        </Card>
-        {data && (
-          <>
+      <div className="relative overflow-hidden flex rounded-lg border p-2 md:p-6 border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800 flex-col  ">
+        <h1>{t("List", title)}</h1>
+        {msg("top")}
+        <DataHeader
+          columns={columns}
+          msg={msg("head")}
+          onAdd={onAdd}
+          textBtnAdd={textBtnAdd}
+          loaded={loaded}
+          setSearch={_setSearch}
+          searchType={searchType}
+          search={params.searchBy}
+          filter={filter}
+          params={filter ? { filter: {}, ...params } : { ...params }}
+          setParams={setParams}
+        />
+        {msg("middle")}
+        {data?.data && (
+          <div id={"DataTable_" + modulo}>
             <DataTable
               datas={data.data}
               columns={columns}
+              onClickRowChildren={onClickRowChildren}
               params={{ ...params, total: data.total }}
-              onChangePage={onChangePage}
-              onChangePerPage={onChangePerPage}
-              onAction={onAction}
+              onAction={_actions ? onAction : false}
+              setParams={setParams}
+              className={classTable}
+              showFooter={showFooter}
             />
-          </>
+          </div>
         )}
-      </Card>
-      <DataModal
-        open={openModal}
-        title={titleModal}
-        onClose={onCloseModal}
+        {msg("bottom")}
+      </div>
+      <DataForm
+        formState={formState}
+        setFormState={setFormState}
+        action={action}
+        columns={columns}
+        errorsForm={errorsForm}
+        titleModal={titleModal}
+        openModal={openModal}
+        onCloseModal={onCloseModal}
         onSave={onSave}
-        buttonText={
-          action == "add" ? t("Save") : action == "edit" ? t("Update") : ""
-        }
-      >
-        <DbForm
-          fields={columns}
-          formState={formState}
-          handleChangeInput={handleChangeInput}
-          action={action}
-          errors={{ ...errorForm, ...errorsForm }}
-        />
-      </DataModal>
-      <DataModal
-        open={openDel}
-        title={titleModal}
-        onClose={onCloseModal}
-        onSave={onSave}
-        buttonText={t("Delete")}
-      >
-        <h1>{t("are you sure you want to delete the record?")}</h1>
-      </DataModal>
+        openDel={openDel}
+      />
     </>
   );
 };

@@ -8,7 +8,25 @@
   h2 {
     @apply text-sm text-subTitle;
   }
-  input {
+
+
+  
+}
+
+@layer components {
+  .link {
+    @apply underline;
+  }
+  .input-label .required {
+    @apply font-bold text-black;
+  }
+  .input-label {
+    @apply text-black;
+  }
+  .Card {
+    @apply rounded-lg shadowPanels bg-white p-5 text-black;
+  }
+  .input input,.input textarea, .input select {
     @apply rounded-md px-2 py-1;
     display: block;
     width: 100%;
@@ -20,19 +38,20 @@
     appearance: none;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   }
-  input:focus {
+  .input input:focus,.input:focus textarea:focus, .input select:focus {
     background-color: #fff;
     border-color: 1px solid #0d2643;
     box-shadow: 0 3px 10px 0 rgba(34, 41, 47, 0.1);
   }
-}
 
-@layer components {
+  .input input::placeholder,.input textarea::placeholder {
+    @apply text-gray-300;
+  }
   .shadowBtn {
     box-shadow: 0 8px 25px -8px #0d2643;
   }
   .shadowPanels {
-    box-shadow: 0 4px 24px #22292f1a;
+    box-shadow: 0 8px 25px -8px #000;
   }
   .logoTitle {
     @apply text-2xl font-bold text-primary;
@@ -44,15 +63,15 @@
     @apply bg-primary text-white dark:bg-secondary dark:text-primary;
   }
   .navbar {
-    @apply flex items-center justify-between  shadowPanels rounded-md my-5 mx-5 px-3 py-4;
+    @apply flex items-center justify-between  shadowPanels rounded-md my-5 mx-5 px-3 py-4 bg-white;
     min-height: 4.45rem;
     transition: 0.3s ease all, background 0s;
   }
   .menuItem {
-    @apply flex items-center p-2 text-base font-normal  rounded-md mx-2 hover:px-4 hover:pr-0;
+    @apply flex items-center m-0 px-0 py-2 text-base font-normal  rounded-md mx-0 hover:text-secondary;
   }
   .menuItemActive {
-    @apply text-primary bg-secondary;
+    @apply text-primary bg-secondary opacity-60 hover:text-primary hover:opacity-100;
     box-shadow: 0 0 10px 1px #f4c60cb3;
   }
   .menuItemNormal {

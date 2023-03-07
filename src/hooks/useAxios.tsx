@@ -4,10 +4,12 @@ import { AxiosContext } from "../contexts/AxiosInstanceProvider";
 
 const useAxios = (url: any = null, method = "GET", payload = {}) => {
   const [data, setData] = useState<any>(null);
-  const [error, setError] = useState("");
+  const [error, setError]: any = useState("");
   const [loaded, setLoaded] = useState(false);
   const [countAxios, setCountAxios] = useState(0);
-  const contextInstance = useContext(AxiosContext);
+  const { contextInstance, waiting, setWaiting }: any = useContext(
+    AxiosContext
+  );
   const instance: any = useMemo(() => {
     return contextInstance || axios;
   }, [contextInstance]);
@@ -17,14 +19,15 @@ const useAxios = (url: any = null, method = "GET", payload = {}) => {
   };
   const reLoad = async (_payload: any = {}, prevent = false) => {
     if (prevent && countAxios == 0) return;
-    await execute(url, method, _payload);
+    await execute(url, method, _payload, true);
   };
-  const execute = async (
-    _url: any = url,
-    _method: any = method,
+  const execute: any = async (
+    _url: String = url,
+    _method: String = method,
     payload: any = {},
-    Act:any=true
+    Act: Boolean = false
   ) => {
+    setWaiting(waiting + 1);
     setError("");
     setLoaded(false);
     if (_method == "GET" && payload) {
@@ -32,6 +35,7 @@ const useAxios = (url: any = null, method = "GET", payload = {}) => {
     }
 
     let data = null;
+    let error: null | { message: string; status: number } = null;
     try {
       const response = await instance.request({
         signal: controllerRef.current.signal,
@@ -39,23 +43,30 @@ const useAxios = (url: any = null, method = "GET", payload = {}) => {
         method: _method,
         url: _url,
       });
-      if (Act){
+      if (Act) {
         setData(response.data);
       }
+
       data = response.data;
-    } catch (error: any) {
-      setError(error.message);
+    } catch (err) {
+      //console.log("error****", err);
+      error = {
+        message: (err as any).message,
+        status: (err as any).response.status,
+      };
+      setError(error);
     } finally {
+      setWaiting(waiting - 1);
       setLoaded(true);
-      if (payload.origen) console.log("payload.origen", payload.origen);
     }
+
     return { data, error, loaded };
   };
 
   useEffect(() => {
     if (url) {
       setCountAxios(countAxios + 1);
-      execute(url, method, payload);
+      execute(url, method, payload, true);
     } else {
       setError("");
       setData([]);
@@ -63,7 +74,17 @@ const useAxios = (url: any = null, method = "GET", payload = {}) => {
     }
   }, []);
 
-  return { countAxios, cancel, data, error, loaded, execute, reLoad };
+  return {
+    countAxios,
+    cancel,
+    data,
+    error,
+    loaded,
+    execute,
+    reLoad,
+    waiting,
+    setWaiting,
+  };
 };
 
 export default useAxios;

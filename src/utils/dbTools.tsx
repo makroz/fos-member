@@ -1,20 +1,19 @@
-import useLang from "../hooks/useLang";
 import { capitalize } from "./string";
+import t from "./traductor";
 
 export const getDefaultFormState = (fields: any = {}) => {
   let result = {};
   Object.keys(fields).map((key) => {
-    result[key] = fields[key].value || "";
+    if (fields[key].actions && fields[key].actions.length > 0) {
+      result[key] = fields[key].value || "";
+    }
   });
   return result;
 };
 
 export const getFields = (campos: any = []) => {
-  const { t }: any = useLang();
   let result = {};
-  let formSchema = {};
-
-  campos.map((key) => {
+  campos.map((key, index) => {
     let auxN: number = -1;
     let auxS: string = "";
     let auxA: any = [];
@@ -23,13 +22,10 @@ export const getFields = (campos: any = []) => {
       inputType: "text",
       required: false,
       readOnly: false,
+      sortable: true,
       actions: ["add", "edit", "view"],
+      search: true,
     };
-    auxN = key.indexOf("*");
-    if (auxN >= 0) {
-      field.required = true;
-      key = key.replace("*", "");
-    }
 
     auxN = key.indexOf("|");
     if (auxN >= 0) {
@@ -57,30 +53,31 @@ export const getFields = (campos: any = []) => {
       });
     }
 
+    auxN = key.indexOf("*");
+    if (auxN >= 0) {
+      field.required = true;
+      key = key.replace("*", "");
+    }
+
     if (key == "id") {
       field.inputType = "hidden";
+      field.search = false;
     }
     if (key == "password") {
       field.inputType = "password";
       field.rules = field.rules || "min:6|max:20";
       field.actions = ["add"];
+      field.search = false;
     }
     if (key == "rol") {
       field.inputType = "select";
-      field.options = field.options || {
-        user: { label: t("User") },
-        team: { label: t("Team") },
-        admin: { label: t("Admin") },
-        adm: { label: t("Admin") },
-        owner: { label: t("Owner") },
-      };
     }
     if (key == "status") {
       field.inputType = "select";
-      field.options = field.options || {
-        A: { label: t("Active") },
-        X: { label: t("Inactive") },
-      };
+      field.options = field.options || [
+        { id: "A", name: t("Active") },
+        { id: "X", name: t("Inactive") },
+      ];
       field.value = field.value || "A";
       field.badge = true;
     }
@@ -88,32 +85,68 @@ export const getFields = (campos: any = []) => {
       field.inputType = "email";
       field.rules = field.rules || "email";
     }
+
     auxN = key.indexOf("_id");
     if (auxN >= 0) {
       field.label = field.label || key.substring(0, auxN);
       field.inputType = "select";
-      field.optionValue = "id";
-      field.optionLabel = "name";
+    }
+
+    auxN = key.indexOf("image");
+    if (auxN >= 0) {
+      field.label = field.label || key.substring(0, auxN);
+      field.inputType = "imageUploadEdit";
+    }
+
+    auxN = key.indexOf("is_");
+    if (auxN == 0) {
+      field.label = field.label || key.substring(3) + "?";
+      field.inputType = "checkbox";
+    }
+
+    auxN = key.indexOf("can_");
+    if (auxN == 0) {
+      field.label = field.label || key.substring(4) + "?";
+      field.inputType = "checkbox";
+    }
+
+    if (["checkbox"].includes(field.inputType)) {
+      field.optionValue = field.optionValue || ["Y", "N"];
+      field.optionLabel = field.optionLabel || [t("Yes"), t("Not")];
+    }
+    if (["select", "subSelect"].includes(field.inputType)) {
+      field.optionValue = field.optionValue || "id";
+      field.optionLabel = field.optionLabel || "name";
     }
 
     field.id = key;
-    // if (columns && columns[key]) {
-    //   if (columns[key].header) {
-    //     field.label = field.label || columns[key].header;
-    //   } else {
-    //     field.label = field.label || capitalize(key);
-    //     columns[key].header = field.label;
-    //   }
-    //   columns[key].type = field.inputType;
-    //   if (field.options) {
-    //     columns[key].options = field.options;
-    //     columns[key].optionValue = field.optionValue;
-    //     columns[key].optionLabel = field.optionLabel;
-    //   }
-    // }
-    field.label = field.label || capitalize(key);
+    field.label = field.label || key;
+
+    field.label = field.label.replace("_", " ");
+
+    field.label = capitalize(field.label);
+
+    if (key == "_[") {
+      field.inputType = "flex";
+      field.actions = [];
+      field.search = false;
+      key = "_[" + index;
+    }
+    if (key == "]_") {
+      field.inputType = "flexend";
+      field.actions = [];
+      field.search = false;
+      key = "]_" + index;
+    }
+
     result[key] = field;
-    formSchema[key] = "";
   });
+
+  result["_actions"] = {};
+  result["_row"] = {
+    className: "odd:bg-white even:bg-gray-50 hover:bg-gray-200",
+  };
+  result["_sel"] = false;
+
   return result;
 };
