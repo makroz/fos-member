@@ -105,11 +105,18 @@ const LoginBasic = () => {
       <div className="bg-primary p-5">
         <div
           className={
+            (!show ? "hidden " : "") +
+            (!start ? "-translate-y-full " : "") +
+            "w-[405px] h-[405px] bg-secondary rounded-full absolute -top-48 -left-6 transition-all duration-500 ease-in-out"
+          }
+        ></div>
+        <div
+          className={
             (show ? "" : "hidden ") +
             (start
               ? showLogo
                 ? "top-0 -mt-[7px] ml-[101px] -left-1/2 scale-x-[40%] scale-y-[45%] "
-                : "top-0 mt-20 "
+                : "top-0 mt-14 "
               : "-mt-11 ") +
             "absolute top-1/2 left-0  w-full transition-all duration-500 ease-in-out"
           }
@@ -122,12 +129,17 @@ const LoginBasic = () => {
             className="mx-auto my-auto"
           />
         </div>
+        <img
+          src="/assets/images/bl.png"
+          alt="bl"
+          className="absolute mx-auto top-[255px] z-30"
+        />
 
         <div
           className={
             (!show ? "hidden " : "") +
-            (!start || showLogo ? "scale-0 " : "scale-100 ") +
-            "mt-60  w-full flex flex-col items-center justify-center transition-all duration-700 ease-in-out"
+            (!start || showLogo ? "max-h-0" : "max-h-full ") +
+            "mt-60 mx-5  flex flex-col items-center justify-center transition-all duration-700 ease-in-out "
           }
         >
           <LoginView

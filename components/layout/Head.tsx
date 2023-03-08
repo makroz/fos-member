@@ -18,7 +18,7 @@ const Head = (props) => {
     <div
       className={
         (props.className || "") +
-        " h-[75px] p-5 flex gap-1 items-center overflow-hidden absolute top-0 left-0 right-0 z-10"
+        " h-[75px] p-5 flex gap-1 items-center overflow-hidden absolute top-0 left-0 right-0 z-10 text-white"
       }
     >
       <ArrowLeft size={24} onClick={() => back()} />
