@@ -18,10 +18,10 @@ const TextArea = dynamic(() => import("./TextArea"), {
   loading: () => <>Loading...</>,
 });
 
-const UploadImageEdit = dynamic(() => import("./UploadImageEdit"), {
-  loading: () => <>Loading...</>,
-  ssr: false,
-});
+// const UploadImageEdit = dynamic(() => import("./UploadImageEdit"), {
+//   loading: () => <>Loading...</>,
+//   ssr: false,
+// });
 
 const DbForm = ({
   fields,
@@ -85,7 +85,7 @@ const DbForm = ({
       if (fields[key].inputType == "imageUploadEdit" && open) {
         return (
           <div key={key}>
-            <UploadImageEdit
+            {/* <UploadImageEdit
               label={fields[key].label}
               name={key}
               error={errors}
@@ -102,7 +102,7 @@ const DbForm = ({
               named={fields[key].named}
               formState={formState}
               action={action}
-            />
+            /> */}
           </div>
         );
       }
