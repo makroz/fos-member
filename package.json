@@ -5,10 +5,11 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "build:digitalocean":"npm install --production=false --force && npm run build && npm ci --force"
+        "build:digitalocean": "npm install --production=false --force && npm run build && npm ci --force"
     },
     "dependencies": {
         "@next/font": "13.1.1",
+        "@tinymce/tinymce-react": "^4.3.0",
         "axios": "^1.2.2",
         "eslint": "8.30.0",
         "eslint-config-next": "13.1.1",
@@ -20,9 +21,7 @@
         "react-dom": "18.2.0",
         "react-draft-wysiwyg": "^1.15.0",
         "react-feather": "^2.0.10",
-        "react-image-picker-editor": "^1.2.4",
-        "resize-observer-polyfill": "^1.5.1",
-        "@tinymce/tinymce-react": "^4.3.0"
+        "resize-observer-polyfill": "^1.5.1"
     },
     "devDependencies": {
         "@types/node": "18.11.3",
