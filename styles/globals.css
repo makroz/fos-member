@@ -9,11 +9,18 @@
     @apply text-sm text-subTitle;
   }
 
+  html, body{
+    @apply text-white bg-primary min-w-full min-h-full ;
+  }
 
+  
   
 }
 
 @layer components {
+  .svg {
+    fill: currentColor;
+  }
   .link {
     @apply underline;
   }

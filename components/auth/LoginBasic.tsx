@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import useAuth from "../../src/hooks/useAuth";
 import Head from "../layout/Head";
+import Logo from "../req/Logo";
 import LoginView from "./LoginView";
 import RecoveryPin from "./RecoveryPin";
 
@@ -86,8 +87,8 @@ const LoginBasic = () => {
       <div
         className={
           (!show ? "hidden " : "") +
-          (!showLogo ? "scale-0 " : "scale-100 ") +
-          "absolute w-full flex flex-col items-center justify-center transition-all duration-700 ease-in-out"
+          (!showLogo ? "scale-y-0 " : "scale-y-100 ") +
+          "absolute w-full flex flex-col items-center justify-center transition-all duration-700 ease-in-out "
         }
       >
         <RecoveryPin
@@ -121,43 +122,58 @@ const LoginBasic = () => {
             "absolute top-1/2 left-0  w-full transition-all duration-500 ease-in-out"
           }
         >
-          <img
+          <Logo
+            width={266}
+            className={
+              (start ? "text-primary " : "text-white ") +
+              "mx-auto my-auto  transition-all duration-[2000ms] ease-in-out"
+            }
+          />
+          {/* <img
             src={process.env.NEXT_PUBLIC_APP_LOGO}
             alt={process.env.NEXT_PUBLIC_APP_NAME}
             width={266}
             height={88}
             className="mx-auto my-auto"
-          />
+          /> */}
         </div>
-        <img
-          src="/assets/images/bl.png"
-          alt="bl"
-          className="absolute mx-auto top-[255px] z-30"
-        />
-
         <div
           className={
-            (!show ? "hidden " : "") +
-            (!start || showLogo ? "max-h-0" : "max-h-full ") +
-            "mt-60 mx-5  flex flex-col items-center justify-center transition-all duration-700 ease-in-out "
+            (!start ? "-scale-x-0 " : "-scale-x-100 ") +
+            "absolute  px-auto top-[255px] md:top-[250px] z-30 transition-all duration-500 ease-in-out"
           }
         >
-          <LoginView
-            formState={formState}
-            errors={errors}
-            handleChange={handleChange}
-            handleSubmit={handleSubmit}
-            setCode={setCode}
+          <img
+            src="/assets/images/bl.png"
+            alt="bl"
+            className="mx-auto w-[321px] md:w-[480px] "
           />
-          <button
-            className="text-center mt-12 mb-6 link"
-            onClick={(e) => {
-              setShowLogo(true);
-            }}
+        </div>
+        <div className="absolute mx-auto  mt-60 left-0  w-full  overflow-hidden">
+          <div
+            className={
+              (!show ? "hidden " : "") +
+              (!start || showLogo ? "-translate-y-full " : "translate-y-0 ") +
+              " mx-5 px-5  flex flex-col items-center justify-center transition-all delay-500 duration-700 ease-in-out "
+            }
           >
-            Olvide mi PIN
-          </button>
-          <div className="text-center link">Crear una cuenta</div>
+            <LoginView
+              formState={formState}
+              errors={errors}
+              handleChange={handleChange}
+              handleSubmit={handleSubmit}
+              setCode={setCode}
+            />
+            {/* <button
+              className="text-center mt-12 mb-6 link"
+              onClick={(e) => {
+                setShowLogo(true);
+              }}
+            >
+              Olvide mi PIN
+            </button> */}
+            {/* <div className="text-center link">Crear una cuenta</div> */}
+          </div>
         </div>
       </div>
     </>
