@@ -103,14 +103,17 @@ const LoginBasic = () => {
           "absolute top-0 bottom-0 left-0 right-0 bg-[url('/assets/images/bgLogin.webp')] bg-cover bg-center transition-all duration-700 ease-in-out"
         }
       ></div>
-      <div className="bg-primary p-5">
-        <div
-          className={
-            (!show ? "hidden " : "") +
-            (!start ? "-translate-y-full " : "") +
-            "w-[405px] h-[405px] bg-secondary rounded-full absolute -top-48 -left-6 transition-all duration-500 ease-in-out"
-          }
-        ></div>
+      <div className="bg-primary w-full overflow-hidden ">
+        <div className={"absolute top-0 left-0 right-0 overflow-hidden "}>
+          <div
+            className={
+              (!show ? "hidden " : "") +
+              (!start ? "-translate-y-full " : "") +
+              "w-[calc(100vw_+_40px)] h-[405px]  bg-secondary rounded-full  -mt-48 -ml-5 -mr-5  transition-all duration-500 ease-in-out"
+            }
+          ></div>
+        </div>
+
         <div
           className={
             (show ? "" : "hidden ") +
@@ -140,16 +143,16 @@ const LoginBasic = () => {
         <div
           className={
             (!start ? "-scale-x-0 " : "-scale-x-100 ") +
-            "absolute  px-auto top-[255px] md:top-[250px] z-30 transition-all duration-500 ease-in-out"
+            "absolute top-[255px] md:top-[250px] z-30 transition-all duration-500 ease-in-out w-screen"
           }
         >
           <img
             src="/assets/images/bl.png"
             alt="bl"
-            className="mx-auto w-[321px] md:w-[480px] "
+            className="mx-auto w-[calc(100vw_-_40px)] sm:w-[480px] md:ml-1/2"
           />
         </div>
-        <div className="absolute mx-auto  mt-60 left-0  w-full  overflow-hidden">
+        <div className="absolute mx-auto  mt-[260px] left-0  w-full  overflow-hidden">
           <div
             className={
               (!show ? "hidden " : "") +
