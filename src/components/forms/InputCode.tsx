@@ -7,6 +7,7 @@ const InputCode = ({
   name,
   label,
   value = "",
+  tabIndex = 0,
 }: any) => {
   let inputElements: any[] = [];
   const sendCode = () => {
@@ -63,7 +64,7 @@ const InputCode = ({
         <div className="flex items-center content-between gap-3 lg:w-96 mb-4">
           <form>
             <input
-              name="code"
+              name="code1"
               id="code1"
               className="   text-center code-input grow w-6 focus:ring-2 rounded-lg  focus:ring-green-500 focus:outline-none"
               required
@@ -73,11 +74,12 @@ const InputCode = ({
               type={type}
               onChange={onChange}
               aria-label="Pin 1"
+              tabIndex={tabIndex}
             />
           </form>
           <form>
             <input
-              name="code"
+              name="code2"
               id="code2"
               className="  text-center code-input grow w-6 focus:ring-2 rounded-lg  focus:ring-green-500 focus:outline-none "
               required
@@ -87,11 +89,12 @@ const InputCode = ({
               type={type}
               onChange={onChange}
               aria-label="Pin 2"
+              tabIndex={tabIndex + 1}
             />
           </form>
           <form>
             <input
-              name="code"
+              name="code3"
               id="code3"
               className="  text-center code-input grow w-6 focus:ring-2 rounded-lg  focus:ring-green-500 focus:outline-none "
               required
@@ -101,11 +104,12 @@ const InputCode = ({
               type={type}
               onChange={onChange}
               aria-label="Pin 3"
+              tabIndex={tabIndex + 2}
             />
           </form>
           <form>
             <input
-              name="code"
+              name="code4"
               id="code4"
               className="   text-center code-input grow w-6 focus:ring-2 rounded-lg  focus:ring-green-500 focus:outline-none "
               required
@@ -115,6 +119,7 @@ const InputCode = ({
               type={type}
               onChange={onChange}
               aria-label="Pin 4"
+              tabIndex={tabIndex + 3}
             />
           </form>
         </div>

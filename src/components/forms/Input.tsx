@@ -16,8 +16,10 @@ const Input = (props: any) => {
         readOnly={props.readOnly}
         onChange={props.onChange}
         onBlur={props.onBlur}
+        onKeyUp={props.onKeyUp}
         value={props.value || ""}
         autoComplete={props.type === "password" ? "off" : "on"}
+        tabIndex={props.tabIndex}
       />
 
       {props.type === "date" && (
