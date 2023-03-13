@@ -28,6 +28,11 @@ const LoginView = ({
           value={formState.email}
           onChange={(e) => handleChange(e)}
           placeholder="Ingrese su CI"
+          onKeyUp={(e) => {
+            if (e.key === "Enter") {
+              document.getElementById("code1")?.focus();
+            }
+          }}
         ></Input>
         <InputCode
           label="PIN"
