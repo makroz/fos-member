@@ -5,10 +5,12 @@ import Image from "next/image";
 import useScreenSize from "../src/hooks/useScreenSize";
 import SvgScale from "../src/components/forms/SvgScale";
 import CardTareas from "../components/CardTareas";
+import { useState } from "react";
 
 const Home = () => {
   const { config }: any = useAuth();
   const { width, height } = useScreenSize();
+  const [step, setStep] = useState(1);
   const cabeceras = 80 + 128;
   const scaleLeft = (left) => {
     //return (left * width) / 375 + "px";
@@ -24,8 +26,20 @@ const Home = () => {
     const n = (height - cabeceras) / 5;
     return (top * (height - 128)) / 831 + "px";
   };
+
+  const onClick = (s) => {
+    if (s == step) setStep(s - 1);
+    else setStep(s);
+  };
   return (
-    <div className="flex flex-col absolute top-0 bottom-20 w-full ">
+    <div
+      className={
+        "flex flex-col absolute top-0 bottom-20 w-full origin-top-left transition-all duration-500 ease-out " +
+        (step == 2
+          ? "-translate-x-[200px] -translate-y-[75px] scale-[1.665]"
+          : "")
+      }
+    >
       {/* scale-[5] -translate-x-[40%] translate-y-[185%] ultio dia */}
       {/* scale-[2] translate-x-[50px] translate-y-[60%] */}
       <Head>
@@ -34,7 +48,7 @@ const Home = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="relative h-32 w-full">
+      <div className="relative h-32 w-full ">
         <Image
           src={img_meta}
           alt="meta"
@@ -68,8 +82,8 @@ const Home = () => {
         >
           <CardTareas
             fecha="2023-03-13 6:00"
-            onClick={() => {
-              alert("Click");
+            onClick={(e) => {
+              onClick(1);
             }}
           />
         </div>
@@ -79,8 +93,8 @@ const Home = () => {
         >
           <CardTareas
             fecha="2023-03-14 6:00"
-            onClick={() => {
-              alert("Click");
+            onClick={(e) => {
+              onClick(2);
             }}
           />
         </div>
@@ -91,8 +105,8 @@ const Home = () => {
         >
           <CardTareas
             fecha="2023-03-15 6:00"
-            onClick={() => {
-              alert("Click");
+            onClick={(e) => {
+              onClick(3);
             }}
           />
         </div>
@@ -102,8 +116,8 @@ const Home = () => {
         >
           <CardTareas
             fecha="2023-03-16 6:00"
-            onClick={() => {
-              alert("Click");
+            onClick={(e) => {
+              onClick(4);
             }}
           />
         </div>
@@ -113,8 +127,8 @@ const Home = () => {
         >
           <CardTareas
             fecha="2023-03-17 6:00"
-            onClick={() => {
-              alert("Click");
+            onClick={(e) => {
+              onClick(5);
             }}
           />
         </div>
