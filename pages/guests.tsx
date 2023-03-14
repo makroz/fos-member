@@ -222,7 +222,7 @@ const guestPage = () => {
   };
 
   return (
-    <>
+    <div className="p-5 pt-28">
       <Head>
         <title>FOS - Invitados</title>
       </Head>
@@ -249,7 +249,7 @@ const guestPage = () => {
       />
       {/* <br />
       <MemberDiagram user={user} members={data?.data} levels={levels?.data} /> */}
-    </>
+    </div>
   );
 };
 

@@ -1,6 +1,11 @@
 import { useMemo } from "react";
 
-const Logo = ({ className = "", width = 0, height = 0 }) => {
+const Logo = ({
+  className = "",
+  width = 0,
+  height = 0,
+  origin = "center center",
+}) => {
   if (width == 0 && height == 0) {
     width = 266;
     height = 89;
@@ -20,7 +25,10 @@ const Logo = ({ className = "", width = 0, height = 0 }) => {
   );
 
   return (
-    <div className={"w-[266px] " + (className || "")} style={{ scale: scale }}>
+    <div
+      className={"w-[266px] " + (className || "")}
+      style={{ scale: scale, transformOrigin: origin }}
+    >
       <svg fill="currentColor">
         <path
           fillRule="evenodd"

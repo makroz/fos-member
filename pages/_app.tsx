@@ -7,6 +7,7 @@ import LayoutHorizontal from "../src/components/layouts/LayoutHorizontal";
 import Splash from "../components/req/Splash";
 import { useState } from "react";
 import Head from "next/head";
+import Layout from "../components/layout/Layout";
 
 function MyApp({ Component, pageProps }: any) {
   const [splash, setSplash] = useState(true);
@@ -23,9 +24,9 @@ function MyApp({ Component, pageProps }: any) {
       </Head>
       {splash && <Splash />}
       <AuthProvider noAuth={Component.noAuth}>
-        <LayoutHorizontal>
+        <Layout>
           <Component {...pageProps} />
-        </LayoutHorizontal>
+        </Layout>
       </AuthProvider>
     </AxiosInstanceProvider>
   );
