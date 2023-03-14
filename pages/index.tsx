@@ -2,9 +2,28 @@ import Head from "next/head";
 import useAuth from "../src/hooks/useAuth";
 import img_meta from "../public/assets/images/meta.png";
 import Image from "next/image";
+import useScreenSize from "../src/hooks/useScreenSize";
+import SvgScale from "../src/components/forms/SvgScale";
+import CardTareas from "../components/CardTareas";
 
 const Home = () => {
   const { config }: any = useAuth();
+  const { width, height } = useScreenSize();
+  const cabeceras = 80 + 128;
+  const scaleLeft = (left) => {
+    //return (left * width) / 375 + "px";
+    const p = (left * 100) / 375;
+    return (width * p) / 100 + "px";
+  };
+  const scaleTop = (top) => {
+    // 256x176
+    const p = (top * 100) / 667;
+    return ((height - cabeceras) * p) / 100 + "px";
+  };
+  const scaleTop1 = (top) => {
+    const n = (height - cabeceras) / 5;
+    return (top * (height - 128)) / 831 + "px";
+  };
   return (
     <div className="flex flex-col absolute top-0 bottom-20 w-full ">
       {/* scale-[5] -translate-x-[40%] translate-y-[185%] ultio dia */}
@@ -24,157 +43,80 @@ const Home = () => {
         />
       </div>
       <div className="relative flex-grow bg-[#526697] z-10">
-        <div className=" overflow-visible h-2">
-          <svg
-            width="100%"
-            height="100%"
-            className="absolute z-0 top-0 bottom-0 w-full"
+        <div className=" block overflow-visible w-full h-full  z-0 top-0 bottom-0">
+          <SvgScale
+            width={width}
+            height={height - cabeceras}
+            wreal={2095}
+            hreal={3217}
+            origin="0 0"
           >
-            <path
-              d="M111.154 319.247C116.327 404.622 0 461.075 0 461.075V579H360V543.41V426.548C360 295.343 239.833 232.662 247.344 191.761C254.854 150.859 301.919 143.422 297.413 92.4275C292.907 41.433 172.239 0 172.239 0H126.175C126.175 0 231.822 49.9321 231.822 92.4275C231.822 125.361 92.128 134.392 83.1154 200.791C74.6871 262.886 107.361 256.64 111.154 319.247Z"
-              fill="#03133A"
-            />
-          </svg>
+            <svg width="2095" height="3217">
+              <path
+                d="M712.524 1773.59C741.262 2247.9 181.5 2981.5 181.5 2981.5L0.5 3216.67H2095V3018.94V2369.71C2095 1640.8 1427.41 1292.57 1469.13 1065.34C1510.86 838.104 1772.33 796.789 1747.29 513.486C1722.26 230.183 1051.88 0 1051.88 0H795.974C795.974 0 1382.9 277.401 1382.9 513.486C1382.9 696.453 606.822 746.621 556.752 1115.5C509.928 1460.48 691.451 1425.78 712.524 1773.59Z"
+                fill="#03133A"
+              />
+            </svg>
+          </SvgScale>
         </div>
-        <div className="absolute bg-secondary rounded-xl w-64 h-44 z-10 right-5 bottom-5 overflow-hidden">
-          <div className="relative w-64 h-44">
-            <div
-              className="absolute w-16 h-40 -bottom-9 left-3 -rotate-[144deg] z-0 "
-              style={{
-                background:
-                  "linear-gradient(180deg, #FFD48E 0%, rgba(217, 217, 217, 0) 100%)",
-              }}
-            ></div>
-            <div className="flex flex-col w-64 h-44 px-4 py-1">
-              <div className="flex  font-bold italic text-3xl  justify-between items-center">
-                <div>1° RETO</div>
-                <svg width="56" height="24" viewBox="0 0 56 24" fill="none">
-                  <path
-                    d="M8.35823 0H15.8806L7.52241 11.7015L15.8806 23.403H8.35823L1.78814e-05 11.7015L8.35823 0Z"
-                    fill="white"
-                  />
-                  <path
-                    d="M21.7313 0H29.2537L20.8955 11.7015L29.2537 23.403H21.7313L13.3731 11.7015L21.7313 0Z"
-                    fill="white"
-                  />
-                  <path
-                    d="M33.9287 11.9444L33.7552 11.7015L33.9287 11.4586L41.8149 0.41791H35.3196L27.2599 11.7015L35.3196 22.9851H41.8149L33.9287 11.9444Z"
-                    stroke="white"
-                    stroke-width="0.835821"
-                  />
-                  <path
-                    d="M47.3017 11.9444L47.1282 11.7015L47.3017 11.4586L55.1879 0.41791H48.6927L40.633 11.7015L48.6927 22.9851H55.1879L47.3017 11.9444Z"
-                    stroke="white"
-                    stroke-width="0.835821"
-                  />
-                </svg>
-              </div>
-              <div className="flex justify-around h-20 font-bold italic text-primary bg-white/50 z-10 rounded-xl">
-                <div className="flex flex-col justify-center items-center w-1/2 border-r my-2 border-primary">
-                  <div className="text-[16px] " style={{ lineHeight: "18px" }}>
-                    LUNES
-                  </div>
-                  <div className="text-[42px]" style={{ lineHeight: "30px" }}>
-                    27
-                  </div>
-                  <div
-                    className="text-sm text-orange-300"
-                    style={{
-                      textShadow:
-                        "#000 0px 0px 1px,   #000 0px 0px 1px,   #000 0px 0px 1px,#000 0px 0px 1px,   #000 0px 0px 1px,   #000 0px 0px 1px",
-                    }}
-                  >
-                    MARZO
-                  </div>
-                </div>
-                <div className="flex flex-col justify-center items-center w-1/2">
-                  <div className="text-[42px]" style={{ lineHeight: "30px" }}>
-                    6:00
-                  </div>
-                  <div
-                    className="text-sm text-orange-300"
-                    style={{
-                      textShadow:
-                        "#000 0px 0px 1px,   #000 0px 0px 1px,   #000 0px 0px 1px,#000 0px 0px 1px,   #000 0px 0px 1px,   #000 0px 0px 1px",
-                    }}
-                  >
-                    AM
-                  </div>
-                </div>
-              </div>
-              <button className="btn mt-2 btn-primary z-10">VER</button>
-            </div>
-          </div>
+        <div
+          className="absolute z-10 origin-top-left"
+          style={{
+            bottom: scaleTop(20),
+            left: scaleLeft(20),
+          }}
+        >
+          <CardTareas
+            fecha="2023-03-13 6:00"
+            onClick={() => {
+              alert("Click");
+            }}
+          />
         </div>
-        <div className="absolute bg-secondary rounded-xl w-64 h-44 z-10 right-5 bottom-5 overflow-hidden scale-[20%] translate-x-[1%] -translate-y-[240%]">
-          <div className="relative w-64 h-44">
-            <div
-              className="absolute w-16 h-40 -bottom-9 left-3 -rotate-[144deg] z-0 "
-              style={{
-                background:
-                  "linear-gradient(180deg, #FFD48E 0%, rgba(217, 217, 217, 0) 100%)",
-              }}
-            ></div>
-            <div className="flex flex-col w-64 h-44 px-4 py-1">
-              <div className="flex  font-bold italic text-3xl  justify-between items-center">
-                <div>1° RETO</div>
-                <svg width="56" height="24" viewBox="0 0 56 24" fill="none">
-                  <path
-                    d="M8.35823 0H15.8806L7.52241 11.7015L15.8806 23.403H8.35823L1.78814e-05 11.7015L8.35823 0Z"
-                    fill="white"
-                  />
-                  <path
-                    d="M21.7313 0H29.2537L20.8955 11.7015L29.2537 23.403H21.7313L13.3731 11.7015L21.7313 0Z"
-                    fill="white"
-                  />
-                  <path
-                    d="M33.9287 11.9444L33.7552 11.7015L33.9287 11.4586L41.8149 0.41791H35.3196L27.2599 11.7015L35.3196 22.9851H41.8149L33.9287 11.9444Z"
-                    stroke="white"
-                    stroke-width="0.835821"
-                  />
-                  <path
-                    d="M47.3017 11.9444L47.1282 11.7015L47.3017 11.4586L55.1879 0.41791H48.6927L40.633 11.7015L48.6927 22.9851H55.1879L47.3017 11.9444Z"
-                    stroke="white"
-                    stroke-width="0.835821"
-                  />
-                </svg>
-              </div>
-              <div className="flex justify-around h-20 font-bold italic text-primary bg-white/50 z-10 rounded-xl">
-                <div className="flex flex-col justify-center items-center w-1/2 border-r my-2 border-primary">
-                  <div className="text-[16px] " style={{ lineHeight: "18px" }}>
-                    LUNES
-                  </div>
-                  <div className="text-[42px]" style={{ lineHeight: "30px" }}>
-                    27
-                  </div>
-                  <div
-                    className="text-sm text-orange-300"
-                    style={{
-                      textShadow:
-                        "#000 0px 0px 1px,   #000 0px 0px 1px,   #000 0px 0px 1px,#000 0px 0px 1px,   #000 0px 0px 1px,   #000 0px 0px 1px",
-                    }}
-                  >
-                    MARZO
-                  </div>
-                </div>
-                <div className="flex flex-col justify-center items-center w-1/2">
-                  <div className="text-[42px]" style={{ lineHeight: "30px" }}>
-                    6:00
-                  </div>
-                  <div
-                    className="text-sm text-orange-300"
-                    style={{
-                      textShadow:
-                        "#000 0px 0px 1px,   #000 0px 0px 1px,   #000 0px 0px 1px,#000 0px 0px 1px,   #000 0px 0px 1px,   #000 0px 0px 1px",
-                    }}
-                  >
-                    AM
-                  </div>
-                </div>
-              </div>
-              <button className="btn mt-2 btn-primary z-10">VER</button>
-            </div>
-          </div>
+        <div
+          className="absolute z-10 scale-[0.6] origin-top-left"
+          style={{ bottom: scaleTop(195), left: scaleLeft(180) }}
+        >
+          <CardTareas
+            fecha="2023-03-14 6:00"
+            onClick={() => {
+              alert("Click");
+            }}
+          />
+        </div>
+
+        <div
+          className="absolute z-10 scale-[0.4] origin-top-left"
+          style={{ bottom: scaleTop(280), left: scaleLeft(60) }}
+        >
+          <CardTareas
+            fecha="2023-03-15 6:00"
+            onClick={() => {
+              alert("Click");
+            }}
+          />
+        </div>
+        <div
+          className="absolute z-10 scale-[0.35] origin-top-left"
+          style={{ bottom: scaleTop(350), left: scaleLeft(240) }}
+        >
+          <CardTareas
+            fecha="2023-03-16 6:00"
+            onClick={() => {
+              alert("Click");
+            }}
+          />
+        </div>
+        <div
+          className="absolute z-10 scale-[0.2] origin-top-left"
+          style={{ bottom: scaleTop(428), left: scaleLeft(200) }}
+        >
+          <CardTareas
+            fecha="2023-03-17 6:00"
+            onClick={() => {
+              alert("Click");
+            }}
+          />
         </div>
       </div>
     </div>
