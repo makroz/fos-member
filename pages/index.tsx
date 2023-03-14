@@ -18,26 +18,36 @@ const Home = () => {
     return (width * p) / 100 + "px";
   };
   const scaleTop = (top) => {
-    // 256x176
     const p = (top * 100) / 667;
     return ((height - cabeceras) * p) / 100 + "px";
   };
-  const scaleTop1 = (top) => {
-    const n = (height - cabeceras) / 5;
-    return (top * (height - 128)) / 831 + "px";
-  };
 
+  const card1: any = document.getElementById("tarea1");
   const onClick = (s) => {
+    const card: any = document.getElementById("tarea" + s);
+    console.log(card.getBoundingClientRect());
+    const fondo: any = document.getElementById("fondoCard");
+    let top =
+      card.getBoundingClientRect().top -
+      (card1.getBoundingClientRect().top + 80);
+    console.log("top", top);
+    // fondo.style.top = top + "px";
     if (s == step) setStep(s - 1);
     else setStep(s);
+    const card2: any = document.getElementById("tarea" + s);
+    console.log(card2.getBoundingClientRect());
   };
   return (
     <div
+      id="fondoCard"
       className={
         "flex flex-col absolute top-0 bottom-20 w-full origin-top-left transition-all duration-500 ease-out " +
         (step == 2
-          ? "-translate-x-[200px] -translate-y-[75px] scale-[1.665]"
-          : "")
+          ? " scale-[1.666] translate-y-[-105.234px] translate-x-[-190px] "
+          : "") +
+        (step == 3 ? " scale-[2.5] " : "") +
+        (step == 4 ? " scale-[2.857] " : "") +
+        (step == 5 ? " scale-[5] " : "")
       }
     >
       {/* scale-[5] -translate-x-[40%] translate-y-[185%] ultio dia */}
@@ -74,6 +84,7 @@ const Home = () => {
           </SvgScale>
         </div>
         <div
+          id="tarea1"
           className="absolute z-10 origin-top-left"
           style={{
             bottom: scaleTop(20),
@@ -88,6 +99,7 @@ const Home = () => {
           />
         </div>
         <div
+          id="tarea2"
           className="absolute z-10 scale-[0.6] origin-top-left"
           style={{ bottom: scaleTop(195), left: scaleLeft(180) }}
         >
@@ -100,6 +112,7 @@ const Home = () => {
         </div>
 
         <div
+          id="tarea3"
           className="absolute z-10 scale-[0.4] origin-top-left"
           style={{ bottom: scaleTop(280), left: scaleLeft(60) }}
         >
@@ -111,6 +124,7 @@ const Home = () => {
           />
         </div>
         <div
+          id="tarea4"
           className="absolute z-10 scale-[0.35] origin-top-left"
           style={{ bottom: scaleTop(350), left: scaleLeft(240) }}
         >
@@ -122,6 +136,7 @@ const Home = () => {
           />
         </div>
         <div
+          id="tarea5"
           className="absolute z-10 scale-[0.2] origin-top-left"
           style={{ bottom: scaleTop(428), left: scaleLeft(200) }}
         >
