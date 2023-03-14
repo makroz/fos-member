@@ -104,7 +104,12 @@ const CardTareas = ({ fecha, onClick }) => {
             </div>
           </div>
         </div>
-        <button className="btn mt-2 btn-primary z-10">VER</button>
+        <button
+          className="btn mt-2 btn-primary z-10"
+          onClick={(e) => onClick(2)}
+        >
+          VER
+        </button>
       </div>
     </div>
   );
