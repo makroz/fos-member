@@ -128,7 +128,7 @@ const LoginBasic = () => {
           <Logo
             width={266}
             className={
-              (start ? "text-primary " : "text-white ") +
+              (start ? "text-primary " : "text-secondary ") +
               "mx-auto my-auto  transition-all duration-[2000ms] ease-in-out"
             }
           />

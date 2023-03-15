@@ -10,9 +10,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#0D2257",
-        secondary: "#F27F0C",
-        title: "#5e5873",
+        primary: "#F27F0C",
+        secondary: "#000",
+        title: "#fff",
         subTitle: "#6e6b7b",
         textMenu: "#d0d0d0",
       },

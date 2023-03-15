@@ -12,6 +12,53 @@ const Home = () => {
   const { width, height } = useScreenSize();
   const [step, setStep] = useState(1);
   const cabeceras = 80 + 128;
+
+  const medidas = () => {
+    const widthBase = 360;
+    const alto1 = 176;
+    const ancho1 = 256;
+    const margenes = 40;
+    const scale1 = 1;
+    const scale2 = 0.6;
+    const scale3 = 0.4;
+    const scale4 = 0.35;
+    const scale5 = 0.2;
+    const alto2 = alto1 * scale2;
+    const alto3 = alto1 * scale3;
+    const alto4 = alto1 * scale4;
+    const alto5 = alto1 * scale5;
+    const ancho2 = ancho1 * scale2;
+    const ancho3 = ancho1 * scale3;
+    const ancho4 = ancho1 * scale4;
+    const ancho5 = ancho1 * scale5;
+    const left2 = 180;
+    const left3 = 60;
+    const left4 = 240;
+    const left5 = 140;
+    const restar = cabeceras + margenes + alto1 + alto2 + alto3 + alto4 + alto5;
+    let s = (height - restar) / 4;
+    const med = {
+      top5: margenes / 2,
+      top4: margenes / 2 + alto5 + s,
+      top3: margenes / 2 + alto5 + s * 2 + alto4,
+      top2: margenes / 2 + alto5 + s * 3 + alto4 + alto3,
+      top1: margenes / 2 + alto5 + s * 4 + alto4 + alto3 + alto2,
+      scale1,
+      scale2,
+      scale3,
+      scale4,
+      scale5,
+      left1: margenes / 2,
+      left2: ((left2 + ancho2) * width) / widthBase - ancho2,
+      left3: (left3 * width) / widthBase,
+      left4: ((left4 + ancho4) * width) / widthBase - ancho4,
+      left5: (left5 * width) / widthBase,
+    };
+    return med;
+  };
+
+  const med = medidas();
+
   const scaleLeft = (left) => {
     //return (left * width) / 375 + "px";
     const p = (left * 100) / 375;
@@ -65,7 +112,12 @@ const Home = () => {
           className="absolute bottom-0 left-1/2 -translate-x-9"
         />
       </div>
-      <div className="relative flex-grow bg-[#526697] z-10">
+      <div
+        className="relative flex-grow  z-10"
+        style={{
+          background: "linear-gradient(180deg, #FFD48E 0%, #F27F0C 100%)",
+        }}
+      >
         <div className=" block overflow-visible w-full h-full  z-0 top-0 bottom-0">
           <SvgScale
             width={width}
@@ -77,7 +129,7 @@ const Home = () => {
             <svg width="2095" height="3217">
               <path
                 d="M712.524 1773.59C741.262 2247.9 181.5 2981.5 181.5 2981.5L0.5 3216.67H2095V3018.94V2369.71C2095 1640.8 1427.41 1292.57 1469.13 1065.34C1510.86 838.104 1772.33 796.789 1747.29 513.486C1722.26 230.183 1051.88 0 1051.88 0H795.974C795.974 0 1382.9 277.401 1382.9 513.486C1382.9 696.453 606.822 746.621 556.752 1115.5C509.928 1460.48 691.451 1425.78 712.524 1773.59Z"
-                fill="#03133A"
+                fill="#A55200"
               />
             </svg>
           </SvgScale>
@@ -86,8 +138,8 @@ const Home = () => {
           id="tarea1"
           className="absolute z-10 origin-top-left"
           style={{
-            bottom: scaleTop(20),
-            left: scaleLeft(20),
+            top: med.top1,
+            left: med.left1,
           }}
         >
           <CardTareas
@@ -100,7 +152,7 @@ const Home = () => {
         <div
           id="tarea2"
           className="absolute z-10 scale-[0.6] origin-top-left"
-          style={{ bottom: scaleTop(195), left: scaleLeft(180) }}
+          style={{ top: med.top2, left: med.left2 }}
         >
           <CardTareas
             fecha="2023-03-14 6:00"
@@ -113,7 +165,7 @@ const Home = () => {
         <div
           id="tarea3"
           className="absolute z-10 scale-[0.4] origin-top-left"
-          style={{ bottom: scaleTop(280), left: scaleLeft(60) }}
+          style={{ top: med.top3, left: med.left3 }}
         >
           <CardTareas
             fecha="2023-03-15 6:00"
@@ -125,7 +177,7 @@ const Home = () => {
         <div
           id="tarea4"
           className="absolute z-10 scale-[0.35] origin-top-left"
-          style={{ bottom: scaleTop(350), left: scaleLeft(240) }}
+          style={{ top: med.top4, left: med.left4 }}
         >
           <CardTareas
             fecha="2023-03-16 6:00"
@@ -137,7 +189,7 @@ const Home = () => {
         <div
           id="tarea5"
           className="absolute z-10 scale-[0.2] origin-top-left"
-          style={{ bottom: scaleTop(428), left: scaleLeft(200) }}
+          style={{ top: med.top5, left: med.left5 }}
         >
           <CardTareas
             fecha="2023-03-17 6:00"

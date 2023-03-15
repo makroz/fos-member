@@ -1,64 +1,91 @@
+import Image from "next/image";
 import { useState } from "react";
 import DropDown from "../../src/components/ui/DropDown";
-import { initialsName } from "../../src/utils/string";
-import Logo from "../req/Logo";
+import Corner from "./Corner";
 
 const Navbar = ({ user, logout }) => {
   const [dropUser, setDropUser] = useState(false);
   return (
-    <div className=" absolute top-5 left-5 right-5 flex flex-row bg-white rounded-lg text-primary h-20 p-5  justify-between">
-      <div className="w-[115px] h-10">
-        <Logo className="" width={115} origin="0 0" />
-      </div>
-      <div
-        className="flex items-center align-middle gap-2 ml-9 overflow-hidden"
-        onClick={(e) => setDropUser(!dropUser)}
-      >
-        <div className="whitespace-nowrap">
-          <div className="text-title">{user.name}</div>
-          <div className="text-subTitle text-xs">{user.role?.description}</div>
-        </div>
-        <div className="relative">
-          {user.photoURL && (
-            <img
-              className="w-10 h-10 rounded-full"
-              src="/images/people/profile-picture-5.jpg"
-              alt=""
-            />
-          )}
-          {!user.photoURL && (
-            <div className="inline-flex overflow-hidden relative justify-center items-center w-10 h-10 bg-gray-100 rounded-full dark:bg-gray-600">
-              <span className="font-medium text-gray-600 dark:text-gray-300">
-                {initialsName(user.name)}
-              </span>
-            </div>
-          )}
-          <span className="top-0 left-7 absolute  w-3.5 h-3.5 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"></span>
-        </div>
-        <DropDown open={dropUser} onOpen={setDropUser}>
-          <ul
-            className="py-1 text-sm text-gray-700 dark:text-gray-200"
-            aria-labelledby="avatarButton"
-          >
-            <li>
+    <div className=" absolute top-5 left-5 right-5 bg-secondary/60 text-primary font-bold h-20 z-50">
+      <div className=" relative  h-20 p-3 w-full  justify-between">
+        <Corner className="absolute top-0 right-0" />
+        <Corner className="absolute bottom-0 right-0 rotate-90" />
+        <Corner className="absolute bottom-0 left-0 rotate-180" />
+        <Corner className="absolute top-0 left-0 -rotate-90" />
+        <div
+          className="flex items-center align-middle justify-between gap-5 overflow-hidden px-2"
+          onClick={(e) => setDropUser(!dropUser)}
+        >
+          <div className=" overflow-visible">
+            {user.photoURL && (
+              <Image
+                className="rounded-full"
+                src="/images/people/profile-picture-5.jpg"
+                alt="avatar"
+                width="40"
+                height="40"
+              />
+            )}
+            {!user.photoURL && (
+              <div className="overflow-visible relative justify-center items-center w-10 h-10 bg-primary rounded-full">
+                <Image
+                  src="/assets/images/avatar.png"
+                  alt="avatar"
+                  width="40"
+                  height="40"
+                />
+                {/* <span className="font-medium text-gray-600 dark:text-gray-300">
+                  {initialsName(user.name)}
+                </span> */}
+              </div>
+            )}
+          </div>
+          <DropDown open={dropUser} onOpen={setDropUser}>
+            <ul
+              className="py-1 text-sm text-gray-700 dark:text-gray-200"
+              aria-labelledby="avatarButton"
+            >
+              <li>
+                <a
+                  href="#"
+                  className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  Configuraciones
+                </a>
+              </li>
+            </ul>
+            <div className="py-1">
               <a
                 href="#"
-                className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                onClick={() => logout()}
               >
-                Configuraciones
+                Logout
               </a>
-            </li>
-          </ul>
-          <div className="py-1">
-            <a
-              href="#"
-              className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-              onClick={() => logout()}
-            >
-              Logout
-            </a>
+            </div>
+          </DropDown>
+          <div className="whitespace-nowrap italic flex-grow">
+            <div className="text-primary">{user.name}</div>
+            <div className="text-title text-xs">Principiante I</div>
+            <div className="bg-black w-full h-4 border-gray-500 border">
+              <div
+                className="w-1/3 bg-primary h-4"
+                style={{
+                  boxShadow:
+                    "inset 0px 4.44444px 4.44444px rgba(255, 255, 255, 0.25)",
+                }}
+              ></div>
+            </div>
           </div>
-        </DropDown>
+          <div className="">
+            <Image
+              src="/assets/images/escudo1.png"
+              alt="avatar"
+              width="23"
+              height="28"
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
