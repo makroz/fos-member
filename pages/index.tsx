@@ -42,14 +42,13 @@ const Home = () => {
       id="fondoCard"
       className={
         "flex flex-col absolute top-0 bottom-20 w-full origin-top-left transition-all duration-500 ease-out " +
-        (step == 2
-          ? " scale-[1.666] translate-y-[-105.234px] translate-x-[-190px] "
-          : "") +
+        (step == 2 ? " scale-[1.666]  " : "") +
         (step == 3 ? " scale-[2.5] " : "") +
         (step == 4 ? " scale-[2.857] " : "") +
         (step == 5 ? " scale-[5] " : "")
       }
     >
+      {/* translate-y-[-105.234px] translate-x-[-190px] */}
       {/* scale-[5] -translate-x-[40%] translate-y-[185%] ultio dia */}
       {/* scale-[2] translate-x-[50px] translate-y-[60%] */}
       <Head>
