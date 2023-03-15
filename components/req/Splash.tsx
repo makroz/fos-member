@@ -2,7 +2,7 @@ import Logo from "./Logo";
 
 const Splash = () => {
   return (
-    <div className="grid grid-cols-1 w-full h-full absolute z-[5000] bg-primary text-white">
+    <div className="grid grid-cols-1 w-full h-full absolute z-[5000] bg-primary text-secondary">
       <div className="items-center justify-center mx-auto my-auto">
         <Logo />
         {/* <img

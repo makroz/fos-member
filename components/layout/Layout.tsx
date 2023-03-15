@@ -11,9 +11,9 @@ const Layout = ({ children }) => {
       <Toast />
       <Navbar user={user} logout={logout} />
       {children}
-      <div className="fixed flex justify-between bottom-0 w-full h-20 bg-gray-200 text-primary overflow-hidden">
+      <div className="fixed flex justify-around bottom-0 w-full h-20 bg-secondary text-primary overflow-hidden">
         <Link href="/">
-          <div className="w-20 flex flex-col justify-center items-center p-5 hover:bg-slate-600 hover:text-secondary">
+          <div className="w-20 flex flex-col justify-center items-center p-5 hover:bg-primary/50 hover:text-secondary">
             <svg
               fill="none"
               viewBox="0 0 24 24"
@@ -31,7 +31,7 @@ const Layout = ({ children }) => {
           </div>
         </Link>
         <Link href="/guests">
-          <div className="w-20 flex flex-col justify-center items-center p-5 hover:bg-slate-600 hover:text-secondary">
+          <div className="w-20 flex flex-col justify-center items-center p-5 hover:bg-primary/50 hover:text-secondary">
             <svg
               fill="none"
               viewBox="0 0 24 24"
