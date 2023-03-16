@@ -31,7 +31,7 @@
     @apply text-black;
   }
   .Card {
-    @apply rounded-lg shadowPanels bg-white p-5 text-black;
+    @apply rounded-lg shadowPanels bg-secondary p-5 text-black;
   }
   .input input,.input textarea, .input select {
     @apply rounded-md px-2 py-1;
@@ -47,7 +47,7 @@
     transition: border-color 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
   }
   .input input:focus,.input:focus textarea:focus, .input select:focus {
-    @apply border-secondary border-2;
+    @apply border-primary border-2;
     background-color: #fff;
     margin: 0;
     box-shadow: 0 3px 10px 0 rgba(34, 41, 47, 0.1);
