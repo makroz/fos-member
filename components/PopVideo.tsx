@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import t from "../utils/traductor";
+import t from "../src/utils/traductor";
 
-const DataModal = (props) => {
+const PopVideo = (props) => {
   const [open1, setOpen1] = useState(false);
 
   const _close = (a) => {
@@ -19,8 +19,7 @@ const DataModal = (props) => {
   return (
     <>
       <div
-        id={"modalPage-" + props.id}
-        tabIndex={1}
+        id={"popVideo-" + props.id}
         className={
           (props.open ? "" : "hidden") +
           " bg-slate-700 opacity-70 fixed top-0 left-0 right-0 bottom-0 z-40  w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 md:h-full"
@@ -88,4 +87,4 @@ const DataModal = (props) => {
   );
 };
 
-export default DataModal;
+export default PopVideo;
