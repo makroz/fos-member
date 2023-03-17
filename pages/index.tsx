@@ -122,11 +122,11 @@ const Home = () => {
   };
 
   const touchStart = (e) => {
-    alert("touchstart");
+    //alert("touchstart");
   };
 
   const touchEnd = (e) => {
-    alert("touchEnd");
+    //alert("touchEnd");
   };
   useEffect(() => {
     window.addEventListener("wheel", eventScroll);
