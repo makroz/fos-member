@@ -102,7 +102,9 @@ const LoginBasic = () => {
           (show && !showLogo ? "opacity-100 " : "opacity-0 ") +
           "absolute top-0 bottom-0 left-0 right-0 bg-[url('/assets/images/bgLogin.webp')] bg-cover bg-center transition-all duration-700 ease-in-out "
         }
-      ></div>
+      >
+        <div className="w-full h-full bg-black/50"></div>
+      </div>
       <div className="bg-primary w-full overflow-hidden ">
         <div className={"absolute top-0 left-0 right-0 overflow-hidden "}>
           <div
