@@ -122,15 +122,15 @@ const Home = () => {
   };
 
   const touchStart = (e) => {
-    console.log("touchstart", e);
+    alert("touchstart", e);
   };
 
   const touchEnd = (e) => {
-    console.log("touchEnd", e);
+    alert("touchEnd", e);
   };
   useEffect(() => {
     window.addEventListener("wheel", eventScroll);
-    const fondo = document.getElementById("fondoCard");
+    // const fondo = document.getElementById("fondoCard");
     window.addEventListener("touchstart", touchStart);
     window.addEventListener("touchend", touchEnd);
     return () => {
