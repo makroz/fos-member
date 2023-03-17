@@ -136,7 +136,7 @@ const Home = () => {
     if (arriba == 0) {
       return;
     }
-    if (arriba > 0) {
+    if (arriba < 0) {
       setStep((freshState) => {
         if (freshState < 5) return freshState + 1;
         return freshState;
