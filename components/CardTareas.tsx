@@ -34,6 +34,7 @@ const CardTareas = ({ fecha, onClick, step, stepId }) => {
   const click = () => {
     if (stepId == step && !open) {
       setOpen(true);
+      setEnd(false);
     } else {
       onClick(stepId);
       setOpen(false);
@@ -92,6 +93,7 @@ const CardTareas = ({ fecha, onClick, step, stepId }) => {
             (stepId % 2 == 0 ? " -translate-x-16 " : " ")
           : "w-64 h-44 ")
       }
+      style={{ boxShadow: open ? "0px 6px 39px #000000" : "" }}
     >
       <div
         className="absolute bg-primary w-16 h-40 -bottom-9 left-3 -rotate-[144deg] z-0 "
@@ -124,7 +126,10 @@ const CardTareas = ({ fecha, onClick, step, stepId }) => {
             className={
               "text-red-600 " + (open ? "opacity-1" : "hidden opacity-0")
             }
-            onClick={(e) => setOpen(false)}
+            onClick={(e) => {
+              setEnd(false);
+              setOpen(false);
+            }}
           />
         </div>
         <div>
