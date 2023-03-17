@@ -87,3 +87,7 @@
     @apply text-textMenu;
   }
 }
+body{
+  overscroll-behavior: contain;
+}
+
