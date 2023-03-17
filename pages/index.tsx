@@ -121,12 +121,34 @@ const Home = () => {
     }
   };
 
+  let touch = 0;
   const touchStart = (e) => {
     //alert("touchstart");
+    touch = e.touches[0].clientY;
+    // console.log("touchstart", touch);
   };
 
   const touchEnd = (e) => {
-    //alert("touchEnd");
+    const touch1 = e.changedTouches[0]?.clientY;
+    // console.log("touchend", touch1);
+    const arriba = touch - touch1;
+    if (Math.abs(arriba) < 30) return;
+    if (arriba == 0) {
+      return;
+    }
+    if (arriba > 0) {
+      setStep((freshState) => {
+        if (freshState < 5) return freshState + 1;
+        return freshState;
+      });
+      console.log("arriba", arriba);
+    } else {
+      setStep((freshState) => {
+        if (freshState > 1) return freshState - 1;
+        return freshState;
+      });
+      console.log("abajo", arriba);
+    }
   };
   useEffect(() => {
     window.addEventListener("wheel", eventScroll);

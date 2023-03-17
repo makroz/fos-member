@@ -152,10 +152,10 @@ const CardTareas = ({ fecha, onClick, step, stepId }) => {
               <iframe
                 width="290"
                 height="176"
-                src="https://www.youtube.com/embed/i9J9_g321Fg?controls=0"
+                src="https://www.youtube.com/embed/i9J9_g321Fg?controls=0&autoplay=1"
                 title="YouTube video player"
                 frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allow="autoplay; encrypted-media; web-share;muted"
                 allowFullScreen
               ></iframe>
             ) : (
