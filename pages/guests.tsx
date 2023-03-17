@@ -90,9 +90,9 @@ const guestPage = () => {
           rounded={true}
           className="flex-shrink-0"
         >
-          <div className=" font-medium p-0 m-0 dark:text-white">
+          <div className=" font-medium p-0 m-0 ">
             <div>{capitalizeWords(row.name)}</div>
-            <div className="text-sm text-gray-500 dark:text-gray-400 flex justify-between gap-1">
+            <div className="text-sm text-gray-500  flex justify-between gap-1">
               {row.icn}
               {row.referidos?.length > 0 && (
                 <div
@@ -114,7 +114,7 @@ const guestPage = () => {
     );
   };
   fields["name"].className =
-    "whitespace-nowrap text-gray-900 dark:text-white flex items-start";
+    "whitespace-nowrap text-gray-900  flex items-start";
 
   const referCount = (referidos, level) => {
     if (!referidos || referidos.length == 0) return 0;

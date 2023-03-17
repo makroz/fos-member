@@ -23,7 +23,7 @@ const Radio = (props: any) => {
             />
             <label
               htmlFor={option.name + option.value}
-              className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+              className="ml-2 text-sm font-medium text-gray-900 "
             >
               {option.label}
             </label>

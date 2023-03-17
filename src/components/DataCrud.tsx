@@ -222,7 +222,7 @@ const DataCrud = ({
 
   return (
     <>
-      <div className="relative overflow-hidden flex rounded-lg border p-2 md:p-6 border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800 flex-col  ">
+      <div className="relative overflow-hidden flex rounded-lg border p-2 md:p-6 border-gray-200 bg-white shadow-md  flex-col  ">
         <h1>{t("List", title)}</h1>
         {msg("top")}
         <DataHeader

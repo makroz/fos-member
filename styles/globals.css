@@ -69,7 +69,7 @@
     @apply px-4 py-1 text-lg rounded-md transition hover:shadowBtn;
   }
   .btn-primary {
-    @apply bg-primary text-white dark:bg-secondary dark:text-primary;
+    @apply bg-primary text-white ;
   }
   .navbar {
     @apply flex items-center justify-between  shadowPanels rounded-md my-5 mx-5 px-3 py-4 bg-white;
