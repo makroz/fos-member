@@ -94,6 +94,9 @@ const CardTareas = ({ fecha, onClick, step, stepId }) => {
           : "w-64 h-44 ")
       }
       style={{ boxShadow: open ? "0px 6px 39px #000000" : "" }}
+      onClick={(e) => {
+        if (step != stepId) click();
+      }}
     >
       <div
         className="absolute bg-primary w-16 h-40 -bottom-9 left-3 -rotate-[144deg] z-0 "
@@ -255,13 +258,15 @@ const CardTareas = ({ fecha, onClick, step, stepId }) => {
                 </a>
               )}
             </button>
-          ) : (
+          ) : step == stepId ? (
             <button
               className="btn mt-2 btn-primary z-10"
               onClick={(e) => click()}
             >
               VER
             </button>
+          ) : (
+            ""
           ))}
       </div>
     </div>
