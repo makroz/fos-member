@@ -45,24 +45,21 @@ const Navbar = ({ onVisible = null, visible = false }: any) => {
             />
           )}
           {!user.photoURL && (
-            <div className="inline-flex overflow-hidden relative justify-center items-center w-10 h-10 bg-gray-100 rounded-full dark:bg-gray-600">
-              <span className="font-medium text-gray-600 dark:text-gray-300">
+            <div className="inline-flex overflow-hidden relative justify-center items-center w-10 h-10 bg-gray-100 rounded-full ">
+              <span className="font-medium text-gray-600 ">
                 {initialsName(user.name)}
               </span>
             </div>
           )}
-          <span className="top-0 left-7 absolute  w-3.5 h-3.5 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"></span>
+          <span className="top-0 left-7 absolute  w-3.5 h-3.5 bg-green-400 border-2 border-white  rounded-full"></span>
         </div>
         <DropDown open={dropUser} onOpen={setDropUser}>
           <ul
-            className="py-1 text-sm text-gray-700 dark:text-gray-200"
+            className="py-1 text-sm text-gray-700 "
             aria-labelledby="avatarButton"
           >
             <li>
-              <a
-                href="#"
-                className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-              >
+              <a href="#" className="block py-2 px-4 hover:bg-gray-100 ">
                 {t("Settings")}
               </a>
             </li>
@@ -70,7 +67,7 @@ const Navbar = ({ onVisible = null, visible = false }: any) => {
           <div className="py-1">
             <a
               href="#"
-              className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+              className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 "
               onClick={() => logout()}
             >
               {t("Sign out")}

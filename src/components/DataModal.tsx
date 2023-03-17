@@ -39,17 +39,17 @@ const DataModal = (props) => {
               (open1
                 ? " "
                 : "opacity-0 transform -translate-y-full scale-150") +
-              " bg-white rounded-lg shadow dark:bg-gray-700 transition-all duration-300 "
+              " bg-white rounded-lg shadow  transition-all duration-300 "
             }
           >
             {/* <!-- Modal header --> */}
-            <div className="flex items-center justify-between p-5 border-b rounded-t dark:border-gray-600">
-              <h1 className="text-xl font-medium text-gray-900 dark:text-white">
+            <div className="flex items-center justify-between p-5 border-b rounded-t ">
+              <h1 className="text-xl font-medium text-gray-900 ">
                 {props.title}
               </h1>
               <button
                 type="button"
-                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center "
                 onClick={_close}
               >
                 <svg
@@ -65,7 +65,7 @@ const DataModal = (props) => {
             {/* <!-- Modal body --> */}
             <div className="p-6 space-y-6">{props.children}</div>
             {/* <!-- Modal footer --> */}
-            <div className="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+            <div className="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b ">
               {props.buttonText != "" && (
                 <button
                   className="btn btn-primary flex-shrink w-fit"

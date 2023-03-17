@@ -34,7 +34,7 @@ const Navbar = ({ user, logout }) => {
                   width="40"
                   height="40"
                 />
-                {/* <span className="font-medium text-gray-600 dark:text-gray-300">
+                {/* <span className="font-medium text-gray-600 ">
                   {initialsName(user.name)}
                 </span> */}
               </div>
@@ -42,14 +42,11 @@ const Navbar = ({ user, logout }) => {
           </div>
           <DropDown open={dropUser} onOpen={setDropUser}>
             <ul
-              className="py-1 text-sm text-gray-700 dark:text-gray-200"
+              className="py-1 text-sm text-gray-700 "
               aria-labelledby="avatarButton"
             >
               <li>
-                <a
-                  href="#"
-                  className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >
+                <a href="#" className="block py-2 px-4 hover:bg-gray-100 ">
                   Configuraciones
                 </a>
               </li>
@@ -57,7 +54,7 @@ const Navbar = ({ user, logout }) => {
             <div className="py-1">
               <a
                 href="#"
-                className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 "
                 onClick={() => logout()}
               >
                 Logout

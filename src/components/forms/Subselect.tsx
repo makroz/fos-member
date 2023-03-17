@@ -144,7 +144,7 @@ const Subselect = (props) => {
         </div>
       </fieldset>
       {props.error && (
-        <p className="px-2 mt-0 mb-1 text-xs text-red-600 dark:text-red-500">
+        <p className="px-2 mt-0 mb-1 text-xs text-red-600 ">
           {props.error[props.name] || null} &nbsp;
         </p>
       )}

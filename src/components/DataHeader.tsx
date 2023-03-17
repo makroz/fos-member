@@ -62,7 +62,7 @@ const DataHeader = ({
           })}
         </div>
       )}
-      <div className="relative mb-0.5 flex rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800 flex-col p-2">
+      <div className="relative mb-0.5 flex rounded-lg border border-gray-200 bg-white shadow-md  flex-col p-2">
         {!loaded && (
           <div className="loading absolute  roundex-lg bottom-0 left-0 right-0 p-0.5 mx-2"></div>
         )}
