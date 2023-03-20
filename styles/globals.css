@@ -123,7 +123,13 @@ body{
 }
 .olivoDer{
   background:url('../public/assets/images/olivos.png');
-  background-position: right  ;
+  background-position: right;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.escudo{
+  background:url('../public/assets/images/escudo.webp');
+  background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
 }

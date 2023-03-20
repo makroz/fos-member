@@ -34,7 +34,7 @@ const Navbar = ({ user, logout }) => {
           </div>
           <div className="self-center text-center">
             <div className="text-primary">{user.name}</div>
-            <div className="text-xs">Principiante</div>
+            <div className="text-xs">Invitado</div>
           </div>
           <div className="bg-black w-full h-4 border-gray-500 border overflow-hidden relative">
             <div className="absolute bg-gray-600 h-4 w-1 left-[20%]  -skew-x-[30deg]"></div>
@@ -44,6 +44,13 @@ const Navbar = ({ user, logout }) => {
             <div className="w-1/5 h-full barInclinada"></div>
           </div>
           <div className="flex justify-around my-4">
+            <div className="text-2xl w-8 escudo h-10 pt-0.5 text-center">L</div>
+            <div className="text-2xl w-8  h-10 pt-0.5 text-center">M</div>
+            <div className="text-2xl w-8  h-10 pt-0.5 text-center">M</div>
+            <div className="text-2xl w-8  h-10 pt-0.5 text-center">J</div>
+            <div className="text-2xl w-8  h-10 pt-0.5 text-center">V</div>
+          </div>
+          {/* <div className="flex justify-around my-4">
             <div className="text-2xl flex">
               <div className=" w-4 olivoIzq  h-6"></div>
               <div className="-mt-2.5 -mx-1">I</div>
@@ -59,7 +66,7 @@ const Navbar = ({ user, logout }) => {
               <div className="-mt-2.5 -mx-1">III</div>
               <div className=" w-4 olivoDer  h-6"></div>
             </div>
-          </div>
+          </div> */}
           <div className="border-y-2 border-subTitle flex justify-around text-xs text-center py-4">
             <div>
               Estatura
