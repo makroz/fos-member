@@ -27,7 +27,7 @@ const CardTareas = ({ fecha, onClick, step, stepId }) => {
     "VIERNES",
     "SABADO",
   ];
-
+  const day = new Date().getDay();
   const [timer, setTimer] = useState(10);
   const [end, setEnd] = useState(false);
 
@@ -98,11 +98,16 @@ const CardTareas = ({ fecha, onClick, step, stepId }) => {
         if (step != stepId) click();
       }}
     >
+      {/* {day < stepId && (
+        <div className="absolute w-full top-0 bottom-0 bg-black/70 z-50"></div>
+      )} */}
       <div
-        className="absolute bg-primary w-16 h-40 -bottom-9 left-3 -rotate-[144deg] z-0 "
+        className="absolute bg-primary  text-gray-600 w-16 h-40 -bottom-9 left-3 -rotate-[144deg] z-0 "
         style={{
           background:
-            "linear-gradient(180deg, #F27F0C 0%, rgba(217, 217, 217, 0) 100%)",
+            day >= stepId
+              ? "linear-gradient(180deg, #F27F0C 0%, rgba(217, 217, 217, 0) 100%)"
+              : "linear-gradient(180deg, rgba(75, 85, 99, 1) 0%, rgba(217, 217, 217, 0) 100%)",
         }}
       ></div>
       <div
@@ -114,7 +119,8 @@ const CardTareas = ({ fecha, onClick, step, stepId }) => {
         <div
           className={
             "flex  font-bold italic text-3xl  justify-between items-center " +
-            (open ? "pb-2 pt-3" : "")
+            (open ? "pb-2 pt-3 " : "") +
+            (day >= stepId ? "" : "text-gray-500")
           }
         >
           <div>{end ? "FELICIDADES" : fecha2.lday}</div>
@@ -208,7 +214,14 @@ const CardTareas = ({ fecha, onClick, step, stepId }) => {
                 >
                   {fecha2.day}
                 </div>
-                <div className="text-sm text-primary">{fecha2.lmonth}</div>
+                <div
+                  className={
+                    "text-sm  " +
+                    (day >= stepId ? "text-primary" : "text-gray-500")
+                  }
+                >
+                  {fecha2.lmonth}
+                </div>
               </div>
               <div className="flex flex-col justify-center items-center w-1/2">
                 <div
@@ -221,7 +234,14 @@ const CardTareas = ({ fecha, onClick, step, stepId }) => {
                 >
                   {fecha2.hour}
                 </div>
-                <div className="text-sm text-primary">{fecha2.ampm}</div>
+                <div
+                  className={
+                    "text-sm  " +
+                    (day >= stepId ? "text-primary" : "text-gray-500")
+                  }
+                >
+                  {fecha2.ampm}
+                </div>
               </div>
             </>
           )}
@@ -263,7 +283,7 @@ const CardTareas = ({ fecha, onClick, step, stepId }) => {
               className="btn mt-2 btn-primary z-10"
               onClick={(e) => click()}
             >
-              VER
+              {day == stepId ? "ENTRAR" : "Ver INFO"}
             </button>
           ) : (
             ""
