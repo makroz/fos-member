@@ -1,23 +1,24 @@
 import { useRef } from "react";
 import { useOnClickOutside } from "../../hooks/useOnClickOutside";
 
-const DropDown = (props) => {
+const DropDown = ({
+  onOpen,
+  children,
+  open,
+  className = "w-44 bg-white rounded  top-10 right-2  ",
+}) => {
   const container: any = useRef(null);
   useOnClickOutside(container, () => {
-    props.onOpen(false);
+    onOpen(false);
   });
 
   return (
     <div
       ref={container}
       id="userDropdown"
-      className={
-        !props.open
-          ? "hidden"
-          : "top-10 right-2 absolute z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow "
-      }
+      className={!open ? "hidden " : "absolute z-[100] shadow " + className}
     >
-      {props.children}
+      <div className="flex flex-col">{children}</div>
     </div>
   );
 };

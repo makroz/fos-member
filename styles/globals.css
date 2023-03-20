@@ -66,10 +66,13 @@
     @apply text-2xl font-bold text-primary;
   }
   .btn {
-    @apply px-4 py-1 text-lg rounded-md transition hover:shadowBtn;
+    @apply px-4 py-1 text-lg rounded-md transition hover:shadowBtn text-center;
   }
   .btn-primary {
     @apply bg-primary text-white ;
+  }
+  .btn-secondary {
+    @apply bg-secondary text-white ;
   }
   .navbar {
     @apply flex items-center justify-between  shadowPanels rounded-md my-5 mx-5 px-3 py-4 bg-white;
@@ -86,8 +89,48 @@
   .menuItemNormal {
     @apply text-textMenu;
   }
+  .barInclinada {
+    @apply bg-primary;
+    position: relative;
+    padding: 10px 20px 0 10px;
+    box-shadow: inset 0px 4.44444px 4.44444px rgba(255, 255, 255, 0.25);
+  }
+  .barInclinada:after {
+    @apply bg-primary;
+    content: " ";
+    position: absolute;
+    box-shadow: inset 0px 4.44444px 4.44444px rgba(255, 255, 255, 0.25);
+    display: block;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    transform-origin: bottom left;
+    -ms-transform: skew(-30deg, 0deg);
+    -webkit-transform: skew(-30deg, 0deg);
+    transform: skew(-30deg, 0deg);
+  }
 }
 body{
   overscroll-behavior: contain;
+}
+.olivoIzq{
+  background:url('../public/assets/images/olivos.png');
+  background-position: left;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.olivoDer{
+  background:url('../public/assets/images/olivos.png');
+  background-position: right;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.escudo{
+  background:url('../public/assets/images/escudo.webp');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
