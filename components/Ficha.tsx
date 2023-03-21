@@ -10,7 +10,7 @@ const Ficha = ({ ctx, value, negativo }: any) => {
   const [old, setOld] = useState("0");
   value = value * 1;
   useEffect(() => {
-    if (ctx.current?.add) {
+    if (ctx?.current?.add) {
       ctx.current.add(() => {
         gsap.to(topRef.current, 0.7, {
           rotationX: "-180deg",

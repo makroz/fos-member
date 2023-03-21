@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Clock, XCircle } from "react-feather";
+import { XCircle } from "react-feather";
+import CountDown from "./CountDown";
 import Flecha from "./layout/Flecha";
 
 const CardTareas = ({ fecha, onClick, step, stepId }) => {
@@ -66,23 +67,23 @@ const CardTareas = ({ fecha, onClick, step, stepId }) => {
     ampm: d.getHours() >= 12 ? "PM" : "AM",
   };
 
-  useEffect(() => {
-    let interval: any;
-    if (open && step == stepId) {
-      interval = setInterval(() => {
-        setTimer((prev) => {
-          if (prev > 0) {
-            return prev - 1;
-          }
-          clearInterval(interval);
-          return 0;
-        });
-      }, 1000);
-    } else {
-      setTimer(10);
-    }
-    return () => clearInterval(interval);
-  }, [open]);
+  // useEffect(() => {
+  //   let interval: any;
+  //   if (open && step == stepId) {
+  //     interval = setInterval(() => {
+  //       setTimer((prev) => {
+  //         if (prev > 0) {
+  //           return prev - 1;
+  //         }
+  //         clearInterval(interval);
+  //         return 0;
+  //       });
+  //     }, 1000);
+  //   } else {
+  //     setTimer(10);
+  //   }
+  //   return () => clearInterval(interval);
+  // }, [open]);
 
   return (
     <div
@@ -265,8 +266,9 @@ const CardTareas = ({ fecha, onClick, step, stepId }) => {
             >
               {timer > 0 ? (
                 <>
-                  <Clock size={24} />
-                  <span> 1D 00:00:{timer}</span>
+                  <CountDown fecha={fecha} onFinish={setTimer} />
+                  {/* <Clock size={24} /> */}
+                  {/* <span> 1D 00:00:{timer}</span> */}
                 </>
               ) : (
                 <a

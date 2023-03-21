@@ -1,7 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import img_meta from "../public/assets/images/meta.png";
 import CardTareas from "./CardTareas";
-import Image from "next/image";
 import SvgScale from "../src/components/forms/SvgScale";
 import useScreenSize from "../src/hooks/useScreenSize";
 import { ArrowDown } from "react-feather";
@@ -142,11 +140,52 @@ const Challenges = () => {
       //   console.log("abajo", arriba);
     }
   };
+
+  const getNubes = () => {
+    let nubes: any = [];
+    nubes.push({ nube: document.getElementById("nube1"), step: 0, dir: 1 });
+    nubes.push({ nube: document.getElementById("nube2"), step: 0, dir: -1 });
+    nubes.push({ nube: document.getElementById("nube3"), step: 0, dir: 1 });
+    nubes.push({ nube: document.getElementById("nube4"), step: 0, dir: -1 });
+    return nubes;
+  };
+  let nubes: any = null;
+  function random(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+  const nubesMove = () => {
+    if (nubes == null) return;
+    nubes.forEach((nube, index) => {
+      if (nube.step <= 0) {
+        const vel = random(16, 30);
+        const top = Math.random() * 128 + 1;
+        nube.nube.style.top = `${top}px`;
+        if (nube.dir == 1) {
+          nube.nube.style.left = width + 100 + "px";
+        } else {
+          nube.nube.style.left = "-100px";
+        }
+        nube.nube.style.transitionDuration = vel + "s";
+        nubes[index].step = vel;
+        nubes[index].dir = nubes[index].dir * -1;
+      } else {
+        nubes[index].step--;
+      }
+    });
+    setTimeout(() => {
+      nubesMove();
+    }, 1000);
+  };
+
   useEffect(() => {
     window.addEventListener("wheel", eventScroll);
     // const fondo = document.getElementById("fondoCard");
     window.addEventListener("touchstart", touchStart);
     window.addEventListener("touchend", touchEnd);
+    nubes = getNubes();
+    setTimeout(() => {
+      nubesMove();
+    }, 1000);
     return () => {
       window.removeEventListener("wheel", eventScroll);
       window.removeEventListener("touchstart", touchStart);
@@ -186,13 +225,37 @@ const Challenges = () => {
           left: med.leftzoom[step] + "px",
         }}
       >
-        {/* translate-y-[-105.234px] translate-x-[-190px] */}
-        {/* scale-[5] -translate-x-[40%] translate-y-[185%] ultio dia */}
-        {/* scale-[2] translate-x-[50px] translate-y-[60%] */}
-
         <div className="relative h-32 w-full ">
-          <Image
-            src={img_meta}
+          <img
+            src="/assets/images/nube.png"
+            width={50}
+            alt="nube"
+            className="absolute right-0 top-0 transition-all duration-1000 ease-out"
+            id="nube1"
+          />
+          <img
+            src="/assets/images/nube.png"
+            width={50}
+            alt="nube"
+            className="absolute right-32 top-10 scale-x-[-1] transition-all duration-1000 ease-out"
+            id="nube2"
+          />
+          <img
+            src="/assets/images/nube.png"
+            width={50}
+            alt="nube"
+            className="absolute left-20 top-6 transition-all duration-1000 ease-out"
+            id="nube3"
+          />
+          <img
+            src="/assets/images/nube.png"
+            width={50}
+            alt="nube"
+            className="absolute left-10 top-20 scale-x-[-1] transition-all duration-1000 ease-out"
+            id="nube4"
+          />
+          <img
+            src="/assets/images/meta.png"
             alt="meta"
             width={30}
             className="absolute bottom-0 left-1/2 -translate-x-9"
@@ -236,7 +299,7 @@ const Challenges = () => {
             }}
           >
             <CardTareas
-              fecha="2023-03-13 6:00"
+              fecha="2023-03-20 6:00"
               step={step}
               stepId={1}
               onClick={onClick}
@@ -248,7 +311,7 @@ const Challenges = () => {
             style={{ top: med.top[2], left: med.left[2] }}
           >
             <CardTareas
-              fecha="2023-03-14 6:00"
+              fecha="2023-03-21 6:00"
               step={step}
               stepId={2}
               onClick={onClick}
@@ -261,7 +324,7 @@ const Challenges = () => {
             style={{ top: med.top[3], left: med.left[3] }}
           >
             <CardTareas
-              fecha="2023-03-15 6:00"
+              fecha="2023-03-22 6:00"
               step={step}
               stepId={3}
               onClick={onClick}
@@ -273,7 +336,7 @@ const Challenges = () => {
             style={{ top: med.top[4], left: med.left[4] }}
           >
             <CardTareas
-              fecha="2023-03-16 6:00"
+              fecha="2023-03-23 6:00"
               step={step}
               stepId={4}
               onClick={onClick}
@@ -285,7 +348,7 @@ const Challenges = () => {
             style={{ top: med.top[5], left: med.left[5] }}
           >
             <CardTareas
-              fecha="2023-03-17 6:00"
+              fecha="2023-03-24 6:00"
               step={step}
               stepId={5}
               onClick={onClick}
