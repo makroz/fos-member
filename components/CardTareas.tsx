@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { XCircle } from "react-feather";
 import CountDown from "./CountDown";
 import Flecha from "./layout/Flecha";
+import SocialLinks from "./SocialLinks";
 
 const CardTareas = ({ fecha, onClick, step, stepId }) => {
   const [open, setOpen] = useState(false);
@@ -66,24 +67,6 @@ const CardTareas = ({ fecha, onClick, step, stepId }) => {
     hour: hour,
     ampm: d.getHours() >= 12 ? "PM" : "AM",
   };
-
-  // useEffect(() => {
-  //   let interval: any;
-  //   if (open && step == stepId) {
-  //     interval = setInterval(() => {
-  //       setTimer((prev) => {
-  //         if (prev > 0) {
-  //           return prev - 1;
-  //         }
-  //         clearInterval(interval);
-  //         return 0;
-  //       });
-  //     }, 1000);
-  //   } else {
-  //     setTimer(10);
-  //   }
-  //   return () => clearInterval(interval);
-  // }, [open]);
 
   return (
     <div
@@ -179,6 +162,9 @@ const CardTareas = ({ fecha, onClick, step, stepId }) => {
               }
             >
               <Flecha />
+            </div>
+            <div className="absolute flex justify-end w-full text-primary z-30 -left-3 ">
+              <SocialLinks />
             </div>
           </div>
         </div>
