@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import CardTareas from "./CardTareas";
 import SvgScale from "../src/components/forms/SvgScale";
 import useScreenSize from "../src/hooks/useScreenSize";
@@ -141,14 +141,14 @@ const Challenges = () => {
     }
   };
 
-  const getNubes = () => {
+  const getNubes = useCallback(() => {
     let nubes: any = [];
     nubes.push({ nube: document.getElementById("nube1"), step: 0, dir: 1 });
     nubes.push({ nube: document.getElementById("nube2"), step: 0, dir: -1 });
     nubes.push({ nube: document.getElementById("nube3"), step: 0, dir: 1 });
     nubes.push({ nube: document.getElementById("nube4"), step: 0, dir: -1 });
     return nubes;
-  };
+  }, []);
   let nubes: any = null;
   function random(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -156,17 +156,18 @@ const Challenges = () => {
   const nubesMove = () => {
     if (nubes == null) return;
     nubes.forEach((nube, index) => {
-      if (nube.step <= 0) {
+      if (nube.step < 0) {
         const vel = random(16, 30);
         const top = Math.random() * 128 + 1;
+        nube.nube.style.transitionDuration = vel + "s";
+        nubes[index].step = vel;
         nube.nube.style.top = `${top}px`;
         if (nube.dir == 1) {
           nube.nube.style.left = width + 100 + "px";
         } else {
           nube.nube.style.left = "-100px";
         }
-        nube.nube.style.transitionDuration = vel + "s";
-        nubes[index].step = vel;
+
         nubes[index].dir = nubes[index].dir * -1;
       } else {
         nubes[index].step--;
@@ -230,28 +231,28 @@ const Challenges = () => {
             src="/assets/images/nube.png"
             width={50}
             alt="nube"
-            className="absolute right-0 top-0 transition-all duration-1000 ease-out"
+            className="absolute right-0 top-0 transition-all duration-1000 ease-linear"
             id="nube1"
           />
           <img
             src="/assets/images/nube.png"
             width={50}
             alt="nube"
-            className="absolute right-32 top-10 scale-x-[-1] transition-all duration-1000 ease-out"
+            className="absolute right-0 top-10 scale-x-[-1] transition-all duration-1000 ease-linear"
             id="nube2"
           />
           <img
             src="/assets/images/nube.png"
             width={50}
             alt="nube"
-            className="absolute left-20 top-6 transition-all duration-1000 ease-out"
+            className="absolute left-0 top-6 transition-all duration-1000 ease-linear"
             id="nube3"
           />
           <img
             src="/assets/images/nube.png"
             width={50}
             alt="nube"
-            className="absolute left-10 top-20 scale-x-[-1] transition-all duration-1000 ease-out"
+            className="absolute left-10 top-20 scale-x-[-1] transition-all duration-1000 ease-linear"
             id="nube4"
           />
           <img
