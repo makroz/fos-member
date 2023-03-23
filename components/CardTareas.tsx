@@ -163,9 +163,11 @@ const CardTareas = ({ fecha, onClick, step, stepId }) => {
             >
               <Flecha />
             </div>
-            <div className="absolute flex justify-end w-full text-primary z-30 -left-3 ">
-              <SocialLinks />
-            </div>
+            {open && (
+              <div className="absolute flex justify-end w-full text-primary z-30 -left-3 ">
+                <SocialLinks />
+              </div>
+            )}
           </div>
         </div>
         <div
