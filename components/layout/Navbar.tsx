@@ -110,13 +110,12 @@ const Navbar = ({ user, logout }) => {
               ></div>
             </div>
           </div>
-          <div className="">
-            <Image
-              src="/assets/images/escudo1.png"
-              alt="avatar"
-              width="23"
-              height="28"
-            />
+          <div className="w-8 h-9">
+            <div className=" flex text-2xl w-[98px] border1  h-[124px]  text-center escudos v1 scale-[0.35] justify-around px-3">
+              <img src="/assets/images/medal.webp" alt="" className="py-11" />
+              <img src="/assets/images/medal.webp" alt="" className="py-10" />
+              <img src="/assets/images/medal.webp" alt="" className="py-11" />
+            </div>
           </div>
         </div>
       </div>
