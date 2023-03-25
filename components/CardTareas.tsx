@@ -129,7 +129,7 @@ const CardTareas = ({ fecha, onClick, step, stepId }) => {
           <div
             className={"relative bg-slate-600 " + (open ? "h-44 mb-6" : "h-0")}
           >
-            {end ? (
+            {end && open ? (
               <div className=" flex justify-around items-center h-44 bg-gray-900">
                 <img
                   src="/assets/images/star2.png"
@@ -163,9 +163,11 @@ const CardTareas = ({ fecha, onClick, step, stepId }) => {
             >
               <Flecha />
             </div>
-            <div className="absolute flex justify-end w-full text-primary z-30 -left-3 ">
-              <SocialLinks />
-            </div>
+            {open && (
+              <div className="absolute flex justify-end w-full text-primary z-30 -left-3 ">
+                <SocialLinks />
+              </div>
+            )}
           </div>
         </div>
         <div

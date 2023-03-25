@@ -143,10 +143,10 @@ const Challenges = () => {
 
   const getNubes = useCallback(() => {
     let nubes: any = [];
-    nubes.push({ nube: document.getElementById("nube1"), step: 0, dir: 1 });
-    nubes.push({ nube: document.getElementById("nube2"), step: 0, dir: -1 });
-    nubes.push({ nube: document.getElementById("nube3"), step: 0, dir: 1 });
-    nubes.push({ nube: document.getElementById("nube4"), step: 0, dir: -1 });
+    nubes.push({ nube: document.getElementById("nube1"), step: 1, dir: 1 });
+    nubes.push({ nube: document.getElementById("nube2"), step: 7, dir: 1 });
+    nubes.push({ nube: document.getElementById("nube3"), step: 10, dir: 1 });
+    nubes.push({ nube: document.getElementById("nube4"), step: 15, dir: 1 });
     return nubes;
   }, []);
   let nubes: any = null;
@@ -161,29 +161,31 @@ const Challenges = () => {
         const top = Math.random() * 128 + 1;
         nube.nube.style.transitionDuration = vel + "s";
         nubes[index].step = vel;
-        nube.nube.style.top = `${top}px`;
+        // nube.nube.style.top = `${top}px`;
         if (nube.dir == 1) {
-          nube.nube.style.left = width + 100 + "px";
+          nube.nube.style.left = width + "px";
         } else {
-          nube.nube.style.left = "-100px";
+          nube.nube.style.left = "-50px";
         }
 
         nubes[index].dir = nubes[index].dir * -1;
       } else {
-        nubes[index].step--;
+        nube.step = nube.step - 1;
       }
     });
     setTimeout(() => {
       nubesMove();
     }, 1000);
   };
-
+  let effectOnce = false;
   useEffect(() => {
     window.addEventListener("wheel", eventScroll);
     // const fondo = document.getElementById("fondoCard");
     window.addEventListener("touchstart", touchStart);
     window.addEventListener("touchend", touchEnd);
     nubes = getNubes();
+    if (effectOnce) return;
+    effectOnce = true;
     setTimeout(() => {
       nubesMove();
     }, 1000);
@@ -231,28 +233,28 @@ const Challenges = () => {
             src="/assets/images/nube.png"
             width={50}
             alt="nube"
-            className="absolute right-0 top-0 transition-all duration-1000 ease-linear"
+            className="absolute -left-14 top-0 transition-all duration-1000 ease-linear"
             id="nube1"
           />
           <img
             src="/assets/images/nube.png"
             width={50}
             alt="nube"
-            className="absolute right-0 top-10 scale-x-[-1] transition-all duration-1000 ease-linear"
+            className="absolute -left-14 top-10 scale-x-[-1] transition-all duration-[7s] ease-linear"
             id="nube2"
           />
           <img
             src="/assets/images/nube.png"
             width={50}
             alt="nube"
-            className="absolute left-0 top-6 transition-all duration-1000 ease-linear"
+            className="absolute -left-14 top-6 transition-all duration-[10s] ease-linear"
             id="nube3"
           />
           <img
             src="/assets/images/nube.png"
             width={50}
             alt="nube"
-            className="absolute left-10 top-20 scale-x-[-1] transition-all duration-1000 ease-linear"
+            className="absolute -left-14 top-20 scale-x-[-1] transition-all duration-[15s] ease-linear"
             id="nube4"
           />
           <img

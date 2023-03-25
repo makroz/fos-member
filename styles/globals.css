@@ -134,3 +134,27 @@ body{
   background-repeat: no-repeat;
 }
 
+.escudos{
+  transform-origin: 0 0;
+  
+  background:url('../public/assets/images/escudos.png');
+  background-size: 590x 124x;
+  background-repeat: no-repeat;
+  background-position-x: -1px ;
+}
+
+.v1{
+  background-position-x: -98px ;
+}
+.v2{
+  background-position-x: -196px;
+}
+.v3{
+  background-position-x: -294px;
+}
+.v4{
+  background-position-x: -392px;
+}
+.v5{
+  background-position-x: -490px;
+}
