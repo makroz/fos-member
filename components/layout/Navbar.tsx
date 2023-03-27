@@ -3,6 +3,7 @@ import { useState } from "react";
 import { XCircle } from "react-feather";
 import DropDown from "../../src/components/ui/DropDown";
 import UserAvatar from "../../src/components/ui/UserAvatar";
+import Escudo from "../Escudo";
 import Corner from "./Corner";
 
 const Navbar = ({ user, logout }) => {
@@ -95,7 +96,7 @@ const Navbar = ({ user, logout }) => {
           className="flex items-center align-middle justify-between gap-5 overflow-hidden px-2"
           onClick={(e) => setDropUser(!dropUser)}
         >
-          <UserAvatar user={user} />
+          <UserAvatar user={user} round="rounded-lg" />
 
           <div className="whitespace-nowrap italic flex-grow">
             <div className="text-primary">{user.name}</div>
@@ -111,11 +112,7 @@ const Navbar = ({ user, logout }) => {
             </div>
           </div>
           <div className="w-8 h-9">
-            <div className=" flex text-2xl w-[98px] border1  h-[124px]  text-center escudos v1 scale-[0.35] justify-around px-3">
-              <img src="/assets/images/medal.webp" alt="" className="py-11" />
-              <img src="/assets/images/medal.webp" alt="" className="py-10" />
-              <img src="/assets/images/medal.webp" alt="" className="py-11" />
-            </div>
+            <Escudo className="v4 scale-[0.35]" stars={3} />
           </div>
         </div>
       </div>

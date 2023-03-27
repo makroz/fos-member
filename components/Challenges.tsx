@@ -3,8 +3,19 @@ import CardTareas from "./CardTareas";
 import SvgScale from "../src/components/forms/SvgScale";
 import useScreenSize from "../src/hooks/useScreenSize";
 import { ArrowDown } from "react-feather";
+import useAxios from "../src/hooks/useAxios";
+import UserAvatar from "../src/components/ui/UserAvatar";
 
-const Challenges = () => {
+const Challenges = ({ user }) => {
+  const { data: tasks, error, loaded, execute, reLoad } = useAxios(
+    "/tasks",
+    "GET",
+    {
+      sortBY: "date_to",
+      perPage: 0,
+      searchBy: "member_id,=," + user?.id,
+    }
+  );
   const { width, height } = useScreenSize();
   const [step, setStep] = useState(1);
   const cabeceras = 80 + 128;
@@ -55,8 +66,6 @@ const Challenges = () => {
     const top2zoom = top1 + 128 - ((top2 + 128) * (hzoom * zoom2)) / hzoom;
     const top1zoom = 0;
 
-    // console.log("tops1", top1, "top5z", top5zoom);
-
     const left1c = margenes / 2;
     const left2c = ((left2 + ancho2) * width) / widthBase - ancho2;
     const left3c = (left3 * width) / widthBase;
@@ -79,7 +88,6 @@ const Challenges = () => {
       leftzoom: [0, left1zoom, left2zoom, left3zoom, left4zoom, left5zoom],
       zoom: [1, zoom1, zoom2, zoom3, zoom4, zoom5],
     };
-    //console.log("medidas", med);
     return med;
   }, [width, height]);
 
@@ -90,8 +98,9 @@ const Challenges = () => {
     if (s < 1) {
       s = 1;
     }
-    if (s == step && s > 1) setStep(s - 1);
-    else setStep(s);
+    // if (s == step && s > 1) setStep(s - 1);
+    // else setStep(s);
+    setStep(s);
   };
 
   let wheel = false;
@@ -131,13 +140,11 @@ const Challenges = () => {
         if (freshState < 5) return freshState + 1;
         return freshState;
       });
-      //   console.log("arriba", arriba);
     } else {
       setStep((freshState) => {
         if (freshState > 1) return freshState - 1;
         return freshState;
       });
-      //   console.log("abajo", arriba);
     }
   };
 
@@ -158,7 +165,7 @@ const Challenges = () => {
     nubes.forEach((nube, index) => {
       if (nube.step < 0) {
         const vel = random(16, 30);
-        const top = Math.random() * 128 + 1;
+        //const top = Math.random() * 128 + 1;
         nube.nube.style.transitionDuration = vel + "s";
         nubes[index].step = vel;
         // nube.nube.style.top = `${top}px`;
@@ -180,7 +187,6 @@ const Challenges = () => {
   let effectOnce = false;
   useEffect(() => {
     window.addEventListener("wheel", eventScroll);
-    // const fondo = document.getElementById("fondoCard");
     window.addEventListener("touchstart", touchStart);
     window.addEventListener("touchend", touchEnd);
     nubes = getNubes();
@@ -216,7 +222,14 @@ const Challenges = () => {
           )}
         </div>
       </div>
-
+      <div
+        className={
+          "absolute bottom-32 z-20 " +
+          (step % 2 == 1 ? "left-[288px]" : "right-[288px]")
+        }
+      >
+        <UserAvatar user={user} />
+      </div>
       <div
         id="fondoCard"
         className={
@@ -270,13 +283,6 @@ const Challenges = () => {
             background: "linear-gradient(180deg, #FFD48E 0%, #F27F0C 100%)",
           }}
         >
-          {/* <div
-            className="w-full h-1/2 absolute top-0 left-0 z-50  bg-black"
-            style={{
-              background:
-                "linear-gradient(180deg, rgba(0,0,0,0.864304022082019) 0%, rgba(0,0,0,0.5046825709779179) 66%, rgba(255,255,255,0) 100%)",
-            }}
-          ></div> */}
           <div className=" block overflow-visible w-full h-full  z-0 top-0 bottom-0">
             <SvgScale
               width={width}
@@ -293,70 +299,30 @@ const Challenges = () => {
               </svg>
             </SvgScale>
           </div>
-          <div
-            id="tarea1"
-            className="absolute z-[14] origin-top-left"
-            style={{
-              top: med.top[1],
-              left: med.left[1],
-            }}
-          >
-            <CardTareas
-              fecha="2023-03-20 6:00"
-              step={step}
-              stepId={1}
-              onClick={onClick}
-            />
-          </div>
-          <div
-            id="tarea2"
-            className="absolute z-[13] scale-[0.6] origin-top-left"
-            style={{ top: med.top[2], left: med.left[2] }}
-          >
-            <CardTareas
-              fecha="2023-03-21 6:00"
-              step={step}
-              stepId={2}
-              onClick={onClick}
-            />
-          </div>
 
-          <div
-            id="tarea3"
-            className="absolute z-[12] scale-[0.4] origin-top-left"
-            style={{ top: med.top[3], left: med.left[3] }}
-          >
-            <CardTareas
-              fecha="2023-03-22 6:00"
-              step={step}
-              stepId={3}
-              onClick={onClick}
-            />
-          </div>
-          <div
-            id="tarea4"
-            className="absolute z-[11] scale-[0.35] origin-top-left"
-            style={{ top: med.top[4], left: med.left[4] }}
-          >
-            <CardTareas
-              fecha="2023-03-23 6:00"
-              step={step}
-              stepId={4}
-              onClick={onClick}
-            />
-          </div>
-          <div
-            id="tarea5"
-            className="absolute z-[10] scale-[0.2] origin-top-left"
-            style={{ top: med.top[5], left: med.left[5] }}
-          >
-            <CardTareas
-              fecha="2023-03-24 6:00"
-              step={step}
-              stepId={5}
-              onClick={onClick}
-            />
-          </div>
+          {loaded && (
+            <>
+              {tasks?.data.map((tarea, index) => (
+                <div
+                  id={"tarea" + (index + 1)}
+                  className="absolute origin-top-left"
+                  style={{
+                    top: med.top[index + 1],
+                    left: med.left[index + 1],
+                    zIndex: 14 - index,
+                    transform: "scale(" + med.scale[index + 1] + ")",
+                  }}
+                >
+                  <CardTareas
+                    task={tarea}
+                    step={step}
+                    stepId={index + 1}
+                    onClick={onClick}
+                  />
+                </div>
+              ))}
+            </>
+          )}
         </div>
       </div>
     </>
