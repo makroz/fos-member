@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { XCircle } from "react-feather";
 import CountDown from "./CountDown";
+import Escudo from "./Escudo";
+import { IconInstagram, IconFaceBook, IconTwitter } from "./IconSocial";
 import Flecha from "./layout/Flecha";
 import SocialLinks from "./SocialLinks";
 
-const CardTareas = ({ fecha, onClick, step, stepId }) => {
+const CardTareas = ({ task, onClick, step, stepId }) => {
   const [open, setOpen] = useState(false);
+  const fecha = task.to_date;
   const meses = [
     "ENERO",
     "FEBRERO",
@@ -32,6 +35,15 @@ const CardTareas = ({ fecha, onClick, step, stepId }) => {
   const day = new Date().getDay();
   const [timer, setTimer] = useState(10);
   const [end, setEnd] = useState(false);
+  const status = {
+    A: { label: "Pendiente", className: "text-yellow-500" },
+    O: { label: "Abierta", className: "text-green-500" },
+    S: { label: "En Proceso", className: "text-green-500" },
+    E: { label: "Finalizada", className: "text-blue-500" },
+    V: { label: "Vencida", className: "text-red-500" },
+    C: { label: "Cerrada", className: "text-blue-700" },
+    X: { label: "Deshabitada", className: "text-gray-500" },
+  };
 
   const click = () => {
     if (stepId == step && !open) {
@@ -176,7 +188,7 @@ const CardTareas = ({ fecha, onClick, step, stepId }) => {
             (open ? "h-28 scale-125 mb-4" : "h-20")
           }
         >
-          {end ? (
+          {end || task.status == "E" ? (
             <div className="flex flex-col justify-center items-center w-full  my-2  ">
               <div
                 className={"text-[40px] text-secondary "}
@@ -260,7 +272,7 @@ const CardTareas = ({ fecha, onClick, step, stepId }) => {
                 </>
               ) : (
                 <a
-                  href="https://meet.google.com/dki-buuu-zsz"
+                  href={task.live?.meet_link}
                   target="_blank"
                   onClick={(e) => setEnd(true)}
                 >
@@ -268,13 +280,30 @@ const CardTareas = ({ fecha, onClick, step, stepId }) => {
                 </a>
               )}
             </button>
-          ) : step == stepId ? (
+          ) : step == stepId && task.status == "A" ? (
             <button
               className="btn mt-2 btn-primary z-10"
               onClick={(e) => click()}
             >
               {day == stepId ? "ENTRAR" : "Ver INFO"}
             </button>
+          ) : task.status == "E" ? (
+            <>
+              <div className="flex justify-center -mt-3">
+                <Escudo className={"v" + (day - 1)} width="30" />
+              </div>
+              <div className="absolute bottom-0 right-0 mr-2 mb-1  flex  scale-50 gap-4 origin-bottom-right ">
+                <a href="https://www.instagram.com" target="_blank">
+                  <IconInstagram className="hover:text-primary " />
+                </a>
+                <a href="https://www.facebook.com" target="_blank">
+                  <IconFaceBook className="hover:text-primary " />
+                </a>
+                <a href="https://www.twitter.com" target="_blank">
+                  <IconTwitter className="hover:text-primary  " />
+                </a>
+              </div>
+            </>
           ) : (
             ""
           ))}

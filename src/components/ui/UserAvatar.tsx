@@ -1,8 +1,8 @@
 import Image from "next/image";
-const UserAvatar = ({ user }) => {
+const UserAvatar = ({ user, className = "", round = "rounded-full" }) => {
   return (
     <>
-      <div className=" overflow-visible">
+      <div className={"overflow-visible " + className}>
         {user.photoURL && (
           <Image
             className="rounded-full"
@@ -13,7 +13,12 @@ const UserAvatar = ({ user }) => {
           />
         )}
         {!user.photoURL && (
-          <div className="overflow-visible relative justify-center items-center w-10 h-10 bg-primary rounded-full">
+          <div
+            className={
+              "overflow-visible relative justify-center items-center w-10 h-10 bg-primary " +
+              round
+            }
+          >
             <Image
               src="/assets/images/avatar.png"
               alt="avatar"
