@@ -29,8 +29,15 @@ const LoginBasic = () => {
     setShowLogo(false);
   };
 
+  let code1: any = false;
   const handleChange = ({ target: { name, value } }) => {
     setFormState((prev) => ({ ...prev, [name]: value }));
+    if (name == "email") {
+      if (!code1) code1 = document.getElementById("code1");
+      if (value.length == 8) {
+        code1.focus();
+      }
+    }
   };
 
   const validaciones = () => {
@@ -61,9 +68,9 @@ const LoginBasic = () => {
           shallow: true,
         });
       } else {
-        setErrors({ email: data.message, ...data.errors });
+        setErrors({ email: "Datos de accesso Incorrectos" });
         console.log("====================================");
-        console.log("Error222", errors, data.errors);
+        console.log("Error232", errors, data.errors);
         console.log("====================================");
       }
       return;

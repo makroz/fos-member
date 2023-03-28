@@ -68,7 +68,7 @@ const Navbar = ({ user, logout }) => {
               <div className=" w-4 olivoDer  h-6"></div>
             </div>
           </div> */}
-          <div className="border-y-2 border-subTitle flex justify-around text-xs text-center py-4">
+          {/* <div className="border-y-2 border-subTitle flex justify-around text-xs text-center py-4">
             <div>
               Estatura
               <div className="border border-primary rounded-full w-24 p-1.5 bg-gray-700">
@@ -81,9 +81,9 @@ const Navbar = ({ user, logout }) => {
                 70 kg
               </div>
             </div>
-          </div>
+          </div> */}
 
-          <button className="btn btn-primary my-4">Configuraciones</button>
+          {/* <button className="btn btn-primary my-4">Configuraciones</button> */}
           <a
             href="#"
             className="btn bg-secondary border-2 border-x-primary"
